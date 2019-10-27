@@ -9,6 +9,7 @@ namespace rt {
 Point::Point(float x, float y, float z)
 {
     /* TODO */
+    /* test 8*/
 }
 
 Point::Point(const Float4& f4)
