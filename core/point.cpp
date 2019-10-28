@@ -22,8 +22,8 @@ Point::Point(const Float4& f4)
 Vector Point::operator - (const Point& b) const {
     /* TODO */ 
     float scalar = -1.0;
-    Vector res  = scalar * (*this);
-    return res;
+    Point res  = scalar * (*this);
+    return Vector(res.x, res.y, res.z);
 }
 
 bool Point::operator == (const Point& b) const {
