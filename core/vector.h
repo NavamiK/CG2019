@@ -30,6 +30,9 @@ public:
 
     bool operator == (const Vector& b) const;
     bool operator != (const Vector& b) const;
+
+    /* Additional utility members*/
+    void print();
 };
 
 Vector operator * (float scalar, const Vector& b);
