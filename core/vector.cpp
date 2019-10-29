@@ -80,9 +80,9 @@ Vector operator / (const Vector& a, float scalar) {
 Vector cross(const Vector& a, const Vector& b) {
     /* TODO */ 
     Vector res;
-    res.x = a.y - b.z;
-    res.y = a.z - b.x;
-    res.z = a.x - b.y;
+    res.x = a.y * b.z - a.z * b.y;
+    res.y = a.z * b.x - a.x * b.z;
+    res.z = a.x * b.y - a.y * b.x;
     return res;
 }
 
