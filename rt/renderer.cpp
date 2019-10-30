@@ -39,18 +39,18 @@ namespace rt {
 
 void Renderer::test_render2(Image& img) {
     /* TODO */
-
     int resy = img.height();
     int resx = img.width();
-    int prcx, prcy, ndcx, ndcy, sscx, sscy;
+    int prcx, prcy;
+    float ndcx, ndcy, sscx, sscy;
     Ray ray;
     for(prcx = 0; prcx < resx; prcx++)
         for(prcy = 0; prcy < resy; prcy++){
-            ndcx = (prcx + 0.5) / resx;
-            ndcy = (prcy + 0.5) / resy;
+            ndcx = (prcx + 0.5f) / resx;
+            ndcy = (prcy + 0.5f) / resy;
             // Screen space coordinates [-1, 1]
-            sscx = ndcx * 2 - 1;
-            sscy = ndcy * 2 - 1;
+            sscx = ndcx * 2.0f - 1;
+            sscy = ndcy * 2.0f - 1;           
             ray = (this->cam)->getPrimaryRay(sscx, sscy);
             img(prcx, prcy) = a2computeColor(ray); 
         }

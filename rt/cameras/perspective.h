@@ -24,6 +24,8 @@ private:
     Vector up;
     float verticalOpeningAngle;
     float horizontalOpeningAngle;
+    Vector spanX;
+    Vector spanY;
 };
 
 }

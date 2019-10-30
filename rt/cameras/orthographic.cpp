@@ -9,19 +9,19 @@ OrthographicCamera::OrthographicCamera(const Point& center, const Vector& forwar
     this->center = center;
     this->forward = forward;
     this->up = up;
-    this->scaleX = scaleX;
-    this->scaleY = scaleY;
+    this->scaleX = scaleX / 2;
+    this->scaleY = scaleY / 2;
+    this->spanX = cross(forward, up).normalize();
+    this->spanY = cross(forward, spanX).normalize();
 }
 
 Ray OrthographicCamera::getPrimaryRay(float x, float y) const {
     /* TODO */ 
-    // Generate direction through pixel center
     Vector d;
-    Vector spanX(scaleX, 0.0f, 0.0f);
-    Vector spanY(0.0f,scaleY, 0.0f);
-    d = forward + x * spanX + y * spanY;
-    d = d.normalize(); // May normalize here
-    Ray primaryRay(center, d);
+    x = x * scaleX;
+    y = y * scaleY;
+    Point center_ray_origin  = center + x * spanX + y * spanY;
+    Ray primaryRay(center_ray_origin, forward);
     return primaryRay;
 }
 

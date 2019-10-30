@@ -25,6 +25,8 @@ private:
     Vector up;
     float scaleX;
     float scaleY;
+    Vector spanX;
+    Vector spanY;
 };
 
 }
