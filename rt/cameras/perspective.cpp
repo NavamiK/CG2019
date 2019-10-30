@@ -12,7 +12,9 @@ PerspectiveCamera::PerspectiveCamera(const Point& center, const Vector& forward,
     this->horizontalOpeningAngle = horizontalOpeningAngle;
     this->verticalOpeningAngle = verticalOpeningAngle;
     this->spanX = cross(forward, up);
-    this->spanY = cross(forward, spanX);
+    //this->spanY = cross(forward, spanX); //this computation for the exact images in A01
+    this->spanY = cross(spanX, forward);
+    
 }
 
 Ray PerspectiveCamera::getPrimaryRay(float x, float y) const {

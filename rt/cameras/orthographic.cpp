@@ -12,7 +12,8 @@ OrthographicCamera::OrthographicCamera(const Point& center, const Vector& forwar
     this->scaleX = scaleX / 2;
     this->scaleY = scaleY / 2;
     this->spanX = cross(forward, up).normalize();
-    this->spanY = cross(forward, spanX).normalize();
+    //this->spanY = cross(forward, spanX).normalize(); this computation for the exact images in A01
+    this->spanY = cross(spanX, forward).normalize(); 
 }
 
 Ray OrthographicCamera::getPrimaryRay(float x, float y) const {
