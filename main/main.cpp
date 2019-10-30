@@ -15,10 +15,12 @@ void a_bumpmappers();
 #include <stdexcept>
 #include <iostream>
 #include <core/assert.h>
+#include <core/vector.h>
+using namespace rt;
 
 int main(int argc, char* argv[])
 {
     a_julia();
-    a_cameras();
+    a_cameras();    
     return 0;
 }
