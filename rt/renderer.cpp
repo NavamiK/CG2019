@@ -3,6 +3,7 @@
 #include <rt/renderer.h>
 #include <rt/ray.h>
 #include <iostream>
+#include <rt/cameras/camera.h>
 
 namespace rt {
 
@@ -22,12 +23,12 @@ namespace rt {
 
 void Renderer::test_render1(Image& img) {
     /* TODO */ 
-    int height = img.height();
-    int width = img.width();
-    int i, j;
-    for(i = 0; i < height; i++)
-        for(j = 0; j < width; j++){
-            img(i, j) = a1computeColor(i, j, width, height); 
+    int resy = img.height();
+    int resx = img.width();
+    int prcx, prcy;
+    for(prcx = 0; prcx < resx; prcx++)
+        for(prcy = 0; prcy < resy; prcy++){
+            img(prcx, prcy) = a1computeColor(prcx, prcy, resx, resy); 
         }
 }
 }
@@ -37,7 +38,21 @@ rt::RGBColor a2computeColor(const rt::Ray& r);
 namespace rt {
 
 void Renderer::test_render2(Image& img) {
-    /* TODO */ NOT_IMPLEMENTED;
-}
+    /* TODO */
 
+    int resy = img.height();
+    int resx = img.width();
+    int prcx, prcy, ndcx, ndcy, sscx, sscy;
+    Ray ray;
+    for(prcx = 0; prcx < resx; prcx++)
+        for(prcy = 0; prcy < resy; prcy++){
+            ndcx = (prcx + 0.5) / resx;
+            ndcy = (prcy + 0.5) / resy;
+            // Screen space coordinates [-1, 1]
+            sscx = ndcx * 2 - 1;
+            sscy = ndcy * 2 - 1;
+            ray = (this->cam)->getPrimaryRay(sscx, sscy);
+            img(prcx, prcy) = a2computeColor(ray); 
+        }
+}
 }
