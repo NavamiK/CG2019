@@ -20,7 +20,8 @@ using namespace rt;
 
 int main(int argc, char* argv[])
 {
-    a_julia();
-    a_cameras();    
+    //a_julia();
+    //a_cameras();  
+    a_solids();  
     return 0;
 }
