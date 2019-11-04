@@ -8,7 +8,6 @@ namespace rt {
 
 Point::Point(float x, float y, float z)
 {
-    /* TODO */
     this->x = x;
     this->y = y;
     this->z = z;
@@ -20,7 +19,6 @@ Point::Point(const Float4& f4)
 }
 
 Vector Point::operator - (const Point& b) const {
-    /* TODO */ 
     Vector res;
     res.x = x - b.x;
     res.y = y - b.y;
@@ -29,7 +27,6 @@ Vector Point::operator - (const Point& b) const {
 }
 
 bool Point::operator == (const Point& b) const {
-    /* TODO */ 
     if(x == b.x && y == b.y && z == b.z)
         return true;
     else 
@@ -37,13 +34,11 @@ bool Point::operator == (const Point& b) const {
 }
 
 bool Point::operator != (const Point& b) const {
-    /* TODO */ 
     bool isequal = (*this) == b; 
     return !isequal;
 }
 
 Point operator * (float scalar, const Point& b) {
-    /* TODO */
     Point res;
     res.x = scalar * b.x;
     res.y = scalar * b.y;
@@ -52,14 +47,12 @@ Point operator * (float scalar, const Point& b) {
 }
 
 Point operator * (const Point& a, float scalar) {
-    /* TODO */
     Point res;
     res = scalar * a;
     return res;
 }
 
 Point min(const Point& a, const Point& b) {
-    /* TODO */ 
     Point res;
     if(a.x < b.x)
         res.x = a.x;
@@ -77,7 +70,6 @@ Point min(const Point& a, const Point& b) {
 }
 
 Point max(const Point& a, const Point& b) {
-    /* TODO */ 
     Point res;
     if(a.x > b.x)
         res.x = a.x;
