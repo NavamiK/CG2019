@@ -24,12 +24,31 @@ float AABox::getArea() const {
 Intersection AABox::intersect(const Ray& ray, float previousBestDistance) const {
     /* TODO */ 
     float distance;
-    float txNear = (corner1.x - ray.o.x) / ray.d.x;
-    float txFar = (corner2.x - ray.o.x) / ray.d.x;
-    float tyNear = (corner1.y - ray.o.y) / ray.d.y;
-    float tyFar = (corner2.y - ray.o.y) / ray.d.y;
-    float tzNear = (corner1.z - ray.o.z) / ray.d.z;
-    float tzFar = (corner2.z - ray.o.z) / ray.d.z;
+    //int signx, signy, signz;
+    float txNear, txFar, tyNear, tyFar, tzNear, tzFar;
+    if (ray.d.x >= 0){
+        txNear = (corner1.x - ray.o.x) / ray.d.x;
+        txFar = (corner2.x - ray.o.x) / ray.d.x;
+    }
+    else{
+        txFar = (corner1.x - ray.o.x) / ray.d.x;
+        txNear = (corner2.x - ray.o.x) / ray.d.x;
+    }
+    if (ray.d.y >= 0){
+        tyNear = (corner1.y - ray.o.y) / ray.d.y;
+        tyFar = (corner2.y - ray.o.y) / ray.d.y;
+    }
+    else{
+        tyFar = (corner1.y - ray.o.y) / ray.d.y;
+        tyNear = (corner2.y - ray.o.y) / ray.d.y;
+    }
+    if (ray.d.z >= 0){
+        tzNear = (corner1.z - ray.o.z) / ray.d.z;
+        tzFar = (corner2.z - ray.o.z) / ray.d.z;
+    }else{
+        tzFar = (corner1.z - ray.o.z) / ray.d.z;
+        tzNear = (corner2.z - ray.o.z) / ray.d.z;
+    }
     
     float tmaxNear = max(txNear, tyNear);
     tmaxNear = max(tmaxNear, tzNear);
@@ -37,7 +56,7 @@ Intersection AABox::intersect(const Ray& ray, float previousBestDistance) const 
     float tminFar = min(txFar, tyFar);
     tminFar = min(tminFar, tzFar);
     
-    if((tmaxNear < tminFar) && (tmaxNear < previousBestDistance)){
+    if((tmaxNear <= tminFar) && (tmaxNear < previousBestDistance)){
         distance = tmaxNear;
         Vector normal;
         Point p = ray.o + distance * ray.d;
