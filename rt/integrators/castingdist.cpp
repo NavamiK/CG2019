@@ -1,4 +1,5 @@
 #include <rt/integrators/castingdist.h>
+#include <rt/world.h>
 
 namespace rt {
 
@@ -6,10 +7,24 @@ RayCastingDistIntegrator::RayCastingDistIntegrator(World* world, const RGBColor&
     : Integrator(world)
 {
     /* TODO */
+    this->nearColor = nearColor;
+    this->nearDist = nearDist;
+    this->farColor = farColor;
+    this->farDist = farDist;
 }
 
 RGBColor RayCastingDistIntegrator::getRadiance(const Ray& ray) const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */ 
+    Intersection intersection = world->scene->intersect(ray);
+    RGBColor scalingFactor = (farColor - nearColor) / (farDist - nearDist);
+
+    if(intersection){
+        //Not sure why -ve direction of ray, maybe to get +ve color values
+        RGBColor interpolColor = scalingFactor * (intersection.distance - nearDist) + nearColor;
+        float value = dot(-ray.d.normalize(), intersection.normal().normalize()); 
+        RGBColor grayValue = RGBColor::rep(value);
+        return interpolColor * grayValue;
+    }
 }
 
 }
