@@ -11,10 +11,11 @@ RGBColor RayCastingIntegrator::getRadiance(const Ray& ray) const {
         RGBColor grayValue = RGBColor::rep(value);
         return grayValue;
     }
+    /*
     else{
         RGBColor noValue(0.0f, 0.0f, 1.0f);
         return noValue;
-    }
+    }*/
 }
 
 }

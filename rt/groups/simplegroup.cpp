@@ -8,6 +8,7 @@ BBox SimpleGroup::getBounds() const {
 
 Intersection SimpleGroup::intersect( const Ray& ray, float previousBestDistance) const {
     /* TODO */ 
+    previousBestDistance = FLT_MAX;
     Intersection nearestIntersection = Intersection::failure();
     Intersection currentIntersection;
     //float currentBestDistance = previousBestDistance;

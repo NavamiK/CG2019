@@ -14,14 +14,17 @@ Intersection::Intersection(float distance, const Ray& ray, const Solid* solid, c
 
 Intersection::operator bool() {
     /* TODO */ 
-    if(distance == FLT_MAX)
-        return false;
+    if(distance < FLT_MAX)
+        return true;
+    else
+        return false; 
 }
 
 Intersection Intersection::failure() {
     /* TODO */ 
-    Intersection intersection;
-    return intersection;
+    Intersection failedIntersection;
+    failedIntersection.distance = FLT_MAX;
+    return failedIntersection;
 }
 
 Point Intersection::hitPoint() const {
