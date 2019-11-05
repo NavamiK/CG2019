@@ -20,9 +20,17 @@ RGBColor RayCastingDistIntegrator::getRadiance(const Ray& ray) const {
 
     if(intersection){
         //Not sure why -ve direction of ray, maybe to get +ve color values
-        RGBColor interpolColor = scalingFactor * (intersection.distance - nearDist) + nearColor;
+        RGBColor interpolColor;
+        if(intersection.distance < nearDist)
+            interpolColor = nearColor;
+        else if(intersection.distance > farDist)
+            interpolColor = farColor;
+        else 
+            interpolColor = scalingFactor * (intersection.distance - nearDist) + nearColor;
+        
         float value = dot(-ray.d.normalize(), intersection.normal().normalize()); 
         RGBColor grayValue = RGBColor::rep(value);
+        
         return interpolColor * grayValue;
     }
 }
