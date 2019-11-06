@@ -10,21 +10,21 @@ Intersection::Intersection(float distance, const Ray& ray, const Solid* solid, c
     this->solid = solid;
     this->normalVector = normal;
     this->localPoint = local;
+    this->intOccurs = true;
+}
+
+Intersection::Intersection() {
+    this->intOccurs = false;
 }
 
 Intersection::operator bool() {
     /* TODO */ 
-    if(distance < FLT_MAX)
-        return true;
-    else
-        return false; 
+    return this->intOccurs;
 }
 
 Intersection Intersection::failure() {
     /* TODO */ 
-    Intersection failedIntersection;
-    failedIntersection.distance = FLT_MAX;
-    return failedIntersection;
+    return Intersection();
 }
 
 Point Intersection::hitPoint() const {

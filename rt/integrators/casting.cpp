@@ -8,15 +8,10 @@ RGBColor RayCastingIntegrator::getRadiance(const Ray& ray) const {
     Intersection intersection = world->scene->intersect(ray);
     if(intersection){
         //Not sure why -ve direction of ray, maybe to get +ve color values
-        float value = dot(-ray.d.normalize(), intersection.normal().normalize()); 
+        float value = -1.0f * dot(ray.d, intersection.normal()); 
         RGBColor grayValue = RGBColor::rep(value);
         return grayValue;
     }
-    /*
-    else{
-        RGBColor noValue(0.0f, 0.0f, 1.0f);
-        return noValue;
-    }*/
 }
 
 }

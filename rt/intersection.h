@@ -15,7 +15,7 @@ public:
     const Solid* solid;
     float distance;
 
-    Intersection() {}
+    Intersection();
     static Intersection failure();
     Intersection(float distance, const Ray& ray, const Solid* solid, const Vector& normal, const Point& uv);
 
@@ -28,6 +28,7 @@ public:
 private:
     Vector normalVector;
     Point localPoint;
+    bool intOccurs;
 };
 
 }

@@ -8,20 +8,16 @@ BBox SimpleGroup::getBounds() const {
 
 Intersection SimpleGroup::intersect( const Ray& ray, float previousBestDistance) const {
     /* TODO */ 
-    previousBestDistance = FLT_MAX;
     Intersection nearestIntersection = Intersection::failure();
     Intersection currentIntersection;
-    //float currentBestDistance = previousBestDistance;
     for (auto iter = primitives.begin(); iter != primitives.end(); ++iter){
         currentIntersection = (*iter)->intersect(ray, previousBestDistance);
         if(currentIntersection){
-            if(currentIntersection.distance < previousBestDistance){
-                nearestIntersection = currentIntersection;
-                previousBestDistance = nearestIntersection.distance;
-            }
+            nearestIntersection = currentIntersection;
+            previousBestDistance = nearestIntersection.distance;
         }
     }
-
+    return nearestIntersection;
 }
 
 void SimpleGroup::rebuildIndex() {

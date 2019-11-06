@@ -25,9 +25,12 @@ void Renderer::render(Image& img) {
             ndcy = (prcy + 0.5f) / resy;
             // Screen space coordinates [-1, 1]
             sscx = ndcx * 2.0f - 1;
-            sscy = ndcy * 2.0f - 1;           
+            sscy = -(ndcy * 2.0f - 1);           
             ray = (this->cam)->getPrimaryRay(sscx, sscy);
-            img(prcx, prcy) = (this->integrator)->getRadiance(ray);
+            RGBColor pixelColor = (this->integrator)->getRadiance(ray);
+            //std::cout<<pixelColor.r << " "<< pixelColor.g << " "<< pixelColor.b << std::endl;
+            img(prcx, prcy) = pixelColor;
+
         }
 }
 

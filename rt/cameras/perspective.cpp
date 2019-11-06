@@ -10,9 +10,9 @@ PerspectiveCamera::PerspectiveCamera(const Point& center, const Vector& forward,
     this->up = up;
     this->horizontalOpeningAngle = horizontalOpeningAngle;
     this->verticalOpeningAngle = verticalOpeningAngle;
-    this->spanX = cross(forward, up);
+    this->spanX = cross(forward, up).normalize();
     //this->spanY = cross(forward, spanX); //this computation for the exact images in A01
-    this->spanY = cross(spanX, forward);
+    this->spanY = cross(spanX, forward).normalize();
     
 }
 
