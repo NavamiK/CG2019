@@ -18,21 +18,29 @@ Intersection Sphere::intersect(const Ray& ray, float previousBestDistance) const
     float distance;
     Vector oc = ray.o - center;
     float a = dot(ray.d, ray.d);
-    float b = 2.0 * dot(oc, ray.d);
-    float c = dot(oc, oc) - radius * radius;
+    float b = 2.0f * dot(oc, ray.d);
+    float c = dot(oc, oc) - (radius * radius);
 
-    float discriminant = b * b - 4 * a * c;
-    if (discriminant > 0.0f)
-        distance = min(-b + sqrt(discriminant) / (2 * a), -b  - sqrt(discriminant) / (2 * a));
-    else if(discriminant == 0.0f )
-       distance = -b / (2*a);
+    float discriminant = (b * b) - (4 * a * c);
+    if (discriminant >= 0.0f){
+        float d0 = ( -b + sqrt(discriminant)) / (2 * a);
+        float d1 = ( -b - sqrt(discriminant)) / (2 * a);         
+        if(d1 < d0)
+            std::swap(d0, d1);
+        if (d0 < 0) { 
+            d0 = d1; // if d0 is negative, let's use d1 instead 
+            if (d0 < 0) 
+                return Intersection::failure(); // both d0 and d1 are negative 
+        } 
+        distance = d0;
+    }         
     else
         return Intersection::failure();
 
     if(distance < previousBestDistance){
         Point p = ray.o + distance * ray.d;
         Vector normal = p - center;
-        Intersection intersection(distance, ray, this, normal, p);
+        Intersection intersection(distance, ray, this, normal.normalize(), p);
         return intersection;
     }
     else
