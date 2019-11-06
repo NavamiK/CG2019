@@ -20,7 +20,7 @@ Intersection InfinitePlane::intersect(const Ray& ray, float previousBestDistance
     Vector rayOrigin(ray.o.x, ray.o.y, ray.o.z);
 
     distance = (dot(planeOrigin, normal) - dot(rayOrigin,normal))/dot(ray.d,normal);
-	if (distance < previousBestDistance){
+	if ((distance >=0) && (distance < previousBestDistance)){
 		Point p = ray.o + distance * ray.d;
 		Intersection intersection(distance, ray, this, normal, p);
 		return intersection;

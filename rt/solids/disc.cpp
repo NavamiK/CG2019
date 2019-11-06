@@ -5,6 +5,9 @@ namespace rt {
 Disc::Disc(const Point& center, const Vector& normal, float radius, CoordMapper* texMapper, Material* material)
 {
     /* TODO */
+    this->center = center;
+    this->radius = radius;
+    this->normal = normal;
 }
 
 BBox Disc::getBounds() const {
@@ -12,7 +15,20 @@ BBox Disc::getBounds() const {
 }
 
 Intersection Disc::intersect(const Ray& ray, float previousBestDistance) const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */ 
+    float distance;
+    Vector discOrigin(center.x, center.y, center.z);
+    Vector rayOrigin(ray.o.x, ray.o.y, ray.o.z);
+
+    distance = (dot(discOrigin, normal) - dot(rayOrigin,normal))/dot(ray.d,normal);
+    Point hitPoint = ray.o + distance * ray.d;
+    Vector hitPointCenter = hitPoint - center;
+	if ((distance >=0) && (hitPointCenter.length() <= radius) && (distance < previousBestDistance)){
+		Intersection intersection(distance, ray, this, normal, hitPoint);
+		return intersection;
+    }
+	else
+		return Intersection::failure();
 }
 
 Solid::Sample Disc::sample() const {
