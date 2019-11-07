@@ -73,9 +73,9 @@ Intersection AABox::intersect(const Ray& ray, float previousBestDistance) const 
         }            
         else{
             if (tzNear< tzFar)
-                normal = Vector(0, 0, -1.0f);
-            else 
                 normal = Vector(0, 0, 1.0f);
+            else 
+                normal = Vector(0, 0, -1.0f);
         }        
         Intersection intersection(distance, ray, this, normal, ray.getPoint(distance));
         return intersection;
