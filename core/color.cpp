@@ -10,7 +10,6 @@ RGBColor::RGBColor(const Float4& f4)
 }
 
 RGBColor RGBColor::operator + (const RGBColor& c) const {
-    /* TODO */ 
     RGBColor sum;
     sum.r = r + c.r;
     sum.g = g + c.g;
@@ -19,7 +18,6 @@ RGBColor RGBColor::operator + (const RGBColor& c) const {
 }
 
 RGBColor RGBColor::operator - (const RGBColor& c) const {
-    /* TODO */ 
     RGBColor res;
     res.r = r - c.r;
     res.g = g - c.g;
@@ -28,7 +26,6 @@ RGBColor RGBColor::operator - (const RGBColor& c) const {
 }
 
 RGBColor RGBColor::operator * (const RGBColor& c) const {
-    /* TODO */ 
     RGBColor res;
     res.r = r * c.r;
     res.g = g * c.g;
@@ -37,7 +34,6 @@ RGBColor RGBColor::operator * (const RGBColor& c) const {
 }
 
 bool RGBColor::operator == (const RGBColor& c) const {
-    /* TODO */
     if(r == c.r && g == c.g && b == c.b)
         return true;
     else 
@@ -45,13 +41,11 @@ bool RGBColor::operator == (const RGBColor& c) const {
 }
 
 bool RGBColor::operator != (const RGBColor& b) const {
-    /* TODO */ 
     bool isequal = (*this) == b; 
     return !isequal;
 }
 
 RGBColor RGBColor::clamp() const {
-    /* TODO */
     RGBColor res(r,g,b);
     float min = 0.0f;
     float max = 1.0f;
@@ -79,7 +73,6 @@ float RGBColor::luminance() const {
 }
 
 RGBColor operator * (float scalar, const RGBColor& c) {
-    /* TODO */ 
     RGBColor res;
     res.r = scalar * c.r;
     res.g = scalar * c.g;
@@ -88,14 +81,12 @@ RGBColor operator * (float scalar, const RGBColor& c) {
 }
 
 RGBColor operator * (const RGBColor& c, float scalar) {
-    /* TODO */ 
     RGBColor res;
     res = scalar * c;
     return res;
 }
 
 RGBColor operator / (const RGBColor& c, float scalar) {
-    /* TODO */
     scalar = 1.0 / scalar;
     RGBColor res;
     res = scalar * c;

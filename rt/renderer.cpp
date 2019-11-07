@@ -4,6 +4,7 @@
 #include <rt/ray.h>
 #include <iostream>
 #include <rt/cameras/camera.h>
+#include <rt/integrators/integrator.h>
 
 namespace rt {
 
@@ -12,7 +13,25 @@ Renderer::Renderer(Camera* cam, Integrator* integrator)
 {}
 
 void Renderer::render(Image& img) {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */ 
+    int resy = img.height();
+    int resx = img.width();
+    int prcx, prcy;
+    float ndcx, ndcy, sscx, sscy;
+    Ray ray;
+    for(prcx = 0; prcx < resx; prcx++)
+        for(prcy = 0; prcy < resy; prcy++){
+            ndcx = (prcx + 0.5f) / resx;
+            ndcy = (prcy + 0.5f) / resy;
+            // Screen space coordinates [-1, 1]
+            sscx = ndcx * 2.0f - 1;
+            sscy = -(ndcy * 2.0f - 1);           
+            ray = (this->cam)->getPrimaryRay(sscx, sscy);
+            RGBColor pixelColor = (this->integrator)->getRadiance(ray);
+            //std::cout<<pixelColor.r << " "<< pixelColor.g << " "<< pixelColor.b << std::endl;
+            img(prcx, prcy) = pixelColor;
+
+        }
 }
 
 }
@@ -22,7 +41,6 @@ rt::RGBColor a1computeColor(rt::uint x, rt::uint y, rt::uint width, rt::uint hei
 namespace rt {
 
 void Renderer::test_render1(Image& img) {
-    /* TODO */ 
     int resy = img.height();
     int resx = img.width();
     int prcx, prcy;
@@ -38,7 +56,6 @@ rt::RGBColor a2computeColor(const rt::Ray& r);
 namespace rt {
 
 void Renderer::test_render2(Image& img) {
-    /* TODO */
     int resy = img.height();
     int resx = img.width();
     int prcx, prcy;

@@ -10,7 +10,6 @@ namespace rt {
 
 Vector::Vector(float x, float y, float z)
 {
-    /* TODO */
     this->x = x;
     this->y = y;
     this->z = z;
@@ -22,7 +21,6 @@ Vector::Vector(const Float4& f4)
 }
 
 Vector Vector::operator + (const Vector& b) const {
-    /* TODO */ 
     Vector sum;
     sum.x = x + b.x;
     sum.y = y + b.y;
@@ -31,7 +29,6 @@ Vector Vector::operator + (const Vector& b) const {
 }
 
 Vector Vector::operator - (const Vector& b) const {
-    /* TODO */ 
     Vector diff;
     diff.x = x - b.x;
     diff.y = y - b.y;
@@ -40,21 +37,18 @@ Vector Vector::operator - (const Vector& b) const {
 }
 
 Vector Vector::operator - () const {
-    /* TODO */ 
     float scalar = -1.0;
     Vector res  = scalar * (*this);
     return res;
 }
 
 Vector Vector::normalize() const {
-    /* TODO */ 
     float len = length();
     Vector res  = (*this) / len;
     return res;
 }
 
 Vector operator * (float scalar, const Vector& b) {
-    /* TODO */ 
     Vector res;
     res.x = scalar * b.x;
     res.y = scalar * b.y;
@@ -63,14 +57,12 @@ Vector operator * (float scalar, const Vector& b) {
 }
 
 Vector operator * (const Vector& a, float scalar) {
-    /* TODO */ 
     Vector res;
     res = scalar * a;
     return res;
 }
 
 Vector operator / (const Vector& a, float scalar) {
-    /* TODO */
     scalar = 1.0 / scalar;
     Vector res;
     res = scalar * a;
@@ -78,7 +70,6 @@ Vector operator / (const Vector& a, float scalar) {
 }
 
 Vector cross(const Vector& a, const Vector& b) {
-    /* TODO */ 
     Vector res;
     res.x = a.y * b.z - a.z * b.y;
     res.y = a.z * b.x - a.x * b.z;
@@ -87,26 +78,22 @@ Vector cross(const Vector& a, const Vector& b) {
 }
 
 float dot(const Vector& a, const Vector& b) {
-    /* TODO */ 
     float res; 
     res = a.x * b.x + a.y * b.y + a.z * b.z;
     return res;
 }
 
 float Vector::lensqr() const {
-    /* TODO */ 
     float res = dot(*this, *this);
     return res;
 }
 
 float Vector::length() const {
-    /* TODO */ 
     float len = sqrt(lensqr());
     return len;
 }
 
 bool Vector::operator == (const Vector& b) const {
-    /* TODO */ 
     if(x == b.x && y == b.y && z == b.z)
         return true;
     else 
@@ -114,13 +101,11 @@ bool Vector::operator == (const Vector& b) const {
 }
 
 bool Vector::operator != (const Vector& b) const {
-    /* TODO */ 
     bool isequal = (*this) == b; 
     return !isequal;
 }
 
 Vector min(const Vector& a, const Vector& b) {
-    /* TODO */ 
     Vector res;
     if(a.x < b.x)
         res.x = a.x;
@@ -138,7 +123,6 @@ Vector min(const Vector& a, const Vector& b) {
 }
 
 Vector max(const Vector& a, const Vector& b) {
-    /* TODO */    
     Vector res;
     if(a.x > b.x)
         res.x = a.x;
@@ -156,7 +140,6 @@ Vector max(const Vector& a, const Vector& b) {
 }
 
 Point operator + (const Point& a, const Vector& b) {
-    /* TODO */ 
     Point sum;
     sum.x = a.x + b.x;
     sum.y = a.y + b.y;
@@ -165,7 +148,6 @@ Point operator + (const Point& a, const Vector& b) {
 }
 
 Point operator + (const Vector& a, const Point& b) {
-    /* TODO */ 
     Point sum;
     sum.x = a.x + b.x;
     sum.y = a.y + b.y;
@@ -174,7 +156,6 @@ Point operator + (const Vector& a, const Point& b) {
 }
 
 Point operator - (const Point& a, const Vector& b) {
-    /* TODO */ 
     Point sum;
     sum.x = a.x - b.x;
     sum.y = a.y - b.y;
