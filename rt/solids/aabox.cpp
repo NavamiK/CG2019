@@ -59,8 +59,13 @@ Intersection AABox::intersect(const Ray& ray, float previousBestDistance) const 
     if((tmaxNear <= tminFar) && (tmaxNear < previousBestDistance)){
         distance = tmaxNear;
         Vector normal;
-        Point p = ray.o + distance * ray.d;
-        Intersection intersection(distance, ray, this, normal, p);
+        if(tmaxNear == txNear)
+            normal = Vector(-1.0f, 0, 0);
+        else if(tmaxNear == tyNear)
+            normal = Vector(0, -1.0f, 0);
+        else
+            normal = Vector(0, 0, -1.0f);            
+        Intersection intersection(distance, ray, this, normal, ray.getPoint(distance));
         return intersection;
     }
 	else

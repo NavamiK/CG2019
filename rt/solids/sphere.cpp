@@ -38,9 +38,8 @@ Intersection Sphere::intersect(const Ray& ray, float previousBestDistance) const
         return Intersection::failure();
 
     if(distance < previousBestDistance){
-        Point p = ray.o + distance * ray.d;
-        Vector normal = p - center;
-        Intersection intersection(distance, ray, this, normal.normalize(), p);
+        Vector normal = ray.getPoint(distance) - center;
+        Intersection intersection(distance, ray, this, normal.normalize(), ray.getPoint(distance));
         return intersection;
     }
     else
