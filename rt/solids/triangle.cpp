@@ -5,9 +5,9 @@ namespace rt {
 Triangle::Triangle(Point vertices[3], CoordMapper* texMapper, Material* material)
 {
     /* TODO */
-    this->vertices[0] = vertices[0];
-    this->vertices[0] = vertices[0];
-    this->vertices[0] = vertices[0];
+    this->v1 = vertices[0];
+    this->v2 = vertices[1];
+    this->v3 = vertices[2];
 }
 
 Triangle::Triangle(const Point& v1, const Point& v2, const Point& v3, CoordMapper* texMapper, Material* material)
@@ -46,9 +46,10 @@ Intersection Triangle::intersect(const Ray& ray, float previousBestDistance) con
        return Intersection::failure();
     // At this stage we can compute t to find out where the intersection point is on the line.
     float t = f * dot(edge2, q);
-    if ((t > EPSILON && t < 1/EPSILON)&& (t < previousBestDistance)) // ray intersection
+    if ((t > EPSILON)&& (t < previousBestDistance)) // ray intersection
     {
-        Intersection intersection(t, ray, this, ray.d.normalize(), ray.getPoint(t));
+        Vector normal = cross(edge1, edge2);
+        Intersection intersection(t, ray, this, normal.normalize(), ray.getPoint(t));
         return intersection;
     }
     else // This means that there is a line intersection but not a ray intersection.
