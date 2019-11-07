@@ -2,6 +2,7 @@
 #define CG1RAYTRACER_SOLIDS_QUAD_HEADER
 
 #include <rt/solids/solid.h>
+#include <rt/solids/triangle.h>
 
 namespace rt {
 
@@ -15,9 +16,10 @@ public:
     virtual Sample sample() const;
     virtual float getArea() const;
 private:
-   Point origin;
    Vector span1;
    Vector span2; 
+   Point v1, v2, v3, v4;
+   Triangle *t1, *t2;
 };
 
 }
