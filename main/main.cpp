@@ -22,6 +22,8 @@ int main(int argc, char* argv[])
 {
     //a_julia();
     //a_cameras();  
-    a_solids();  
+    //a_solids();
+    a_indexing();
+  
     return 0;
 }
