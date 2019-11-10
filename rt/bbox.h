@@ -16,7 +16,8 @@ public:
     BBox() {}
     BBox(const Point& min, const Point& max)
     {
-        /* TODO */
+        this->min = min;
+        this->max = max;
     }
 
     static BBox empty();
