@@ -13,9 +13,12 @@ class BBox {
 public:
     Point min, max;
 
-    BBox() {}
+    BBox() {
+        this->isEmpty = true;
+    }
     BBox(const Point& min, const Point& max)
     {
+        this->isEmpty = false;
         this->min = min;
         this->max = max;
     }
@@ -33,6 +36,8 @@ public:
     std::pair<float, float> intersect(const Ray& ray) const;
 
     bool isUnbound();
+private:
+    bool isEmpty;
 };
 
 }
