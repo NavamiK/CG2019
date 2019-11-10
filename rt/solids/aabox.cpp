@@ -27,7 +27,7 @@ Intersection AABox::intersect(const Ray& ray, float previousBestDistance) const 
     //int signx, signy, signz;
     float txNear, txFar, tyNear, tyFar, tzNear, tzFar;
     Vector rayDirInv = Vector(1/ray.d.x,1/ray.d.y,1/ray.d.z); 
- 
+
     if (rayDirInv.x >= 0){
         txNear = (corner1.x - ray.o.x) * rayDirInv.x;
         txFar = (corner2.x - ray.o.x) * rayDirInv.x;
@@ -52,13 +52,33 @@ Intersection AABox::intersect(const Ray& ray, float previousBestDistance) const 
         tzNear = (corner2.z - ray.o.z) * rayDirInv.z;
     }
 
+    float tmaxNear = txNear; 
+    float tminFar = txFar;
+
+    if ((txNear > tyFar) || (tyNear > txFar)) 
+        return Intersection::failure(); 
+    if (tyNear > txNear) 
+        tmaxNear = tyNear; 
+    if (tyFar < tminFar) 
+        tminFar = tyFar;
+
+    if ((tmaxNear > tzFar) || (tzNear > tminFar)) 
+        return  Intersection::failure(); 
+    if (tzNear > tmaxNear) 
+        tmaxNear = tzNear; 
+    if (tzFar < tminFar) 
+        tminFar = tzFar; 
+  
+
+    /*
     float tmaxNear = max(txNear, tyNear);
     tmaxNear = max(tmaxNear, tzNear);
 
     float tminFar = min(txFar, tyFar);
     tminFar = min(tminFar, tzFar);
+    */
     
-    if((tmaxNear > 0) && (tmaxNear <= tminFar) && (tmaxNear < previousBestDistance)){
+    if((tmaxNear > 0) && (tmaxNear < previousBestDistance)){
         distance = tmaxNear;
         Vector normal;
         if(tmaxNear == txNear){
