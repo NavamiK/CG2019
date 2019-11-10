@@ -56,7 +56,7 @@ Intersection AABox::intersect(const Ray& ray, float previousBestDistance) const 
     float tminFar = min(txFar, tyFar);
     tminFar = min(tminFar, tzFar);
     
-    if((tmaxNear <= tminFar) && (tmaxNear < previousBestDistance)){
+    if((tmaxNear > 0) && (tmaxNear <= tminFar) && (tmaxNear < previousBestDistance)){
         distance = tmaxNear;
         Vector normal;
         if(tmaxNear == txNear){
