@@ -26,30 +26,32 @@ Intersection AABox::intersect(const Ray& ray, float previousBestDistance) const 
     float distance;
     //int signx, signy, signz;
     float txNear, txFar, tyNear, tyFar, tzNear, tzFar;
-    if (ray.d.x >= 0){
-        txNear = (corner1.x - ray.o.x) / ray.d.x;
-        txFar = (corner2.x - ray.o.x) / ray.d.x;
+    Vector rayDirInv = Vector(1/ray.d.x,1/ray.d.y,1/ray.d.z); 
+ 
+    if (rayDirInv.x >= 0){
+        txNear = (corner1.x - ray.o.x) * rayDirInv.x;
+        txFar = (corner2.x - ray.o.x) * rayDirInv.x;
     }
     else{
-        txFar = (corner1.x - ray.o.x) / ray.d.x;
-        txNear = (corner2.x - ray.o.x) / ray.d.x;
+        txFar = (corner1.x - ray.o.x) * rayDirInv.x;
+        txNear = (corner2.x - ray.o.x) * rayDirInv.x;
     }
-    if (ray.d.y >= 0){
-        tyNear = (corner1.y - ray.o.y) / ray.d.y;
-        tyFar = (corner2.y - ray.o.y) / ray.d.y;
+    if (rayDirInv.y >= 0){
+        tyNear = (corner1.y - ray.o.y) * rayDirInv.y;
+        tyFar = (corner2.y - ray.o.y) * rayDirInv.y;
     }
     else{
-        tyFar = (corner1.y - ray.o.y) / ray.d.y;
-        tyNear = (corner2.y - ray.o.y) / ray.d.y;
+        tyFar = (corner1.y - ray.o.y) * rayDirInv.y;
+        tyNear = (corner2.y - ray.o.y) * rayDirInv.y;
     }
-    if (ray.d.z >= 0){
-        tzNear = (corner1.z - ray.o.z) / ray.d.z;
-        tzFar = (corner2.z - ray.o.z) / ray.d.z;
+    if (rayDirInv.z >= 0){
+        tzNear = (corner1.z - ray.o.z) * rayDirInv.z;
+        tzFar = (corner2.z - ray.o.z) * rayDirInv.z;
     }else{
-        tzFar = (corner1.z - ray.o.z) / ray.d.z;
-        tzNear = (corner2.z - ray.o.z) / ray.d.z;
+        tzFar = (corner1.z - ray.o.z) * rayDirInv.z;
+        tzNear = (corner2.z - ray.o.z) * rayDirInv.z;
     }
-    
+
     float tmaxNear = max(txNear, tyNear);
     tmaxNear = max(tmaxNear, tzNear);
 
