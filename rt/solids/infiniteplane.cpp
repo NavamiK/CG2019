@@ -22,7 +22,7 @@ Intersection InfinitePlane::intersect(const Ray& ray, float previousBestDistance
     float normalSign = -1;
     if(denom < 0)
         normalSign = 1;
-    distance = (dot(planeOrigin, normal) - dot(rayOrigin,normal))/denom;
+    distance = (dot(planeOrigin - rayOrigin, normal))/denom;
 	if ((distance >=0) && (distance < previousBestDistance)){
 		Point p = ray.o + distance * ray.d;
 		Intersection intersection(distance, ray, this, normalSign * normal, ray.getPoint(distance));
