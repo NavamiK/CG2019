@@ -16,7 +16,7 @@ Quad::Quad(const Point& origin, const Vector& span1, const Vector& span2, CoordM
 }
 
 BBox Quad::getBounds() const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */
 }
 
 Intersection Quad::intersect(const Ray& ray, float previousBestDistance) const {

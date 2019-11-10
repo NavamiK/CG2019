@@ -10,7 +10,8 @@ AABox::AABox(const Point& corner1, const Point& corner2, CoordMapper* texMapper,
 }
 
 BBox AABox::getBounds() const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */ 
+    return BBox(corner1, corner2);
 }
 
 Solid::Sample AABox::sample() const {
@@ -21,10 +22,9 @@ float AABox::getArea() const {
     /* TODO */ NOT_IMPLEMENTED;
 }
 
-Intersection AABox::intersect(const Ray& ray, float previousBestDistance) const {
+std::tuple<bool, float, float, Vector> AABox::findRayEntryExit(const Ray& ray) const{
     /* TODO */ 
     float distance;
-    //int signx, signy, signz;
     float txNear, txFar, tyNear, tyFar, tzNear, tzFar;
     Vector rayDirInv = Vector(1/ray.d.x,1/ray.d.y,1/ray.d.z); 
 
@@ -56,50 +56,48 @@ Intersection AABox::intersect(const Ray& ray, float previousBestDistance) const 
     float tminFar = txFar;
 
     if ((txNear > tyFar) || (tyNear > txFar)) 
-        return Intersection::failure(); 
+        return std::make_tuple(false, 0.f, 0.f, Vector());
     if (tyNear > txNear) 
         tmaxNear = tyNear; 
     if (tyFar < tminFar) 
         tminFar = tyFar;
 
     if ((tmaxNear > tzFar) || (tzNear > tminFar)) 
-        return  Intersection::failure(); 
+        return std::make_tuple(false, 0.f, 0.f, Vector()); 
     if (tzNear > tmaxNear) 
         tmaxNear = tzNear; 
     if (tzFar < tminFar) 
         tminFar = tzFar; 
   
+    //if((tmaxNear > 0)){
+    distance = tmaxNear;
+    Vector normal;
+    if(tmaxNear == txNear){
+        if (txNear< txFar)
+            normal = Vector(-1.0f, 0, 0);
+        else 
+            normal = Vector(1.0f, 0, 0);
+    }
+    else if(tmaxNear == tyNear){
+        if (tyNear< tyFar)
+            normal = Vector(0, -1.0f, 0);
+        else 
+            normal = Vector(0, 1.0f, 0);
+    }            
+    else{
+        if (tzNear< tzFar)
+            normal = Vector(0, 0, 1.0f);
+        else 
+            normal = Vector(0, 0, -1.0f);
+    }  
+    return std::make_tuple(true, tmaxNear, tminFar, normal);      
+    //return std::make_tuple(false, 0.f, 0.f, Vector()); 
+}
 
-    /*
-    float tmaxNear = max(txNear, tyNear);
-    tmaxNear = max(tmaxNear, tzNear);
-
-    float tminFar = min(txFar, tyFar);
-    tminFar = min(tminFar, tzFar);
-    */
-    
-    if((tmaxNear > 0) && (tmaxNear < previousBestDistance)){
-        distance = tmaxNear;
-        Vector normal;
-        if(tmaxNear == txNear){
-            if (txNear< txFar)
-                normal = Vector(-1.0f, 0, 0);
-            else 
-                normal = Vector(1.0f, 0, 0);
-        }
-        else if(tmaxNear == tyNear){
-            if (tyNear< tyFar)
-                normal = Vector(0, -1.0f, 0);
-            else 
-                normal = Vector(0, 1.0f, 0);
-        }            
-        else{
-            if (tzNear< tzFar)
-                normal = Vector(0, 0, 1.0f);
-            else 
-                normal = Vector(0, 0, -1.0f);
-        }        
-        Intersection intersection(distance, ray, this, normal, ray.getPoint(distance));
+Intersection AABox::intersect(const Ray& ray, float previousBestDistance) const {
+    auto[isIntersect, entry, exit, normal] = findRayEntryExit(ray);
+    if(isIntersect && (entry>0) && (entry < previousBestDistance)){
+        Intersection intersection(entry, ray, this, normal, ray.getPoint(entry));
         return intersection;
     }
 	else

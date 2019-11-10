@@ -1,14 +1,16 @@
 #include <rt/bbox.h>
+#include <rt/solids/aabox.h>
 
 namespace rt {
 
 BBox BBox::empty() {
     /* TODO */ 
-    return BBox();
+    return BBox(true, false);
 }
 
 BBox BBox::full() {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */ 
+    return BBox(false, true);
 }
 
 
@@ -50,10 +52,28 @@ void BBox::extend(const BBox& bbox) {
 
 std::pair<float, float> BBox::intersect(const Ray& ray) const {
     /* TODO */
+    if(isFull)
+        return std::make_pair(NEG_INF, POS_INF);
+    else if(isEmpty)
+        return std::make_pair(POS_INF, NEG_INF);
+    else{
+        AABox aabox(min, max, nullptr, nullptr);
+        auto[isIntersect, entry, exit, normal] = aabox.findRayEntryExit(ray);
+        if(isIntersect)
+            return std::make_pair(entry, exit);
+        else
+            return std::make_pair(exit, entry); //Swap entry and exit, to return failure (t2>t1) case
+    }
+
 }
 
 bool BBox::isUnbound() {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */ 
+    if((min.x == NEG_INF && max.x == POS_INF)
+        ||(min.y == NEG_INF && max.y == POS_INF)
+        ||(min.z == NEG_INF && max.z == POS_INF))
+        return true;
+    else return false;
 }
 
 }

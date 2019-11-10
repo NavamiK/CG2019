@@ -4,21 +4,37 @@
 #include <utility>
 #include <core/point.h>
 #include <core/vector.h>
+#include <cmath>
 
 namespace rt {
 
 class Ray;
+static const float NEG_INF = -INFINITY;
+static const float POS_INF = INFINITY;
 
 class BBox {
 public:
     Point min, max;
 
-    BBox() {
-        this->isEmpty = true;
+    BBox() {}
+
+    BBox(bool isEmpty, bool isFull){
+        this->isEmpty = isEmpty;
+        this->isFull = isFull;
+        if(isFull){
+            min.x = NEG_INF;
+            min.y = NEG_INF;
+            min.z = NEG_INF;
+            max.x = POS_INF;
+            max.y = POS_INF;
+            max.z = POS_INF;
+        }
     }
+
     BBox(const Point& min, const Point& max)
     {
         this->isEmpty = false;
+        this->isFull = false;
         this->min = min;
         this->max = max;
     }
@@ -37,7 +53,7 @@ public:
 
     bool isUnbound();
 private:
-    bool isEmpty;
+    bool isEmpty, isFull;
 };
 
 }

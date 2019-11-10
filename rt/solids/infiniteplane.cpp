@@ -10,19 +10,17 @@ InfinitePlane::InfinitePlane(const Point& origin, const Vector& normal, CoordMap
 }
 
 BBox InfinitePlane::getBounds() const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */ 
+    return BBox::full();
 }
 
 Intersection InfinitePlane::intersect(const Ray& ray, float previousBestDistance) const {
-    /* TODO */ 
-    float distance;
-    Vector planeOrigin(origin.x, origin.y, origin.z);
-    Vector rayOrigin(ray.o.x, ray.o.y, ray.o.z);
+    /* TODO */   
     float denom = dot(ray.d,normal);
     float normalSign = -1;
     if(denom < 0)
         normalSign = 1;
-    distance = (dot(planeOrigin - rayOrigin, normal))/denom;
+    float distance = dot(origin - ray.o, normal)/denom;
 	if ((distance >=0) && (distance < previousBestDistance)){
 		Point p = ray.o + distance * ray.d;
 		Intersection intersection(distance, ray, this, normalSign * normal, ray.getPoint(distance));

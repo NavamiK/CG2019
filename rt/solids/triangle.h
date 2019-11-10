@@ -2,6 +2,7 @@
 #define CG1RAYTRACER_SOLIDS_TRIANGLE_HEADER
 
 #include <rt/solids/solid.h>
+#include <core/scalar.h>
 
 namespace rt {
 

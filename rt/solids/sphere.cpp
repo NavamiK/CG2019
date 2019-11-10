@@ -10,7 +10,10 @@ Sphere::Sphere(const Point& center, float radius, CoordMapper* texMapper, Materi
 }
 
 BBox Sphere::getBounds() const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */ 
+    Point min(center.x - radius, center.y - radius, center.z - radius);
+    Point max(center.x + radius, center.y + radius, center.z + radius);
+    return BBox(min, max);
 }
 
 Intersection Sphere::intersect(const Ray& ray, float previousBestDistance) const {
