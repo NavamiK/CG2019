@@ -14,8 +14,11 @@ BBox BBox::full() {
 
 void BBox::extend(const Point& point) {
     /* TODO */    
-    if(this->isEmpty)
-        min = max = point;
+    if(this->isEmpty){
+        min = point;
+        max = point;
+        this->isEmpty = false;
+    }
     else{
         min.x = std::min(point.x, min.x);
         min.y = std::min(point.y, min.y);    
@@ -32,6 +35,7 @@ void BBox::extend(const BBox& bbox) {
     if(this->isEmpty){
         min = bbox.min;
         max = bbox.max;
+        this->isEmpty = false;
     }
     else{
         min.x = std::min(bbox.min.x, min.x);
@@ -45,7 +49,7 @@ void BBox::extend(const BBox& bbox) {
 }
 
 std::pair<float, float> BBox::intersect(const Ray& ray) const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */
 }
 
 bool BBox::isUnbound() {
