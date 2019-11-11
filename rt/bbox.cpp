@@ -62,7 +62,7 @@ std::pair<float, float> BBox::intersect(const Ray& ray) const {
         if(isIntersect)
             return std::make_pair(entry, exit);
         else
-            return std::make_pair(exit, entry); //Swap entry and exit, to return failure (t2>t1) case
+            return std::make_pair(POS_INF, NEG_INF); //Return failure (t2>t1) case
     }
 
 }
