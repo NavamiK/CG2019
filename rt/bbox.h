@@ -51,6 +51,8 @@ public:
 
     std::pair<float, float> intersect(const Ray& ray) const;
 
+    int maxExtent() const;//decide which axis is the largest.
+
     bool isUnbound();
 private:
     bool isEmpty, isFull;

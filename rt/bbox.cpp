@@ -76,4 +76,14 @@ bool BBox::isUnbound() {
     else return false;
 }
 
+int BBox::maxExtent() const {
+    Vector d = diagonal();
+    if(d.x > d.y && d.x > d.z)
+        return 0;
+    else if(d.y > d.z)
+        return 1;
+    else
+        return 2;
+}
+
 }

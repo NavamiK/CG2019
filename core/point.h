@@ -24,6 +24,8 @@ public:
     bool operator==(const Point& b) const;
     bool operator!=(const Point& b) const;
 
+    float at(const int i) const;
+
 };
 
 Point operator*(float scalar, const Point& b);
