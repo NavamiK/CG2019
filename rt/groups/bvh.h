@@ -49,11 +49,7 @@ public:
 
     BVHNode* recursiveBuild(int start, int end);
 
-<<<<<<< HEAD
-    BVHNode *tree;
-=======
     BVHNode* tree = new BVHNode();
->>>>>>> navami
 
 };
 

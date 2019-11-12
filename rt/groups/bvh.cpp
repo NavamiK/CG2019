@@ -12,18 +12,13 @@ BVH::~BVH() {
 }
 
 void BVH::rebuildIndex() {
-<<<<<<< HEAD
-    tree = recursiveBuild(0, primitives.size());
-=======
     this->tree = recursiveBuild(0, primitives.size());
->>>>>>> navami
 }
 
 BVH::BVHNode* BVH::recursiveBuild(int start, int end){
     BVHNode *node = new BVHNode();
     //1. compute bounds of all primitives.
     BBox maxBound;
-<<<<<<< HEAD
     //Primitives nodePrimitives;
     for(int i = start; i < end; i++){
         maxBound.extend(primitives[i]->getBounds());
@@ -31,15 +26,6 @@ BVH::BVHNode* BVH::recursiveBuild(int start, int end){
     }
 
     if(node->nodePrimitives.size() < 3){
-=======
-    Primitives nodePrimitives;
-    for(int i = start; i < end; i++){
-        maxBound.extend(primitives[i]->getBounds());
-        nodePrimitives.push_back(primitives[i]);
-    }
-
-    if(nodePrimitives.size() < 3){
->>>>>>> navami
         // create leave node and stop.
         node->initLeafNode(maxBound);
         return node;
