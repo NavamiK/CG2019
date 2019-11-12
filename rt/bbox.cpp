@@ -5,12 +5,16 @@ namespace rt {
 
 BBox BBox::empty() {
     /* TODO */ 
-    return BBox(true, false);
+    bool isEmpty = true;
+    bool isFull = false;
+    return BBox(isEmpty, isFull);
 }
 
 BBox BBox::full() {
     /* TODO */ 
-    return BBox(false, true);
+    bool isEmpty = false;
+    bool isFull = true;
+    return BBox(isEmpty, isFull);
 }
 
 
@@ -74,6 +78,27 @@ bool BBox::isUnbound() {
         ||(min.z == NEG_INF && max.z == POS_INF))
         return true;
     else return false;
+}
+
+int BBox::maxExtent() const {
+    Vector d = diagonal();
+    if(d.x > d.y && d.x > d.z)
+        return 0;
+    else if(d.y > d.z)
+        return 1;
+    else
+        return 2;
+}
+
+Point BBox::axisPoint(int axis, float dimScalar) const{
+    if(axis == 0){//x axis
+        return (Point(max.x*dimScalar, max.y, max.z));
+    }
+    else if(axis == 1){// y axis
+        return (Point(max.x, max.y*dimScalar, max.z));
+    }
+
+    return (Point(max.x, max.y, max.z * dimScalar));// the z axis.
 }
 
 }

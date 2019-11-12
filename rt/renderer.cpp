@@ -28,7 +28,6 @@ void Renderer::render(Image& img) {
             sscy = -(ndcy * 2.0f - 1);           
             ray = (this->cam)->getPrimaryRay(sscx, sscy);
             RGBColor pixelColor = (this->integrator)->getRadiance(ray);
-            //std::cout<<pixelColor.r << " "<< pixelColor.g << " "<< pixelColor.b << std::endl;
             img(prcx, prcy) = pixelColor;
 
         }

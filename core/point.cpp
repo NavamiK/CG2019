@@ -86,4 +86,15 @@ Point max(const Point& a, const Point& b) {
     return res;
 }
 
+Point operator + (const Point &a, const Point &b){
+    return (Point(a.x + b.x, a.y + b.y, a.z + b.z));
+}
+
+float Point::at(const int i) const {
+    assert(i >= 0 && i <= 2);
+    if(i == 0) return x;
+    else if(i == 1) return y;
+    else return z;
+}
+
 }

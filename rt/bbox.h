@@ -46,12 +46,15 @@ public:
     void extend(const BBox& bbox);
 
     Vector diagonal() const {
-        /* TODO */ NOT_IMPLEMENTED;
+        return max - min;
     }
 
     std::pair<float, float> intersect(const Ray& ray) const;
 
     bool isUnbound();
+    int maxExtent() const;//decide which axis is the largest.
+    Point axisPoint(int axis, float dimScalar) const;
+    
 private:
     bool isEmpty, isFull;
 };
