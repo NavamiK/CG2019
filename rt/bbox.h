@@ -52,7 +52,7 @@ public:
     std::pair<float, float> intersect(const Ray& ray) const;
 
     int maxExtent() const;//decide which axis is the largest.
-    Point axisPoint(int axis) const;
+    Point axisPoint(int axis, float dimScalar) const;
 
     bool isUnbound();
 private:

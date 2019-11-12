@@ -30,7 +30,6 @@ public:
         void initInternalNode(BVHNode *left, BVHNode *right){
             leftChild = left;
             rightChild = right;
-            //TODO: This may change.
             bounds.extend(left->bounds);
             bounds.extend(right->bounds);
             centroid = bounds.min * .5f + bounds.max * .5f;
@@ -38,7 +37,6 @@ public:
 
         BBox bounds;
         BVHNode *leftChild, *rightChild;
-        int dim;//TODO: check dimension usage.
         Primitives nodePrimitives;
         Point centroid;
 
