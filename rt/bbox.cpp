@@ -5,12 +5,16 @@ namespace rt {
 
 BBox BBox::empty() {
     /* TODO */ 
-    return BBox(true, false);
+    bool isEmpty = true;
+    bool isFull = false;
+    return BBox(isEmpty, isFull);
 }
 
 BBox BBox::full() {
     /* TODO */ 
-    return BBox(false, true);
+    bool isEmpty = false;
+    bool isFull = true;
+    return BBox(isEmpty, isFull);
 }
 
 

@@ -33,6 +33,8 @@ RGBColor RayCastingDistIntegrator::getRadiance(const Ray& ray) const {
         
         return interpolColor * grayValue;
     }
+    else 
+        return RGBColor::rep(0.0f);
 }
 
 }

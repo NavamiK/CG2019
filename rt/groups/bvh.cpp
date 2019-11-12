@@ -1,5 +1,5 @@
 #include <rt/groups/bvh.h>
-
+#include <stack>
 namespace rt {
 
 BVH::BVH()
@@ -12,13 +12,18 @@ BVH::~BVH() {
 }
 
 void BVH::rebuildIndex() {
+<<<<<<< HEAD
     tree = recursiveBuild(0, primitives.size());
+=======
+    this->tree = recursiveBuild(0, primitives.size());
+>>>>>>> navami
 }
 
 BVH::BVHNode* BVH::recursiveBuild(int start, int end){
     BVHNode *node = new BVHNode();
     //1. compute bounds of all primitives.
     BBox maxBound;
+<<<<<<< HEAD
     //Primitives nodePrimitives;
     for(int i = start; i < end; i++){
         maxBound.extend(primitives[i]->getBounds());
@@ -26,6 +31,15 @@ BVH::BVHNode* BVH::recursiveBuild(int start, int end){
     }
 
     if(node->nodePrimitives.size() < 3){
+=======
+    Primitives nodePrimitives;
+    for(int i = start; i < end; i++){
+        maxBound.extend(primitives[i]->getBounds());
+        nodePrimitives.push_back(primitives[i]);
+    }
+
+    if(nodePrimitives.size() < 3){
+>>>>>>> navami
         // create leave node and stop.
         node->initLeafNode(maxBound);
         return node;
@@ -50,7 +64,42 @@ BBox BVH::getBounds() const {
 }
 
 Intersection BVH::intersect(const Ray& ray, float previousBestDistance) const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */ 
+  
+    Intersection currentIntersection;
+    Intersection nearestIntersection = Intersection::failure();
+
+    BVHNode* currentNode = new BVHNode();
+    std::stack<BVHNode*> pendingNodesStack;
+
+    //Need to traverse entire tree for intersection
+    pendingNodesStack.push(tree);
+
+    while(!pendingNodesStack.empty()){
+        currentNode = pendingNodesStack.top(); //Fetch the topmost/next node
+        pendingNodesStack.pop(); //Remove the topmost/next node from the list
+        if(currentNode->isLeaf){ 
+            for(auto primitive: currentNode->nodePrimitives){
+                currentIntersection = primitive->intersect(ray, previousBestDistance);
+                if(currentIntersection.distance < previousBestDistance){
+                    previousBestDistance = currentIntersection.distance;
+                    nearestIntersection = currentIntersection;
+                }
+            }
+        }else{
+            BBox leftBbox = currentNode->leftChild->bounds;
+            auto[entryLeft, exitLeft] = leftBbox.intersect(ray);
+            if(entryLeft < exitLeft)
+                pendingNodesStack.push(currentNode->leftChild);
+
+            
+            BBox rightBbox = currentNode->rightChild->bounds;
+            auto[entryRight, exitRight] = rightBbox.intersect(ray);
+            if(entryRight < exitRight)
+                pendingNodesStack.push(currentNode->rightChild);            
+        }
+    }
+    return nearestIntersection;
 }
 
 void BVH::add(Primitive* p) {

@@ -25,6 +25,8 @@ public:
             leftChild = rightChild = nullptr;
             bounds = b;
             centroid = bounds.min * .5f + bounds.max * .5f;
+
+            isLeaf = true;
         }
 
         void initInternalNode(BVHNode *left, BVHNode *right){
@@ -33,6 +35,8 @@ public:
             bounds.extend(left->bounds);
             bounds.extend(right->bounds);
             centroid = bounds.min * .5f + bounds.max * .5f;
+
+            isLeaf = false;
         }
 
         BBox bounds;
@@ -40,11 +44,16 @@ public:
         Primitives nodePrimitives;
         Point centroid;
 
+        bool isLeaf;
     };
 
     BVHNode* recursiveBuild(int start, int end);
 
+<<<<<<< HEAD
     BVHNode *tree;
+=======
+    BVHNode* tree = new BVHNode();
+>>>>>>> navami
 
 };
 

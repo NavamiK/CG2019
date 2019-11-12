@@ -55,6 +55,9 @@ public:
     Point axisPoint(int axis, float dimScalar) const;
 
     bool isUnbound();
+    int maxExtent() const;//decide which axis is the largest.
+    Point axisPoint(int axis, float dimScalar) const;
+    
 private:
     bool isEmpty, isFull;
 };
