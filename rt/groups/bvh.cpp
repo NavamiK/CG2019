@@ -19,13 +19,13 @@ BVH::BVHNode* BVH::recursiveBuild(int start, int end){
     BVHNode *node = new BVHNode();
     //1. compute bounds of all primitives.
     BBox maxBound;
-    Primitives nodePrimitives;
+    //Primitives nodePrimitives;
     for(int i = start; i < end; i++){
         maxBound.extend(primitives[i]->getBounds());
-        nodePrimitives.push_back(primitives[i]);
+        node->nodePrimitives.push_back(primitives[i]);
     }
 
-    if(nodePrimitives.size() < 3){
+    if(node->nodePrimitives.size() < 3){
         // create leave node and stop.
         node->initLeafNode(maxBound);
         return node;
