@@ -95,13 +95,13 @@ std::tuple<bool, float, float, Vector> AABox::findRayEntryExit(const Ray& ray) c
 }
 
 Intersection AABox::intersect(const Ray& ray, float previousBestDistance) const {
-    auto[isIntersect, entry, exit, normal] = findRayEntryExit(ray);
-    if(isIntersect && (entry>0) && (entry < previousBestDistance)){
-        Intersection intersection(entry, ray, this, normal, ray.getPoint(entry));
-        return intersection;
-    }
-	else
-		return Intersection::failure();
+//    auto[isIntersect, entry, exit, normal] = findRayEntryExit(ray);
+//    if(isIntersect && (entry>0) && (entry < previousBestDistance)){
+//        Intersection intersection(entry, ray, this, normal, ray.getPoint(entry));
+//        return intersection;
+//    }
+//	else
+//		return Intersection::failure();
 }
 
 }
