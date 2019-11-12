@@ -12,41 +12,35 @@ BVH::~BVH() {
 }
 
 void BVH::rebuildIndex() {
-    for(uint i = 0; i < primitives.size(); i++){
-        primitiveInfos.push_back({primitives[i]->getBounds()});
-    }
-
-    std::vector<Primitive*> orderedPrimitives;
-    tree = recursiveBuild(primitiveInfos, 0, primitives.size());
+    tree = recursiveBuild(0, primitives.size());
 }
 
-BVH::BVHNode* BVH::recursiveBuild(std::vector <BVHPrimitiveInfo> primitiveInfoList, int start, int end){
-    //recursiveBuild(). build your tree using the split method.
+BVH::BVHNode* BVH::recursiveBuild(int start, int end){
     BVHNode *node = new BVHNode();
     //1. compute bounds of all primitives.
     BBox maxBound;
+    Primitives nodePrimitives;
     for(int i = start; i < end; i++){
-        maxBound.extend(primitiveInfoList[i].bounds);
+        maxBound.extend(primitives[i]->getBounds());
+        nodePrimitives.push_back(primitives[i]);
     }
 
-    int nPrimitives = end - start;
-    if(nPrimitives == 1){
+    if(nodePrimitives.size() < 3){
+        // create leave node and stop.
         node->initLeafNode(maxBound);
         return node;
     }
     else{
-        int dim = maxBound.maxExtent();
-
-        float pMid = (maxBound.max.at(dim) + maxBound.min.at(dim)) / 2;
+        int splitAxis = maxBound.maxExtent();
+        float midSplitAxis = (maxBound.max.at(splitAxis) + maxBound.min.at(splitAxis)) / 2.f;
+        Point splitAxisPoint = maxBound.axisPoint(midSplitAxis);
         int mid = (start + end) / 2;
+        // build child nodes and increase the node bounds to include the point.
+        BVHNode *left = recursiveBuild(start, mid);
+        left->bounds.extend(splitAxisPoint);
+        BVHNode *right = recursiveBuild(mid, end);
+        right->bounds.extend(splitAxisPoint);
 
-        // need 2 bounding boxes.
-        //1. min to pMid
-        //2. pMid to max.
-
-        //<Partition primitives into two sets and build children>
-        BVHNode *left = recursiveBuild(primitiveInfoList, start, mid);
-        BVHNode *right = recursiveBuild(primitiveInfoList, mid, end);
         node->initInternalNode(left, right);
     }
 }

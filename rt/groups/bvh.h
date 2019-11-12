@@ -23,35 +23,30 @@ public:
     struct BVHNode{
         void initLeafNode(BBox &b){
             leftChild = rightChild = nullptr;
+            bounds = b;
+            centroid = bounds.min * .5f + bounds.max * .5f;
         }
 
         void initInternalNode(BVHNode *left, BVHNode *right){
             leftChild = left;
             rightChild = right;
-            //This may change.
+            //TODO: This may change.
             bounds.extend(left->bounds);
             bounds.extend(right->bounds);
+            centroid = bounds.min * .5f + bounds.max * .5f;
         }
 
         BBox bounds;
         BVHNode *leftChild, *rightChild;
         int dim;//TODO: check dimension usage.
+        Primitives nodePrimitives;
+        Point centroid;
 
     };
 
-    struct BVHPrimitiveInfo{
-        BVHPrimitiveInfo() = default;
-        BVHPrimitiveInfo(const BBox &b):
-                bounds(b),centriod(b.min * .5f + b.max * .5f) {}
-
-        BBox bounds;
-        Point centriod;
-    };
-
-    BVHNode* recursiveBuild(std::vector <BVHPrimitiveInfo> primitiveInfoList, int start, int end);
+    BVHNode* recursiveBuild(int start, int end);
 
     BVHNode *tree;
-    std::vector<BVHPrimitiveInfo> primitiveInfos;
 
 };
 

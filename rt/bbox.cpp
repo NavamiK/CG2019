@@ -86,4 +86,15 @@ int BBox::maxExtent() const {
         return 2;
 }
 
+Point BBox::axisPoint(int axis) const{
+    if(axis == 0){//x axis
+        return (Point(max.x*0.5f, max.y, max.z));
+    }
+    else if(axis == 1){// y axis
+        return (Point(max.x, max.y*0.5f, max.z));
+    }
+
+    return (Point(max.x, max.y, max.z * 0.5f));// the z axis.
+}
+
 }
