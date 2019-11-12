@@ -46,7 +46,7 @@ public:
     void extend(const BBox& bbox);
 
     Vector diagonal() const {
-        /* TODO */ NOT_IMPLEMENTED;
+        return max - min;
     }
 
     std::pair<float, float> intersect(const Ray& ray) const;

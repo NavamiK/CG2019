@@ -21,7 +21,9 @@ public:
 
     // building the tree structure.
     struct BVHNode{
-        void initLeafNode(BBox &b){
+        void initLeafNode(int first, int nPrim, BBox &b){
+            fistPrimOffset = first;
+            nPrimitives = nPrim;
             leftChild = rightChild = nullptr;
         }
 
@@ -36,7 +38,9 @@ public:
 
         BBox bounds;
         BVHNode *leftChild, *rightChild;
-        int dim;
+        int dim;//TODO: check dimension usage.
+        int splitAxis, fistPrimOffset, nPrimitives;
+
     };
 
     struct BVHPrimitiveInfo{
@@ -54,6 +58,7 @@ public:
                             std::vector<Primitive*> orderedPrims);
 
     BVHNode *tree;
+    std::vector<BVHPrimitiveInfo> primitiveInfos;
 
 };
 

@@ -12,9 +12,8 @@ BVH::~BVH() {
 }
 
 void BVH::rebuildIndex() {
-    std::vector<BVHPrimitiveInfo> primitiveInfos(primitives.size());
     for(uint i = 0; i < primitives.size(); i++){
-        primitiveInfos[i] = {i, primitives[i]->getBounds()};
+        primitiveInfos.push_back({i, primitives[i]->getBounds()});
     }
 
     std::vector<Primitive*> orderedPrimitives;
@@ -30,14 +29,17 @@ void BVH::rebuildIndex() {
             maxBound.extend(primitiveInfoList[i].bounds);
         }
 
-        if(primitives.size() == 1){
+        int nPrimitives = end - start;
+
+        if(nPrimitives == 1){
             // create leave nodes.
-            int fistPrimOffset = primitives.size();
+            int firstPrimOffset = orderedPrims.size();
+           // int fistPrimOffset = primitives.size();
             for(uint i = 0; i < primitives.size(); i++){
                 int num = primitiveInfoList[i].primitiveNumber;
                 orderedPrims.push_back(primitives[num]);
             }
-            node->initLeafNode(maxBound);
+            node->initLeafNode(firstPrimOffset, nPrimitives, maxBound);
             return node;
         }
         else{
@@ -57,7 +59,7 @@ void BVH::rebuildIndex() {
                     int num = primitiveInfoList[i].primitiveNumber;
                     orderedPrims.push_back(primitives[num]);
                 }
-                node->initLeafNode(maxBound);
+                node->initLeafNode(fistPrimOffset, nPrimitives, maxBound);
                 return node;
             }
             else{
@@ -66,6 +68,8 @@ void BVH::rebuildIndex() {
                                                           [dim, pMid](const BVHPrimitiveInfo &pi){
                                                               return pi.centriod.at(dim) < pMid;
                                                           });
+
+                mid = midPtr - &primitiveInfoList[0];
 
                 //<Partition primitives into two sets and build children>
                 BVHNode *left = recursiveBuild(primitiveInfoList, start, mid, orderedPrims);
@@ -84,7 +88,7 @@ Intersection BVH::intersect(const Ray& ray, float previousBestDistance) const {
 }
 
 void BVH::add(Primitive* p) {
-    /* TODO */ NOT_IMPLEMENTED;
+    primitives.push_back(p);
 }
 
 void BVH::setMaterial(Material* m) {
