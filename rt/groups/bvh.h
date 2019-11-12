@@ -21,16 +21,13 @@ public:
 
     // building the tree structure.
     struct BVHNode{
-        void initLeafNode(int first, int nPrim, BBox &b){
-            fistPrimOffset = first;
-            nPrimitives = nPrim;
+        void initLeafNode(BBox &b){
             leftChild = rightChild = nullptr;
         }
 
-        void initInternalNode(int d, BVHNode *left, BVHNode *right){
+        void initInternalNode(BVHNode *left, BVHNode *right){
             leftChild = left;
             rightChild = right;
-            dim = d;
             //This may change.
             bounds.extend(left->bounds);
             bounds.extend(right->bounds);
@@ -39,23 +36,19 @@ public:
         BBox bounds;
         BVHNode *leftChild, *rightChild;
         int dim;//TODO: check dimension usage.
-        int splitAxis, fistPrimOffset, nPrimitives;
 
     };
 
     struct BVHPrimitiveInfo{
         BVHPrimitiveInfo() = default;
-        BVHPrimitiveInfo(uint num, const BBox &b):
-                primitiveNumber(num), bounds(b),
-                centriod(b.min * .5f + b.max * .5f) {}
+        BVHPrimitiveInfo(const BBox &b):
+                bounds(b),centriod(b.min * .5f + b.max * .5f) {}
 
-        uint primitiveNumber;
         BBox bounds;
         Point centriod;
     };
 
-    BVHNode* recursiveBuild(std::vector <BVHPrimitiveInfo> primitiveInfoList, int start, int end,
-                            std::vector<Primitive*> orderedPrims);
+    BVHNode* recursiveBuild(std::vector <BVHPrimitiveInfo> primitiveInfoList, int start, int end);
 
     BVHNode *tree;
     std::vector<BVHPrimitiveInfo> primitiveInfos;
