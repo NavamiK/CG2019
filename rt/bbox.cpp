@@ -101,4 +101,11 @@ Point BBox::axisPoint(int axis, float dimScalar) const{
     return (Point(max.x, max.y, max.z * dimScalar));// the z axis.
 }
 
+Point BBox::getCentroid(){
+    Point centroid; 
+    centroid.x = (min.x + max.x)/2;
+    centroid.y = (min.y + max.y)/2;
+    centroid.z = (min.z + max.z)/2;
+    return centroid;
+}
 }

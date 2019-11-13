@@ -54,6 +54,7 @@ public:
     bool isUnbound();
     int maxExtent() const;//decide which axis is the largest.
     Point axisPoint(int axis, float dimScalar) const;
+    Point getCentroid();
     
 private:
     bool isEmpty, isFull;

@@ -2,46 +2,77 @@
 #include <stack>
 namespace rt {
 
-BVH::BVH()
-{
+BVH::BVH(){
     /* TODO */
+    tree = new BVHNode();
 }
 
 BVH::~BVH() {
     /* TODO */
+    delete tree;
 }
 
 void BVH::rebuildIndex() {
-    this->tree = recursiveBuild(0, primitives.size());
+    tree->nodePrimitives = primitives;
+    recursiveBuild(tree);
 }
 
-BVH::BVHNode* BVH::recursiveBuild(int start, int end){
-    BVHNode *node = new BVHNode();
+void BVH::recursiveBuild(BVHNode * node){
     //1. compute bounds of all primitives.
-    BBox maxBound;
-    Primitives nodePrimitives;
-    for(int i = start; i < end; i++){
-        maxBound.extend(primitives[i]->getBounds());
-        nodePrimitives.push_back(primitives[i]);
-    }
+    BBox maxBound = BBox::empty();
+    int start = 0; 
+    int numPrim = node->nodePrimitives.size();
+    int end = numPrim -1;
 
-    if(nodePrimitives.size() < 3){
+    for(int i = start; i <= end; i++){
+        maxBound.extend(node->nodePrimitives[i]->getBounds());
+        //node->nodePrimitives.push_back(primitives[i]);
+    }
+    if(numPrim <= 0)
+        return;
+    if(numPrim < 3){
         // create leave node and stop.
         node->initLeafNode(maxBound);
-        return node;
+        return;
     }
-    else{
+    else if(numPrim >=3){
+        node->initInternalNode(maxBound);
         int splitAxis = maxBound.maxExtent();
-        float dimScalar = (maxBound.max.at(splitAxis) + maxBound.min.at(splitAxis)) / 2.f;
-        Point splitAxisPoint = maxBound.axisPoint(splitAxis, dimScalar);
-        int mid = (start + end) / 2;
-        // build child nodes and increase the node bounds to include the point.
-        BVHNode *left = recursiveBuild(start, mid);
-        left->bounds.extend(splitAxisPoint);
-        BVHNode *right = recursiveBuild(mid, end);
-        right->bounds.extend(splitAxisPoint);
+        //float dimScalar = (maxBound.max.at(splitAxis) + maxBound.min.at(splitAxis)) / 2.f;
+        float dimScalar = maxBound.getCentroid().at(splitAxis);
+        //Point splitAxisPoint = maxBound.axisPoint(splitAxis, dimScalar);
+        //int mid = (start + end) / 2;
+        for (int i = start; i <= end; i++){
+                Primitive *currentPrim = node->nodePrimitives[i];
+                if (currentPrim->getBounds().getCentroid().at(splitAxis) < dimScalar){
+                    node->leftChild->nodePrimitives.push_back(currentPrim);
 
-        node->initInternalNode(left, right);
+                    // Handling the case when BBox of primitive coincides with centroid
+                     if(std::abs(currentPrim->getBounds().max.at(splitAxis) - currentPrim->getBounds().min.at(splitAxis)) 
+                     == std::abs(node->bounds.max.at(splitAxis) - node->bounds.min.at(splitAxis)))
+                        
+                        std::swap(node->leftChild->nodePrimitives.front(), node->leftChild->nodePrimitives.back());
+                }                                        
+                else{
+                    node->rightChild->nodePrimitives.push_back(currentPrim);
+                     // Handling the case when BBox of primitive coincides with centroid
+                    if(std::abs(currentPrim->getBounds().max.at(splitAxis) - currentPrim->getBounds().min.at(splitAxis)) 
+                     == std::abs(node->bounds.max.at(splitAxis) - node->bounds.min.at(splitAxis)))
+                        
+                        std::swap(node->rightChild->nodePrimitives.front(), node->rightChild->nodePrimitives.back());
+                }
+            }
+        /* Boundary case */
+        if (node->leftChild->nodePrimitives.size() == 0){
+            node->leftChild->nodePrimitives.push_back(node->rightChild->nodePrimitives[0]);
+            node->rightChild->nodePrimitives.erase(node->rightChild->nodePrimitives.begin());
+        }
+        else if(node->rightChild->nodePrimitives.size() == 0){
+            node->rightChild->nodePrimitives.push_back(node->leftChild->nodePrimitives[0]);
+            node->leftChild->nodePrimitives.erase(node->leftChild->nodePrimitives.begin());
+        }
+        recursiveBuild(node->leftChild);
+        recursiveBuild(node->rightChild);
     }
 }
 
