@@ -49,7 +49,7 @@ public:
 
     BVHNode* recursiveBuild(int start, int end);
 
-    BVHNode* tree = new BVHNode();
+    BVHNode* tree;
 
 };
 

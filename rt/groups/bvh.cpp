@@ -4,11 +4,11 @@ namespace rt {
 
 BVH::BVH()
 {
-    /* TODO */
+    tree = new BVHNode();
 }
 
 BVH::~BVH() {
-    /* TODO */
+    delete tree;
 }
 
 void BVH::rebuildIndex() {
@@ -32,8 +32,8 @@ BVH::BVHNode* BVH::recursiveBuild(int start, int end){
     }
     else{
         int splitAxis = maxBound.maxExtent();
-        float dimScalar = (maxBound.max.at(splitAxis) + maxBound.min.at(splitAxis)) / 2.f;
-        Point splitAxisPoint = maxBound.axisPoint(splitAxis, dimScalar);
+        //float dimScalar = (maxBound.max.at(splitAxis) + maxBound.min.at(splitAxis)) / 2.f;
+        Point splitAxisPoint = maxBound.axisPoint(splitAxis);
         int mid = (start + end) / 2;
         // build child nodes and increase the node bounds to include the point.
         BVHNode *left = recursiveBuild(start, mid);
