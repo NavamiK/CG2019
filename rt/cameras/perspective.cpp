@@ -6,8 +6,8 @@ namespace rt {
 PerspectiveCamera::PerspectiveCamera(const Point& center, const Vector& forward, const Vector& up, float verticalOpeningAngle, float horizontalOpeningAngle)
 {
     this->center = center;
-    this->forward = forward;
-    this->up = up;
+    this->forward = forward.normalize();
+    this->up = up.normalize();
     this->horizontalOpeningAngle = horizontalOpeningAngle;
     this->verticalOpeningAngle = verticalOpeningAngle;
     this->spanX = cross(forward, up).normalize();
