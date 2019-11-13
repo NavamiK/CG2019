@@ -42,6 +42,7 @@ BVH::BVHNode* BVH::recursiveBuild(int start, int end){
         right->bounds.extend(splitAxisPoint);
 
         node->initInternalNode(left, right);
+        return node;
     }
 }
 
