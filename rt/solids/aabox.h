@@ -2,6 +2,7 @@
 #define CG1RAYTRACER_SOLIDS_BOX_HEADER
 
 #include <rt/solids/solid.h>
+#include <tuple>
 
 namespace rt {
 
@@ -14,9 +15,10 @@ public:
     virtual Intersection intersect(const Ray& ray, float previousBestDistance = FLT_MAX) const;
     virtual Sample sample() const;
     virtual float getArea() const;
+    std::tuple<bool, float, float, Vector> findRayEntryExit(const Ray& ray) const;
 private:
     Point corner1;
-    Point corner2;
+    Point corner2; 
 };
 
 }

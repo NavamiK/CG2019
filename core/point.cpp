@@ -86,4 +86,18 @@ Point max(const Point& a, const Point& b) {
     return res;
 }
 
+Point operator + (const Point &a, const Point &b){
+    return (Point(a.x + b.x, a.y + b.y, a.z + b.z));
+}
+
+float Point::getCoordinate(const int dimIndex) const {
+    assert(dimIndex >= 0 && dimIndex <= 2);
+    if(dimIndex == 0) 
+        return x;
+    else if(dimIndex == 1) 
+        return y;
+    else 
+        return z;
+}
+
 }
