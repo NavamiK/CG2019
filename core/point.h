@@ -24,7 +24,7 @@ public:
     bool operator==(const Point& b) const;
     bool operator!=(const Point& b) const;
 
-    float at(const int i) const;
+    float getCoordinate(const int dimIndex) const;
 };
 
 Point operator*(float scalar, const Point& b);

@@ -52,9 +52,8 @@ public:
     std::pair<float, float> intersect(const Ray& ray) const;
 
     bool isUnbound();
-    int maxExtent() const;//decide which axis is the largest.
-    Point axisPoint(int axis, float dimScalar) const;
-    Point getCentroid();
+    Point getBBoxCentroid() const;
+    int findBBoxSplitAxis(); 
     
 private:
     bool isEmpty, isFull;

@@ -1,134 +1,178 @@
-#include <rt/groups/bvh.h>
-#include <stack>
-namespace rt {
+#include "bvh.h"
+#include <rt/solids/solid.h>
+#include "bvhnode.h"
 
-BVH::BVH(){
-    /* TODO */
-    tree = new BVHNode();
+#include <stdio.h>
+
+namespace rt
+{
+
+BVH::BVH()
+{
+    root = new BVHNode();
 }
 
-BVH::~BVH() {
-    /* TODO */
-    delete tree;
+BVH::~BVH()
+{
+    delete(root);
 }
 
-void BVH::rebuildIndex() {
-    tree->nodePrimitives = primitives;
-    recursiveBuild(tree);
+BBox BVH::getBounds() const
+{
+      /* TODO */ NOT_IMPLEMENTED;
 }
 
-void BVH::recursiveBuild(BVHNode * node){
-    //1. compute bounds of all primitives.
-    BBox maxBound = BBox::empty();
-    int start = 0; 
-    int numPrim = node->nodePrimitives.size();
-    int end = numPrim -1;
+void BVH::rebuildIndex()
+{
+    root->primitives = primitives;
+    buildTree(root);
+    return;
+}
 
-    for(int i = start; i <= end; i++){
-        maxBound.extend(node->nodePrimitives[i]->getBounds());
-        //node->nodePrimitives.push_back(primitives[i]);
-    }
-    if(numPrim <= 0)
+void BVH::buildTree(BVHNode *node) 
+{
+    float splitAxisLen;
+    Primitive *primitive;
+    
+    int start = 0;  
+    int nPrimitives = node->primitives.size(); 
+    int end = nPrimitives - 1;
+
+    if (nPrimitives <= 0)
         return;
-    if(numPrim < 3){
-        // create leave node and stop.
-        node->initLeafNode(maxBound);
+    
+    node->boundingBox = BBox::empty();
+
+    for (int i = start; i <= end; i++)
+        node->extend(node->primitives[i]->getBounds());
+
+    if (nPrimitives < 3)
+    {
+        node->isLeaf = true;
         return;
     }
-    else if(numPrim >=3){
-        node->initInternalNode(maxBound);
-        int splitAxis = maxBound.maxExtent();
-        //float dimScalar = (maxBound.max.at(splitAxis) + maxBound.min.at(splitAxis)) / 2.f;
-        float dimScalar = maxBound.getCentroid().at(splitAxis);
-        //Point splitAxisPoint = maxBound.axisPoint(splitAxis, dimScalar);
-        //int mid = (start + end) / 2;
-        for (int i = start; i <= end; i++){
-                Primitive *currentPrim = node->nodePrimitives[i];
-                if (currentPrim->getBounds().getCentroid().at(splitAxis) < dimScalar){
-                    node->leftChild->nodePrimitives.push_back(currentPrim);
 
-                    // Handling the case when BBox of primitive coincides with centroid
-                     if(std::abs(currentPrim->getBounds().max.at(splitAxis) - currentPrim->getBounds().min.at(splitAxis)) 
-                     == std::abs(node->bounds.max.at(splitAxis) - node->bounds.min.at(splitAxis)))
-                        
-                        std::swap(node->leftChild->nodePrimitives.front(), node->leftChild->nodePrimitives.back());
-                }                                        
-                else{
-                    node->rightChild->nodePrimitives.push_back(currentPrim);
-                     // Handling the case when BBox of primitive coincides with centroid
-                    if(std::abs(currentPrim->getBounds().max.at(splitAxis) - currentPrim->getBounds().min.at(splitAxis)) 
-                     == std::abs(node->bounds.max.at(splitAxis) - node->bounds.min.at(splitAxis)))
-                        
-                        std::swap(node->rightChild->nodePrimitives.front(), node->rightChild->nodePrimitives.back());
+    if (nPrimitives >= 3)
+    {
+        node->isLeaf = false;
+        node->leftChild = new BVHNode();
+        node->rightChild = new BVHNode();
+       
+        int splitAxisIndex = node->boundingBox.findBBoxSplitAxis();
+
+        splitAxisLen = node->boundingBox.getBBoxCentroid().getCoordinate(splitAxisIndex);
+
+        if (this->isSAH) 
+        {
+            float costL = 0, costR = 0, costBest = FLT_MAX, cost, kLen;
+            for (int k = 1; k < 10; k++)
+            {
+                kLen = node->boundingBox.min.getCoordinate(splitAxisIndex) + k * (node->boundingBox.max.getCoordinate(splitAxisIndex) - node->boundingBox.min.getCoordinate(splitAxisIndex)) / 10;
+                for (auto j : node->primitives)
+                {
+                    Solid *solid = dynamic_cast<Solid *>(j);
+                    if (j->getBounds().getBBoxCentroid().getCoordinate(splitAxisIndex) < kLen) //assuming x is the longest dimension
+                        costL = costL + solid->getArea();
+                    else
+                        costR = costR + solid->getArea();
+                    cost = costL * (kLen - node->boundingBox.min.getCoordinate(splitAxisIndex)) + costR * (node->boundingBox.max.getCoordinate(splitAxisIndex) - kLen);
+                }
+                if (cost < costBest)
+                {
+                    costBest = cost;
+                    splitAxisLen = kLen;
                 }
             }
-        /* Boundary case */
-        if (node->leftChild->nodePrimitives.size() == 0){
-            node->leftChild->nodePrimitives.push_back(node->rightChild->nodePrimitives[0]);
-            node->rightChild->nodePrimitives.erase(node->rightChild->nodePrimitives.begin());
         }
-        else if(node->rightChild->nodePrimitives.size() == 0){
-            node->rightChild->nodePrimitives.push_back(node->leftChild->nodePrimitives[0]);
-            node->leftChild->nodePrimitives.erase(node->leftChild->nodePrimitives.begin());
+
+        // Core logic - if centroid of primitive's BBox smaller than falls on the left of world BBox's centroid,  
+        // add to left subtree, else add to right
+        for (int i = start; i <= end; i++)
+        {
+            primitive = node->primitives[i];
+            if (primitive->getBounds().getBBoxCentroid().getCoordinate(splitAxisIndex) <= splitAxisLen)
+                node->leftChild->primitives.push_back(primitive);
+            else
+                node->rightChild->primitives.push_back(primitive);               
         }
-        recursiveBuild(node->leftChild);
-        recursiveBuild(node->rightChild);
+
+        // If split causes all children to fall on one side of the tree, tree contruction algo will not terminate 
+        //--> segmentation fault
+        //Move one node from the populated side to the empty one
+        if (node->leftChild->primitives.size() == 0)
+        {
+
+            node->leftChild->primitives.push_back(node->rightChild->primitives[0]);
+            node->rightChild->primitives.erase(node->rightChild->primitives.begin());
+        }
+
+        else if (node->rightChild->primitives.size() == 0)
+        {
+            node->rightChild->primitives.push_back(node->leftChild->primitives[0]);
+            node->leftChild->primitives.erase(node->leftChild->primitives.begin());
+        }
+
+        buildTree(node->leftChild);
+        buildTree(node->rightChild);
+        return;
     }
 }
 
-BBox BVH::getBounds() const {
-    /* TODO */ NOT_IMPLEMENTED;
-}
-
-Intersection BVH::intersect(const Ray& ray, float previousBestDistance) const {
-    /* TODO */ 
-  
-    Intersection currentIntersection;
+Intersection BVH::intersect(const Ray &ray, float previousBestDistance) const
+{
+    BVHNode *node = new BVHNode();
     Intersection nearestIntersection = Intersection::failure();
+    Intersection currentIntersection;
+    std::vector<BVHNode *> nodes;
+    nodes.push_back(this->root);
 
-    BVHNode* currentNode = new BVHNode();
-    std::stack<BVHNode*> pendingNodesStack;
+    while (!nodes.empty())
+    {
+        node = nodes.back();
+        nodes.pop_back();
 
-    //Need to traverse entire tree for intersection
-    pendingNodesStack.push(tree);
-
-    while(!pendingNodesStack.empty()){
-        currentNode = pendingNodesStack.top(); //Fetch the topmost/next node
-        pendingNodesStack.pop(); //Remove the topmost/next node from the list
-        if(currentNode->isLeaf){ 
-            for(auto primitive: currentNode->nodePrimitives){
-                currentIntersection = primitive->intersect(ray, previousBestDistance);
-                if(currentIntersection.distance < previousBestDistance){
+        if (node->isLeaf)
+        {
+            for (auto prim : node->primitives)
+            {
+                currentIntersection = prim->intersect(ray, previousBestDistance);
+                if (currentIntersection)
+                {
                     previousBestDistance = currentIntersection.distance;
                     nearestIntersection = currentIntersection;
                 }
             }
-        }else{
-            BBox leftBbox = currentNode->leftChild->bounds;
+        }
+        else
+        {
+            BBox leftBbox = node->leftChild->boundingBox;
             auto[entryLeft, exitLeft] = leftBbox.intersect(ray);
             if(entryLeft < exitLeft)
-                pendingNodesStack.push(currentNode->leftChild);
-
+                nodes.push_back(node->leftChild);
             
-            BBox rightBbox = currentNode->rightChild->bounds;
+            BBox rightBbox = node->rightChild->boundingBox;
             auto[entryRight, exitRight] = rightBbox.intersect(ray);
             if(entryRight < exitRight)
-                pendingNodesStack.push(currentNode->rightChild);            
+                nodes.push_back(node->rightChild);  
         }
     }
     return nearestIntersection;
 }
 
-void BVH::add(Primitive* p) {
+
+void BVH::add(Primitive *p)
+{
     primitives.push_back(p);
 }
 
-void BVH::setMaterial(Material* m) {
+void BVH::setMaterial(Material *m)
+{
     /* TODO */ NOT_IMPLEMENTED;
 }
 
-void BVH::setCoordMapper(CoordMapper* cm) {
+void BVH::setCoordMapper(CoordMapper *cm)
+{
     /* TODO */ NOT_IMPLEMENTED;
 }
 
-}
+} 

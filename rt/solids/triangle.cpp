@@ -72,7 +72,11 @@ Solid::Sample Triangle::sample() const {
 }
 
 float Triangle::getArea() const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */ 
+    Vector edge1 = v2 - v1;
+    Vector edge2 = v3 - v1;
+    float triangleArea = cross(edge1, edge2).length()/2;
+    return triangleArea;
 }
 
 }

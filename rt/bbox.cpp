@@ -80,7 +80,8 @@ bool BBox::isUnbound() {
     else return false;
 }
 
-int BBox::maxExtent() const {
+int BBox::findBBoxSplitAxis()
+{
     Vector d = diagonal();
     if(d.x > d.y && d.x > d.z)
         return 0;
@@ -90,18 +91,7 @@ int BBox::maxExtent() const {
         return 2;
 }
 
-Point BBox::axisPoint(int axis, float dimScalar) const{
-    if(axis == 0){//x axis
-        return (Point(max.x*dimScalar, max.y, max.z));
-    }
-    else if(axis == 1){// y axis
-        return (Point(max.x, max.y*dimScalar, max.z));
-    }
-
-    return (Point(max.x, max.y, max.z * dimScalar));// the z axis.
-}
-
-Point BBox::getCentroid(){
+Point BBox::getBBoxCentroid() const{ 
     Point centroid; 
     centroid.x = (min.x + max.x)/2;
     centroid.y = (min.y + max.y)/2;
