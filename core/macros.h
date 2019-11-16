@@ -11,5 +11,5 @@
 #define THREADLOCAL __thread
 #endif
 
-#define EPSILON 0.01f
+#define EPSILON 0.0000001f
 #endif

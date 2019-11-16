@@ -19,7 +19,11 @@ Solid::Sample AABox::sample() const {
 }
 
 float AABox::getArea() const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */ 
+    float xlen = abs(corner2.x - corner1.x);
+    float ylen = abs(corner2.y - corner1.y);
+    float zlen = abs(corner2.z - corner1.z);
+    return 2 * (xlen * ylen + ylen * zlen + zlen * xlen);
 }
 
 std::tuple<bool, float, float, Vector> AABox::findRayEntryExit(const Ray& ray) const{
