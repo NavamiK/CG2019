@@ -4,19 +4,39 @@
 #include <utility>
 #include <core/point.h>
 #include <core/vector.h>
+#include <cmath>
 
 namespace rt {
 
 class Ray;
+static const float NEG_INF = -INFINITY;
+static const float POS_INF = INFINITY;
 
 class BBox {
 public:
     Point min, max;
 
     BBox() {}
+
+    BBox(bool isEmpty, bool isFull){
+        this->isEmpty = isEmpty;
+        this->isFull = isFull;
+        if(isFull){
+            min.x = NEG_INF;
+            min.y = NEG_INF;
+            min.z = NEG_INF;
+            max.x = POS_INF;
+            max.y = POS_INF;
+            max.z = POS_INF;
+        }
+    }
+
     BBox(const Point& min, const Point& max)
     {
-        /* TODO */
+        this->isEmpty = false;
+        this->isFull = false;
+        this->min = min;
+        this->max = max;
     }
 
     static BBox empty();
@@ -26,12 +46,17 @@ public:
     void extend(const BBox& bbox);
 
     Vector diagonal() const {
-        /* TODO */ NOT_IMPLEMENTED;
+        return max - min;
     }
 
     std::pair<float, float> intersect(const Ray& ray) const;
 
     bool isUnbound();
+    Point getBBoxCentroid() const;
+    int findBBoxSplitAxis(); 
+    
+private:
+    bool isEmpty, isFull;
 };
 
 }

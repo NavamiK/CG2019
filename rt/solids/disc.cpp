@@ -11,7 +11,12 @@ Disc::Disc(const Point& center, const Vector& normal, float radius, CoordMapper*
 }
 
 BBox Disc::getBounds() const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */ 
+    float radX = radius * sqrt( 1.0f - (normal.x * normal.x));
+    float radY = radius * sqrt( 1.0f - (normal.y * normal.y));
+    float radZ = radius * sqrt( 1.0f - (normal.z * normal.z));
+    Vector rad(radX, radY, radZ);
+    return BBox(center - rad, center + rad);
 }
 
 Intersection Disc::intersect(const Ray& ray, float previousBestDistance) const {
