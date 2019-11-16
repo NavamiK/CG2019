@@ -1,6 +1,6 @@
-#include "bvh.h"
+#include <rt/groups/bvh.h>
 #include <rt/solids/solid.h>
-#include "bvhnode.h"
+#include <rt/groups/bvhnode.h>
 
 #include <stdio.h>
 
