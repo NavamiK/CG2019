@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 
 set(MY_ADDITIONAL_SOURCES
     # Please add your source files here
-    rt/groups/bvhnode.h
+    #rt/groups/bvhnode.h
     rt/groups/bvh.cpp
 )
 
