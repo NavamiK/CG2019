@@ -55,7 +55,7 @@ Solid::Sample Sphere::sample() const {
 
 float Sphere::getArea() const {
     /* TODO */ 
-    return M_PI*radius*radius;
+    return 4 * M_PI*radius*radius;
 }
 
 }
