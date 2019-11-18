@@ -41,7 +41,8 @@ Solid::Sample Disc::sample() const {
 }
 
 float Disc::getArea() const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */ 
+    return M_PI * radius * radius;
 }
 
 }

@@ -1,6 +1,6 @@
-#include "bvh.h"
+#include <rt/groups/bvh.h>
 #include <rt/solids/solid.h>
-#include "bvhnode.h"
+#include <rt/groups/bvhnode.h>
 
 #include <stdio.h>
 
@@ -97,8 +97,8 @@ void BVH::buildTree(BVHNode *node)
 
         // If split causes all children to fall on one side of the tree, tree contruction algo will not terminate 
         //--> segmentation fault
-        //Move one node from the populated side to the empty one
-        if (node->leftChild->primitives.size() == 0)
+        //Solution 1 - Move one node from the populated side to the empty one
+        /*if (node->leftChild->primitives.size() == 0)
         {
 
             node->leftChild->primitives.push_back(node->rightChild->primitives[0]);
@@ -110,6 +110,15 @@ void BVH::buildTree(BVHNode *node)
             node->rightChild->primitives.push_back(node->leftChild->primitives[0]);
             node->leftChild->primitives.erase(node->leftChild->primitives.begin());
         }
+        
+        //Solution 2 - mark as leaves and terminate
+        /*
+        if ((node->leftChild->primitives.size() == 0) || (node->rightChild->primitives.size() == 0)){
+            node->leftChild->isLeaf = true;
+            node->rightChild->isLeaf = true;
+            return;
+        }
+        */
 
         buildTree(node->leftChild);
         buildTree(node->rightChild);
