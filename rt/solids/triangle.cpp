@@ -34,7 +34,6 @@ BBox Triangle::getBounds() const {
 
 Intersection Triangle::intersect(const Ray& ray, float previousBestDistance) const {
     /* TODO */
-    const float EPSILON = 0.0000001;
     Vector edge1, edge2, h, s, q;
     Vector rayVector = ray.d;
     Point rayOrigin = ray.o;

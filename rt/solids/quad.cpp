@@ -39,7 +39,8 @@ Solid::Sample Quad::sample() const {
 }
 
 float Quad::getArea() const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */ 
+    return t1->getArea() + t2->getArea();
 }
 
 }

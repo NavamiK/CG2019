@@ -17,11 +17,15 @@ BBox InfinitePlane::getBounds() const {
 Intersection InfinitePlane::intersect(const Ray& ray, float previousBestDistance) const {
     /* TODO */   
     float denom = dot(ray.d,normal);
-    float normalSign = -1;
-    if(denom < 0)
-        normalSign = 1;
+    
+    if(denom < EPSILON && denom> -EPSILON)
+        return Intersection::failure();
+
     float distance = dot(origin - ray.o, normal)/denom;
-	if ((distance >=0) && (distance < previousBestDistance)){
+    if((distance >=0) && (distance < previousBestDistance)){
+        float normalSign = -1;
+        if(denom < 0)
+            normalSign = 1;
 		Point p = ray.o + distance * ray.d;
 		Intersection intersection(distance, ray, this, normalSign * normal, ray.getPoint(distance));
 		return intersection;
