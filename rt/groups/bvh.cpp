@@ -9,12 +9,12 @@ namespace rt
 
 BVH::BVH()
 {
-    root = new BVHNode();
+    //root = new BVHNode();
 }
 
 BVH::~BVH()
 {
-    delete(root);
+    
 }
 
 BBox BVH::getBounds() const
