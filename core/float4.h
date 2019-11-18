@@ -2,6 +2,7 @@
 #define CG1RAYTRACER_FLOAT4_HEADER
 
 #include <core/macros.h>
+#include <core/assert.h>
 
 namespace rt {
 
@@ -15,7 +16,9 @@ public:
     explicit Float4(const Point& p);
     explicit Float4(const Vector& v);
 
-    static Float4 rep(float v) { return Float4(v,v,v,v); }
+    static Float4 rep(float v) {
+        /* TODO */ NOT_IMPLEMENTED;
+    }
 
     float& operator [] (int idx);
     float  operator [] (int idx) const;
@@ -29,10 +32,6 @@ public:
 
     bool operator == (const Float4& b) const;
     bool operator != (const Float4& b) const;
-
-private:
-    float v[4];
-
 };
 
 Float4 operator * (float scalar, const Float4& b);
