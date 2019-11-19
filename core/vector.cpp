@@ -18,6 +18,9 @@ Vector::Vector(float x, float y, float z)
 Vector::Vector(const Float4& f4)
 {
     /* TODO */
+    this->x = f4.x - f4.w;
+    this->y = f4.y - f4.w;
+    this->z = f4.z - f4.w;    
 }
 
 Vector Vector::operator + (const Vector& b) const {
