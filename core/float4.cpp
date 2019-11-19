@@ -32,24 +32,7 @@ Float4::Float4(const Vector& vec) {
 
 float& Float4::operator [] (int idx) {
     /* TODO */ 
-    float val;
-    switch (idx){
-        case 0:
-            val = this->x;
-            break;
-        case 1:
-            val = this->y;
-            break;
-        case 2:
-            val = this->z;
-            break;
-        case 3:
-            val = this->w;
-            break;
-        default:
-            break;
-    }
-    return val;
+    NOT_IMPLEMENTED;
 }
 
 float Float4::operator [] (int idx) const {
