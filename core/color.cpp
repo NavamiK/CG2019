@@ -4,9 +4,11 @@
 
 namespace rt {
 
-RGBColor::RGBColor(const Float4& f4)
-{
-/* TODO */ NOT_IMPLEMENTED;
+RGBColor::RGBColor(const Float4& f4){
+    /* TODO */ 
+    this->r = f4.x / f4.w;
+    this->g = f4.y / f4.w;
+    this->b = f4.z / f4.w;
 }
 
 RGBColor RGBColor::operator + (const RGBColor& c) const {
