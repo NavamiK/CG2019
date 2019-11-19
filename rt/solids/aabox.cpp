@@ -77,22 +77,22 @@ std::tuple<bool, float, float, Vector> AABox::findRayEntryExit(const Ray& ray) c
     distance = tmaxNear;
     Vector normal;
     if(tmaxNear == txNear){
-        if (txNear< txFar)
+        //if (txNear< txFar)
            normal = Vector(-1.0f, 0, 0);
-        else 
-           normal = Vector(1.0f, 0, 0);
+        //else 
+          // normal = Vector(1.0f, 0, 0);
     }
     else if(tmaxNear == tyNear){
-        if (tyNear< tyFar)
+        //if (tyNear< tyFar)
             normal = Vector(0, -1.0f, 0);
-        else 
-            normal = Vector(0, 1.0f, 0);
+        //else 
+          //  normal = Vector(0, 1.0f, 0);
     }            
     else{
-        if (tzNear< tzFar)
+        //if (tzNear< tzFar)
             normal = Vector(0, 0, 1.0f);
-        else 
-            normal = Vector(0, 0, -1.0f);
+        //else 
+          //  normal = Vector(0, 0, -1.0f);
     }  
     return std::make_tuple(true, tmaxNear, tminFar, normal);      
     //return std::make_tuple(false, 0.f, 0.f, Vector()); 
