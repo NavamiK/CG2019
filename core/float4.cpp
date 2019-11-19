@@ -32,7 +32,16 @@ Float4::Float4(const Vector& vec) {
 
 float& Float4::operator [] (int idx) {
     /* TODO */ 
-    NOT_IMPLEMENTED;
+    switch (idx){
+        case 0:
+            return this->x;
+        case 1:
+            return this->y;
+        case 2:
+            return this->z;
+        case 3:
+            return this->w;
+    }
 }
 
 float Float4::operator [] (int idx) const {
@@ -133,13 +142,12 @@ float dot(const Float4& a, const Float4& b) {
 
 Float4 Float4::operator - () const {
     /* TODO */ 
-    Float4 res;
-    return res * (-1.0f);    
+    return (*this) * (-1.0f);    
 }
 
 bool Float4::operator == (const Float4& b) const {
     /* TODO */ 
-    if(x == b.x && y == b.y && z == b.z && w == b.z)
+    if(x == b.x && y == b.y && z == b.z && w == b.w)
         return true;
     else 
         return false;
