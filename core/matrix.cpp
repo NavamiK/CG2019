@@ -140,7 +140,7 @@ Matrix product(const Matrix& a, const Matrix& b) {
         for(int c = 0; c < 4; c++){
             float value = 0.f;
             for(int i = 0; i < 4; i++){
-                value += a[r][i] * b[i][r];
+                value += a[r][i] * b[i][c];
             }
             m[r][c] += value;
         }
