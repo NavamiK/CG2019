@@ -107,12 +107,30 @@ Matrix Matrix::invert() const {
 
 bool Matrix::operator==(const Matrix& b) const {
     /* TODO */
-    return (row1 == b[0] && row2 == b[1] && row3 == b[2] && row3 == b[3]);
+    const Matrix m = *this;
+    for(int r = 0; r < 4; r++){
+        for(int c = 0; c < 4; c++){
+            if(m[r][c] != b[r][c]){
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 bool Matrix::operator!=(const Matrix& b) const {
     /* TODO */
-    return (row1 != b[0] && row2 != b[1] && row3 != b[2] && row3 != b[3]);
+    const Matrix m = *this;
+    for(int r = 0; r < 4; r++){
+        for(int c = 0; c < 4; c++){
+            if(m[r][c] != b[r][c]){
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 Matrix product(const Matrix& a, const Matrix& b) {
