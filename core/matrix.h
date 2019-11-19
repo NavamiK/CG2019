@@ -34,6 +34,8 @@ public:
 
     static Matrix system(const Vector& e1, const Vector& e2, const Vector& e3);
 
+    static Vector rowReduce(const Vector& e1, const Vector& e2, const Vector& e3, Vector basis);
+
 private:
     Float4 row1, row2, row3, row4;
 };
