@@ -30,7 +30,25 @@ void Instance::translate(const Vector& t) {
 }
 
 void Instance::rotate(const Vector& nnaxis, float angle) {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */
+    Matrix tMatrix, m1, m2;
+    float x = nnaxis.x, y = nnaxis.y, z = nnaxis.z;
+    m1 = {
+            Float4(x*x, x*y, x*z, 0.f),
+            Float4(x*y, y*y, y*z, 0.f),
+            Float4(x*z, y*z, z*z, 0.f),
+            Float4(0.f, 0.f, 0.f, 1.f)
+    };
+
+    m2 = {
+            Float4( 0,    -z,   y,   0.f),
+            Float4( z,     0,   -x,   0.f),
+            Float4(-y,    x,     0,   0.f),
+            Float4(0.f, 0.f,   0.f,   1.f)
+    };
+
+    tMatrix = cos(angle)*(Matrix::identity()) + (1.f - cos(angle))*m1 + sin(angle)*m2;
+    transformation = product(transformation, tMatrix);
 }
 
 void Instance::scale(float f) {
