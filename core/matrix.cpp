@@ -227,59 +227,14 @@ Matrix Matrix::identity() {
 
 Matrix Matrix::system(const Vector& e1, const Vector& e2, const Vector& e3) {
     /* TODO */
-    //TODO: test (debug.)
-    //basis vectors.
-    Vector b1(1.f, 0.f, 0.f);
-    Vector b2(0.f, 1.f, 0.f);
-    Vector b3(0.f, 0.f, 1.f);
-
-    Vector col1 = rowReduce(e1, e2, e3, b1);
-    Vector col2 = rowReduce(e1, e2, e3, b2);
-    Vector col3 = rowReduce(e1, e2, e3, b3);
-
-    //rows..
-    Float4 r1(col1.x, col2.x, col3.x, 0);
-    Float4 r2(col1.y, col2.y, col3.y, 0);
-    Float4 r3(col1.z, col2.z, col3.z, 0);
-    Float4 r4(0     ,0      ,0      , 1);
-
-    return (Matrix(r1, r2, r3, r4));
-}
-
-//taken and modified from:
-//https://stackoverflow.com/questions/31756413/solving-a-simple-matrix-in-row-reduced-form-in-c
-Vector Matrix::rowReduce (const Vector& e1, const Vector& e2, const Vector& e3, Vector basis){
-        float A[3][4] = {
-        e1.x,e1.x,e3.x,basis.x,
-        e1.y,e2.y,e3.y,basis.y,
-        e1.z, e2.z,e3.z,basis.z,
+    Matrix m = {
+            Float4(e1.x, e1.y, e1.z, 0.f),
+            Float4(e2.x, e2.y, e2.z, 0.f),
+            Float4(e3.x, e3.y, e3.z, 0.f),
+            Float4(0.f , 0.f , 0.f , 1.f)
     };
 
-    const int nrows = 3; // number of rows
-    const int ncols = 4; // number of columns
-
-    int lead = 0;
-
-    while (lead < nrows) {
-        float d, m;
-
-        for (int r = 0; r < nrows; r++) { // for each row ...
-            /* calculate divisor and multiplier */
-            d = A[lead][lead];
-            m = A[r][lead] / A[lead][lead];
-
-            for (int c = 0; c < ncols; c++) { // for each column ...
-                if (r == lead)
-                    A[r][c] /= d;               // make pivot = 1
-                else
-                    A[r][c] -= A[lead][c] * m;  // make other = 0
-            }
-        }
-
-        lead++;
-    }
-
-    return (Vector(A[0][3], A[1][3], A[2][3]));// verify that this is the last col.
+    return m.invert();
 }
 
 }
