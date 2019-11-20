@@ -4,19 +4,29 @@ namespace rt {
 
 Instance::Instance(Primitive* content)
 {
-    /* TODO */
+    archetype = content;
+    transformation = Matrix::identity();
 }
 
 Primitive* Instance::content() {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */
+    return archetype;
 }
 
 void Instance::reset() {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */
+    transformation = Matrix::identity();
 }
 
 void Instance::translate(const Vector& t) {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */
+    Matrix tMatrix{
+            Float4(1.f, 0.f, 0.f, t.x),
+            Float4(0.f, 1.f, 0.f, t.y),
+            Float4(0.f, 0.f, 0.f, t.z),
+            Float4(0.f, 0.f, 0.f,   1)
+    };
+    transformation = product(transformation, tMatrix);
 }
 
 void Instance::rotate(const Vector& nnaxis, float angle) {
