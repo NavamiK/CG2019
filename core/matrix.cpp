@@ -238,13 +238,9 @@ Matrix Matrix::system(const Vector& e1, const Vector& e2, const Vector& e3) {
     Vector col3 = rowReduce(e1, e2, e3, b3);
 
     //rows..
-//    Float4 r1(col1.x, col2.x, col3.x, 0);
-//    Float4 r2(col1.y, col2.y, col3.y, 0);
-//    Float4 r3(col1.z, col2.z, col3.z, 0);
-//    Float4 r4(0     ,0      ,0      , 1);
-    Float4 r1(col1.x, col2.y, col3.z, 0);
-    Float4 r2(col1.x, col2.y, col3.z, 0);
-    Float4 r3(col1.x, col2.y, col3.z, 0);
+    Float4 r1(col1.x, col2.x, col3.x, 0);
+    Float4 r2(col1.y, col2.y, col3.y, 0);
+    Float4 r3(col1.z, col2.z, col3.z, 0);
     Float4 r4(0     ,0      ,0      , 1);
 
     return (Matrix(r1, r2, r3, r4));
