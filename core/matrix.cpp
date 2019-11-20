@@ -179,11 +179,10 @@ Float4 Matrix::operator*(const Float4& b) const {
 Vector Matrix::operator*(const Vector& b) const {
     /* TODO */
     // make it homogenious cords.
-    const Matrix m = *this;
-    float f1 = m[0][0]*b.x + m[0][1]*b.y + m[0][2]*b.z + m[0][3];
-    float f2 = m[1][0]*b.x + m[1][1]*b.y + m[1][2]*b.z + m[1][3];
-    float f3 = m[2][0]*b.x + m[2][1]*b.y + m[2][2]*b.z + m[2][3];
-    float f4 = m[3][0]*b.x + m[3][1]*b.y + m[3][2]*b.z + m[3][3];
+    float f1 = row1[0]*b.x + row1[1]*b.y + row1[2]*b.z + row1[3];
+    float f2 = row2[0]*b.x + row2[1]*b.y + row2[2]*b.z + row2[3];
+    float f3 = row3[0]*b.x + row3[1]*b.y + row3[2]*b.z + row3[3];
+    float f4 = row4[0]*b.x + row4[1]*b.y + row4[2]*b.z + row4[3];
     return (Vector(f1/f4, f2/f4, f3/f4)); // normalize cords.
 }
 
@@ -239,9 +238,13 @@ Matrix Matrix::system(const Vector& e1, const Vector& e2, const Vector& e3) {
     Vector col3 = rowReduce(e1, e2, e3, b3);
 
     //rows..
-    Float4 r1(col1.x, col2.x, col3.x, 0);
-    Float4 r2(col1.y, col2.y, col3.y, 0);
-    Float4 r3(col1.z, col2.z, col3.z, 0);
+//    Float4 r1(col1.x, col2.x, col3.x, 0);
+//    Float4 r2(col1.y, col2.y, col3.y, 0);
+//    Float4 r3(col1.z, col2.z, col3.z, 0);
+//    Float4 r4(0     ,0      ,0      , 1);
+    Float4 r1(col1.x, col2.y, col3.z, 0);
+    Float4 r2(col1.x, col2.y, col3.z, 0);
+    Float4 r3(col1.x, col2.y, col3.z, 0);
     Float4 r4(0     ,0      ,0      , 1);
 
     return (Matrix(r1, r2, r3, r4));
