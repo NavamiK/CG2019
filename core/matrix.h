@@ -7,7 +7,12 @@ namespace rt {
 
 class Matrix {
 public:
-    Matrix() {}
+    Matrix() {
+        row1 = Float4::rep(0.f);
+        row2 = Float4::rep(0.f);
+        row3 = Float4::rep(0.f);
+        row4 = Float4::rep(0.f);
+    }
     Matrix(const Float4& r1, const Float4& r2, const Float4& r3, const Float4& r4);
 
     Float4& operator[](int idx);
@@ -33,6 +38,9 @@ public:
     static Matrix identity();
 
     static Matrix system(const Vector& e1, const Vector& e2, const Vector& e3);
+
+private:
+    Float4 row1, row2, row3, row4;
 };
 
 Matrix product(const Matrix& a, const Matrix& b);

@@ -4,23 +4,52 @@ namespace rt {
 
 Instance::Instance(Primitive* content)
 {
-    /* TODO */
+    archetype = content;
+    transformation = Matrix::identity();
 }
 
 Primitive* Instance::content() {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */
+    return archetype;
 }
 
 void Instance::reset() {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */
+    transformation = Matrix::identity();
 }
 
 void Instance::translate(const Vector& t) {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */
+    Matrix tMatrix{
+            Float4(1.f, 0.f, 0.f, t.x),
+            Float4(0.f, 1.f, 0.f, t.y),
+            Float4(0.f, 0.f, 0.f, t.z),
+            Float4(0.f, 0.f, 0.f,   1)
+    };
+    transformation = product(transformation, tMatrix);
 }
 
 void Instance::rotate(const Vector& nnaxis, float angle) {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */
+    Matrix tMatrix, m1, m2;
+    float x = nnaxis.x, y = nnaxis.y, z = nnaxis.z;
+    m1 = {
+            Float4(x*x, x*y, x*z, 0.f),
+            Float4(x*y, y*y, y*z, 0.f),
+            Float4(x*z, y*z, z*z, 0.f),
+            Float4(0.f, 0.f, 0.f, 1.f)
+    };
+
+    m2 = {
+            Float4( 0,    -z,   y,   0.f),
+            Float4( z,     0,   -x,   0.f),
+            Float4(-y,    x,     0,   0.f),
+            Float4(0.f, 0.f,   0.f,   1.f)
+    };
+
+    float B = (pi / 180.f) * angle;//convert to radians.
+    tMatrix = cos(B)*(Matrix::identity()) + (1.f - cos(B))*m1 + sin(B)*m2;
+    transformation = product(transformation, tMatrix);
 }
 
 void Instance::scale(float f) {

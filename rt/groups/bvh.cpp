@@ -26,7 +26,6 @@ void BVH::rebuildIndex()
 {
     root->primitives = primitives;
     buildTree(root);
-    return;
 }
 
 void BVH::buildTree(BVHNode *node) 
