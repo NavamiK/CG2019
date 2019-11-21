@@ -178,12 +178,10 @@ Float4 Matrix::operator*(const Float4& b) const {
 
 Vector Matrix::operator*(const Vector& b) const {
     /* TODO */
-    // make it homogenious cords.
     float f1 = row1[0]*b.x + row1[1]*b.y + row1[2]*b.z;
     float f2 = row2[0]*b.x + row2[1]*b.y + row2[2]*b.z;
     float f3 = row3[0]*b.x + row3[1]*b.y + row3[2]*b.z;
-    //float f4 = row4[0]*b.x + row4[1]*b.y + row4[2]*b.z + row4[3];
-    return (Vector(f1, f2, f3)); // normalize cords.
+    return (Vector(f1, f2, f3));
 }
 
 Point Matrix::operator*(const Point& b) const {
@@ -234,7 +232,7 @@ Matrix Matrix::system(const Vector& e1, const Vector& e2, const Vector& e3) {
             Float4(0.f , 0.f , 0.f , 1.f)
     };
 
-    return m.invert();
+    return m;
 }
 
 }
