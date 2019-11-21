@@ -227,10 +227,17 @@ Matrix Matrix::identity() {
 
 Matrix Matrix::system(const Vector& e1, const Vector& e2, const Vector& e3) {
     /* TODO */
+    /*
     Matrix m = {
             Float4(e1.x, e1.x, e1.x, 0.f),
             Float4(e2.y, e2.y, e2.y, 0.f),
             Float4(e3.z, e3.z, e3.z, 0.f),
+            Float4(0.f , 0.f , 0.f , 1.f)
+    };*/
+    Matrix m = {
+            Float4(e1.x, e2.x, e3.x, 0.f),
+            Float4(e1.y, e2.y, e3.y, 0.f),
+            Float4(e1.z, e2.z, e3.z, 0.f),
             Float4(0.f , 0.f , 0.f , 1.f)
     };
 
