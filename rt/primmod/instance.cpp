@@ -47,7 +47,8 @@ void Instance::rotate(const Vector& nnaxis, float angle) {
             Float4(0.f, 0.f,   0.f,   1.f)
     };
 
-    tMatrix = cos(angle)*(Matrix::identity()) + (1.f - cos(angle))*m1 + sin(angle)*m2;
+    float B = (pi / 180.f) * angle;//convert to radians.
+    tMatrix = cos(B)*(Matrix::identity()) + (1.f - cos(B))*m1 + sin(B)*m2;
     transformation = product(transformation, tMatrix);
 }
 
