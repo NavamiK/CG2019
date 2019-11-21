@@ -106,22 +106,22 @@ void Instance::setCoordMapper(CoordMapper* cm) {
 Intersection Instance::intersect(const Ray& ray, float previousBestDistance) const {
     /* TODO */ 
     Matrix invTrans = transformation.invert();
-
     Ray rayTrans(invTrans * ray.o, invTrans * ray.d);
-    // Transform previousBestDistance
-    float prevBestDistanceTrans = (ray.o.x - rayTrans.o.x + previousBestDistance * ray.d.x) / rayTrans.d.x;
+    Point prevHitPointTrans = invTrans * ray.getPoint(previousBestDistance);
+    float prevBestDistanceTrans = (prevHitPointTrans - rayTrans.o).length();
+
     Intersection intersectionTrans = this->archetype->intersect(rayTrans, prevBestDistanceTrans);
 
-    if(intersectionTrans){
+    if(intersectionTrans){      
         Vector normal = transformation * intersectionTrans.normal();
-        float hitPointDistance =  (rayTrans.o.x - ray.o.x + intersectionTrans.distance * rayTrans.d.x) / ray.d.x;
-        Intersection intersection(hitPointDistance, ray, intersectionTrans.solid, normal, intersectionTrans.local()); 
+        Point hitPoint = transformation * rayTrans.getPoint(intersectionTrans.distance);
+        float distance = (hitPoint - ray.o).length();
+
+        Intersection intersection(distance, ray, intersectionTrans.solid, normal, intersectionTrans.local()); 
         return intersection; 
     }
-//    else
-//        intersectionTrans;
-
-    return intersectionTrans;
+    else
+        return intersectionTrans;  
 }
 
 BBox Instance::getBounds() const {
