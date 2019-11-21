@@ -2,3 +2,4 @@ build
 cmake-build-debug
 build_debug
 .idea
+.vscode
