@@ -47,8 +47,8 @@ void Instance::rotate(const Vector& nnaxis, float angle) {
             Float4(0.f, 0.f,   0.f,   1.f)
     };
 
-    //float B = (pi / 180.f) * angle;//convert to radians.
-    tMatrix = cos(angle)*(Matrix::identity()) + (1.f - cos(angle))*m1 + sin(angle)*m2;
+    float B = (pi / 180.f) * angle;//convert to radians.
+    tMatrix = cos(B)*(Matrix::identity()) + (1.f - cos(B))*m1 + sin(B)*m2;
     transformation = product(tMatrix, transformation);
 }
 
@@ -85,20 +85,22 @@ void Instance::setCoordMapper(CoordMapper* cm) {
 Intersection Instance::intersect(const Ray& ray, float previousBestDistance) const {
     /* TODO */ 
     Matrix invTrans = transformation.invert();
-
     Ray rayTrans(invTrans * ray.o, invTrans * ray.d);
-    // Transform previousBestDistance
-    float prevBestDistanceTrans = (ray.o.x - rayTrans.o.x + previousBestDistance * ray.d.x) / rayTrans.d.x;
+    Point prevHitPointTrans = invTrans * ray.getPoint(previousBestDistance);
+    float prevBestDistanceTrans = (prevHitPointTrans - rayTrans.o).length();
+
     Intersection intersectionTrans = this->archetype->intersect(rayTrans, prevBestDistanceTrans);
 
-    if(intersectionTrans){
+    if(intersectionTrans){      
         Vector normal = transformation * intersectionTrans.normal();
-        float hitPointDistance =  (rayTrans.o.x - ray.o.x + intersectionTrans.distance * rayTrans.d.x) / ray.d.x;
-        Intersection intersection(hitPointDistance, ray, intersectionTrans.solid, normal, intersectionTrans.local()); 
+        Point hitPoint = transformation * rayTrans.getPoint(intersectionTrans.distance);
+        float distance = (hitPoint - ray.o).length();
+
+        Intersection intersection(distance, ray, intersectionTrans.solid, normal, intersectionTrans.local()); 
         return intersection; 
     }
     else 
-        intersectionTrans;  
+        return intersectionTrans;  
 }
 
 BBox Instance::getBounds() const {
