@@ -239,7 +239,7 @@ Matrix Matrix::system(const Vector& e1, const Vector& e2, const Vector& e3) {
             Float4(0.f , 0.f , 0.f , 1.f)
     };
 
-    return m.invert();
+    return m;
 }
 
 }
