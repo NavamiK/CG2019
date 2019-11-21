@@ -97,12 +97,15 @@ Intersection Instance::intersect(const Ray& ray, float previousBestDistance) con
         Intersection intersection(hitPointDistance, ray, intersectionTrans.solid, normal, intersectionTrans.local()); 
         return intersection; 
     }
-    else 
-        intersectionTrans;  
+//    else
+//        intersectionTrans;
+
+    return intersectionTrans;
 }
 
 BBox Instance::getBounds() const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */
+    return archetype->getBounds();
 }
 
 }
