@@ -23,10 +23,10 @@ void Instance::translate(const Vector& t) {
     Matrix tMatrix{
             Float4(1.f, 0.f, 0.f, t.x),
             Float4(0.f, 1.f, 0.f, t.y),
-            Float4(0.f, 0.f, 0.f, t.z),
-            Float4(0.f, 0.f, 0.f,   1)
+            Float4(0.f, 0.f, 1.f, t.z),
+            Float4(0.f, 0.f, 0.f, 1.f)
     };
-    transformation = product(transformation, tMatrix);
+    transformation = product(tMatrix, transformation);
 }
 
 void Instance::rotate(const Vector& nnaxis, float angle) {
@@ -47,17 +47,31 @@ void Instance::rotate(const Vector& nnaxis, float angle) {
             Float4(0.f, 0.f,   0.f,   1.f)
     };
 
-    float B = (pi / 180.f) * angle;//convert to radians.
-    tMatrix = cos(B)*(Matrix::identity()) + (1.f - cos(B))*m1 + sin(B)*m2;
-    transformation = product(transformation, tMatrix);
+    //float B = (pi / 180.f) * angle;//convert to radians.
+    tMatrix = cos(angle)*(Matrix::identity()) + (1.f - cos(angle))*m1 + sin(angle)*m2;
+    transformation = product(tMatrix, transformation);
 }
 
 void Instance::scale(float f) {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */ 
+    Matrix tMatrix{
+            Float4(f, 0.f, 0.f, 0.f),
+            Float4(0.f, f, 0.f, 0.f),
+            Float4(0.f, 0.f, f, 0.f),
+            Float4(0.f, 0.f, 0.f, 1.f)
+    };
+    transformation = product(tMatrix, transformation);
 }
 
 void Instance::scale(const Vector& s) {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */  
+    Matrix tMatrix{
+            Float4(s.x, 0.f, 0.f, 0.f),
+            Float4(0.f, s.y, 0.f, 0.f),
+            Float4(0.f, 0.f, s.z, 0.f),
+            Float4(0.f, 0.f, 0.f, 1.f)
+    };
+    transformation = product(tMatrix, transformation);
 }
 
 void Instance::setMaterial(Material* m) {
@@ -69,7 +83,22 @@ void Instance::setCoordMapper(CoordMapper* cm) {
 }
 
 Intersection Instance::intersect(const Ray& ray, float previousBestDistance) const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */ 
+    Matrix invTrans = transformation.invert();
+
+    Ray rayTrans(invTrans * ray.o, invTrans * ray.d);
+    // Transform previousBestDistance
+    float prevBestDistanceTrans = (ray.o.x - rayTrans.o.x + previousBestDistance * ray.d.x) / rayTrans.d.x;
+    Intersection intersectionTrans = this->archetype->intersect(rayTrans, prevBestDistanceTrans);
+
+    if(intersectionTrans){
+        Vector normal = transformation * intersectionTrans.normal();
+        float hitPointDistance =  (rayTrans.o.x - ray.o.x + intersectionTrans.distance * rayTrans.d.x) / ray.d.x;
+        Intersection intersection(hitPointDistance, ray, intersectionTrans.solid, normal, intersectionTrans.local()); 
+        return intersection; 
+    }
+    else 
+        intersectionTrans;  
 }
 
 BBox Instance::getBounds() const {
