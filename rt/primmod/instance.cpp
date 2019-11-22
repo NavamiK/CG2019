@@ -31,46 +31,39 @@ void Instance::translate(const Vector& t) {
 
 void Instance::rotate(const Vector& nnaxis, float angle) {
     /* TODO */
-    //1. translate p to origin (what's p)?
-    //2. translate m
+    
+    //1. transform with m
     //3. rotate around x
     //4. transform back with mt
-    //5. translate back to p.
 
-    //////////////// crate a system of matrices.
-    float x = nnaxis.x, y = nnaxis.y, z = nnaxis.z;
-    Vector s = Vector::rep(0.f);
-    float minVal = min(min(x, y), z);
-    if(x == minVal){
-        s = Vector(0, -z, y);
-    }
-    if(y == minVal){
-        s = Vector(-z, 0, x);
-    }
-    if(z == minVal){
-        s = Vector(-y, x, 0);
-    }
+    //create a system of matrices.
+    Vector r = nnaxis.normalize();
+    float x = r.x, y = r.y, z = r.z;
+    Vector s;
+
+    float minVal = min(abs(x), abs(y), abs(z));
+    if(x == minVal)
+        s = Vector(0.f, -z, y);
+    else if(y == minVal)
+        s = Vector(-z, 0.f, x);
+    else if(z == minVal)
+        s = Vector(-y, x, 0.f);
+
     s = s.normalize();
 
-
-    //failed.
     assert(s != Vector::rep(0.f));
-    assert(dot(s, nnaxis) == 0); // must be orthogonal.
+    assert(dot(s, r) == 0); // must be orthogonal.
 
-    Vector t = cross(nnaxis, s);
-    Vector e1 = nnaxis, e2 = s, e3 = t;
-    Matrix m = Matrix::system(e1, e2, e3);
-    Matrix mt = m.invert();
-    float B = (pi/180.f) * angle;
-    //////////////// crate a system of matrices.
+    Vector t = cross(r, s);
+    
+    Matrix m = Matrix::system(r, s, t);
     Matrix Rx{
         Float4(1.f, 0.f    , 0.f      ,0.f),
-        Float4(0.f, cos(B) , -sin(B)  ,0.f),
-        Float4(0.f, sin(B), cos(B)  ,0.f),
+        Float4(0.f, cos(angle) , -sin(angle)  ,0.f),
+        Float4(0.f, sin(angle), cos(angle)  ,0.f),
         Float4(0.f, 0.f    , 0.f     ,1.f)
     };
-
-    transformation = product(product(m, Rx), mt); // the formula on slide 30, missing point tho.
+    transformation = product(product(m, Rx), m.transpose()); 
 }
 
 void Instance::scale(float f) {
