@@ -135,7 +135,9 @@ bool Matrix::operator!=(const Matrix& b) const {
 
 Matrix product(const Matrix& a, const Matrix& b) {
     /* TODO */
-    Matrix m;
+    Matrix m{
+        Float4::rep(0.f),Float4::rep(0.f),Float4::rep(0.f),Float4::rep(0.f),
+    };
     for(int r = 0; r < 4; r++){
         for(int c = 0; c < 4; c++){
             float value = 0.f;
