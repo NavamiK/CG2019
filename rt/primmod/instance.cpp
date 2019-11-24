@@ -7,6 +7,7 @@ Instance::Instance(Primitive* content)
     archetype = content;
     transformation = Matrix::identity();
     invTrans = transformation;
+    computeBounds();
 }
 
 Primitive* Instance::content() {
@@ -18,6 +19,7 @@ void Instance::reset() {
     /* TODO */
     transformation = Matrix::identity();
     invTrans = transformation;
+    computeBounds();
 }
 
 void Instance::translate(const Vector& t) {
@@ -30,6 +32,7 @@ void Instance::translate(const Vector& t) {
     };
     transformation = product(tMatrix, transformation);
     invTrans = transformation.invert();
+    computeBounds();
 }
 
 void Instance::rotate(const Vector& nnaxis, float angle) {
@@ -68,6 +71,7 @@ void Instance::rotate(const Vector& nnaxis, float angle) {
     };
     transformation = product(product(m, Rx), m.transpose()); 
     invTrans = transformation.invert();
+    computeBounds();
 }
 
 void Instance::scale(float f) {
@@ -80,6 +84,7 @@ void Instance::scale(float f) {
     };
     transformation = product(tMatrix, transformation);
     invTrans = transformation.invert();
+    computeBounds();
 }
 
 void Instance::scale(const Vector& s) {
@@ -92,6 +97,7 @@ void Instance::scale(const Vector& s) {
     };
     transformation = product(tMatrix, transformation);
     invTrans = transformation.invert();
+    computeBounds();
 }
 
 void Instance::setMaterial(Material* m) {
@@ -121,17 +127,16 @@ Intersection Instance::intersect(const Ray& ray, float previousBestDistance) con
         return intersectionTrans;  
 }
 
-BBox Instance::getBounds() const {
-    /* TODO */
-    BBox bound = archetype->getBounds();
-    Point c1(bound.min.x, bound.min.y, bound.min.z);
-    Point c2(bound.max.x, bound.min.y, bound.min.z);
-    Point c3(bound.min.x, bound.max.y, bound.min.z);
-    Point c4(bound.min.x, bound.min.y, bound.max.z);
-    Point c5(bound.min.x, bound.max.y, bound.max.z);
-    Point c6(bound.max.x, bound.max.y, bound.min.z);
-    Point c7(bound.max.x, bound.min.y, bound.max.z);
-    Point c8(bound.max.x, bound.max.y, bound.max.z);
+void Instance::computeBounds() {
+    BBox archBounds = archetype->getBounds();
+    Point c1(archBounds.min.x, archBounds.min.y, archBounds.min.z);
+    Point c2(archBounds.max.x, archBounds.min.y, archBounds.min.z);
+    Point c3(archBounds.min.x, archBounds.max.y, archBounds.min.z);
+    Point c4(archBounds.min.x, archBounds.min.y, archBounds.max.z);
+    Point c5(archBounds.min.x, archBounds.max.y, archBounds.max.z);
+    Point c6(archBounds.max.x, archBounds.max.y, archBounds.min.z);
+    Point c7(archBounds.max.x, archBounds.min.y, archBounds.max.z);
+    Point c8(archBounds.max.x, archBounds.max.y, archBounds.max.z);
     Point c1Trans = transformation * c1; 
     Point c2Trans = transformation * c2; 
     Point c3Trans = transformation * c3; 
@@ -164,9 +169,15 @@ BBox Instance::getBounds() const {
               max(c1Trans.z, c2Trans.z, c3Trans.z), 
               max(c4Trans.z, c5Trans.z, c6Trans.z), 
               max(c7Trans.z, c8Trans.z));
-   
-    return BBox(Point(minx, miny, minz), Point(maxx, maxy, maxz));
 
+    Point min(minx, miny, minz);
+    Point max(maxx, maxy, maxz);
+    instanceBounds = BBox(min, max);
+}
+
+BBox Instance::getBounds() const {
+    /* TODO */
+    return instanceBounds;
 }
 
 }

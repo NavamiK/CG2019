@@ -27,6 +27,10 @@ private:
     Primitive *archetype;
     Matrix transformation;// should check if this is correct.
     Matrix invTrans;
+    //We store the bounding box for the instance, which is updated with each transformation on the primitive
+    BBox instanceBounds;
+
+    void computeBounds();
 };
 
 }
