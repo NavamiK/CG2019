@@ -132,14 +132,14 @@ BBox Instance::getBounds() const {
     Point c6(bound.max.x, bound.max.y, bound.min.z);
     Point c7(bound.max.x, bound.min.y, bound.max.z);
     Point c8(bound.max.x, bound.max.y, bound.max.z);
-    Point c1Trans = invTrans * c1; 
-    Point c2Trans = invTrans * c2; 
-    Point c3Trans = invTrans * c3; 
-    Point c4Trans = invTrans * c4; 
-    Point c5Trans = invTrans * c5; 
-    Point c6Trans = invTrans * c6; 
-    Point c7Trans = invTrans * c7; 
-    Point c8Trans = invTrans * c8; 
+    Point c1Trans = transformation * c1; 
+    Point c2Trans = transformation * c2; 
+    Point c3Trans = transformation * c3; 
+    Point c4Trans = transformation * c4; 
+    Point c5Trans = transformation * c5; 
+    Point c6Trans = transformation * c6; 
+    Point c7Trans = transformation * c7; 
+    Point c8Trans = transformation * c8; 
     float minx = min(
               min(c1Trans.x, c2Trans.x, c3Trans.x), 
               min(c4Trans.x, c5Trans.x, c6Trans.x), 
