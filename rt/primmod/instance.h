@@ -26,6 +26,7 @@ public:
 private:
     Primitive *archetype;
     Matrix transformation;// should check if this is correct.
+    Matrix invTrans;
 };
 
 }

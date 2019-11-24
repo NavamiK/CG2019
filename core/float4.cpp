@@ -27,7 +27,7 @@ Float4::Float4(const Vector& vec) {
     this->x = vec.x;
     this->y = vec.y;
     this->z = vec.z;
-    this->w = 0;
+    this->w = 0.f;
 }
 
 float& Float4::operator [] (int idx) {
