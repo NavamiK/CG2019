@@ -91,6 +91,7 @@ int BBox::findBBoxSplitAxis()
         return 2;
 }
 
+
 Point BBox::getBBoxCentroid() const{ 
     Point centroid; 
     centroid.x = (min.x + max.x)/2;

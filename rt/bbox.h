@@ -53,7 +53,7 @@ public:
 
     bool isUnbound();
     Point getBBoxCentroid() const;
-    int findBBoxSplitAxis(); 
+    int findBBoxSplitAxis();
     
 private:
     bool isEmpty, isFull;

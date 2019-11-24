@@ -9,12 +9,12 @@ namespace rt
 
 BVH::BVH()
 {
-    root = new BVHNode();
+    //root = new BVHNode();
 }
 
 BVH::~BVH()
 {
-    delete(root);
+    
 }
 
 BBox BVH::getBounds() const
@@ -26,7 +26,6 @@ void BVH::rebuildIndex()
 {
     root->primitives = primitives;
     buildTree(root);
-    return;
 }
 
 void BVH::buildTree(BVHNode *node) 
@@ -99,7 +98,7 @@ void BVH::buildTree(BVHNode *node)
         // If split causes all children to fall on one side of the tree, tree contruction algo will not terminate 
         //--> segmentation fault
         //Solution 1 - Move one node from the populated side to the empty one
-        /*if (node->leftChild->primitives.size() == 0)
+        if (node->leftChild->primitives.size() == 0)
         {
 
             node->leftChild->primitives.push_back(node->rightChild->primitives[0]);
