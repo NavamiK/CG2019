@@ -9,7 +9,7 @@ namespace rt {
 RGBColor RayTracingIntegrator::getRadiance(const Ray& ray) const {
     /* TODO */
     RGBColor totalRadiance, emission, reflactance, intensity;
-    //Vector in, out;
+
     for(int i = 0; i < world->light.size(); i++){
         Intersection intersec = world->scene->intersect(ray);
         if(intersec){
@@ -22,7 +22,7 @@ RGBColor RayTracingIntegrator::getRadiance(const Ray& ray) const {
                     intensity = world->light[i]->getIntensity(lightHit);
                     emission = intersec.solid->material->getEmission(intersec.hitPoint(), intersec.normal(), -lightHit.direction);
                     reflactance = intersec.solid->material->getReflectance(intersec.hitPoint(), intersec.normal(), -lightHit.direction, ray.d);
-                    totalRadiance = totalRadiance * (emission + intensity * reflactance);//TODO: maybe wrong.
+                    totalRadiance = totalRadiance + (emission + intensity * reflactance);//TODO: maybe wrong.
                 }
             }
         }

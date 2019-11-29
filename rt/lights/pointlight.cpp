@@ -21,7 +21,7 @@ LightHit PointLight::getLightHit(const Point& p) const {
 
 RGBColor PointLight::getIntensity(const LightHit& irr) const {
     /* TODO */
-    return intensity;
+    return intensity * (1.f/irr.distance*irr.distance);
 }
 
 }
