@@ -175,7 +175,10 @@ void BVH::add(Primitive *p)
 
 void BVH::setMaterial(Material *m)
 {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */
+    for (auto iter = primitives.begin(); iter != primitives.end(); ++iter){
+        (*iter)->setMaterial(m);
+    } 
 }
 
 void BVH::setCoordMapper(CoordMapper *cm)
