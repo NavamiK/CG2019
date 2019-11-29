@@ -1,7 +1,6 @@
 #include <rt/lights/directional.h>
 #include <core/scalar.h>
 #include <core/vector.h>
-#include <core/point.h>
 
 namespace rt {
 
