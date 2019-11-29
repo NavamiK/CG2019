@@ -1,8 +1,5 @@
 #include <rt/lights/pointlight.h>
 
-#include <core/vector.h>
-#include <tkMenubutton.h>
-
 namespace rt {
 
 PointLight::PointLight(const Point& position, const RGBColor& intensity)
