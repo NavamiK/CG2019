@@ -1,6 +1,7 @@
 #include <rt/lights/directional.h>
 #include <core/scalar.h>
 #include <core/vector.h>
+#include <core/point.h>
 
 namespace rt {
 
@@ -15,13 +16,14 @@ LightHit DirectionalLight::getLightHit(const Point& p) const {
     /* TODO */
     LightHit lightHit;
     lightHit.direction = direction;
-    //lightHit.distance = direction.length();//TODO: check how you can get the distance...
+    lightHit.distance = INFINITY;
+    lightHit.normal = -direction;
     return lightHit;
 }
 
 RGBColor DirectionalLight::getIntensity(const LightHit& irr) const {
     /* TODO */
-    return (color / 4.f * pi);
+    return color;
 }
 
 }
