@@ -13,7 +13,7 @@ SpotLight::SpotLight(const Point& position, const Vector& direction, float angle
 
 RGBColor SpotLight::getIntensity(const LightHit& irr) const {
     /* TODO */
-    return (intensity * 1.f /(irr.distance*irr.distance));
+    return (intensity * 1.f /(irr.distance * irr.distance));
 }
 
 }

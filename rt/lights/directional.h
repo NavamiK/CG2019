@@ -15,7 +15,7 @@ public:
 
 private:
     Vector direction;
-    RGBColor color;
+    RGBColor intensity;
 };
 
 }
