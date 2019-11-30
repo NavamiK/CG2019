@@ -1,5 +1,6 @@
 #include <rt/materials/dummy.h>
 #include <core/assert.h>
+#include <math.h>
 
 namespace rt {
 
@@ -11,7 +12,7 @@ DummyMaterial::DummyMaterial() {
 RGBColor DummyMaterial::getReflectance(const Point& texPoint, const Vector& normal, const Vector& outDir, const Vector& inDir) const {
     /* TODO */ 
     float reflectance = this->brdf * dot(normal, inDir);
-    return RGBColor::rep(abs(reflectance));
+    return RGBColor::rep(fabsf(reflectance));
 
 }
 
