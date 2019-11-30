@@ -26,13 +26,17 @@ BBox Quad::getBounds() const {
 
 Intersection Quad::intersect(const Ray& ray, float previousBestDistance) const {
     /* TODO */ 
+    Intersection intersection;
     Intersection i1 = t1->intersect(ray, previousBestDistance);
     if(i1)
-        return i1;
+        intersection = i1;
     else{
         Intersection i2 = t2->intersect(ray, previousBestDistance);
-        return i2;
+        intersection = i2;
     }
+    if(intersection)
+        intersection.solid = this; //Solid for intersection is Quad and not the triangles
+    return intersection;
 }
 
 Solid::Sample Quad::sample() const {

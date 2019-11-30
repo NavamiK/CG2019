@@ -15,7 +15,7 @@ LightHit DirectionalLight::getLightHit(const Point& p) const {
     /* TODO */
     LightHit lightHit;
     lightHit.direction = direction;
-    lightHit.distance = INFINITY;
+    lightHit.distance = std::numeric_limits<float>::infinity();
     lightHit.normal = -direction;
     return lightHit;
 }
