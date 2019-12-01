@@ -7,11 +7,13 @@
 
 namespace rt {
 
-class SpotLight : public PointLight {
+class SpotLight : public Light {
 public:
 	SpotLight() {}
 	SpotLight(const Point& position, const Vector& direction, float angle, float exp, const RGBColor& intensity);
     virtual RGBColor getIntensity(const LightHit& irr) const;
+    virtual LightHit getLightHit(const Point& p) const;
+
 
 private:
     Point position;
