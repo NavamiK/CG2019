@@ -14,6 +14,7 @@
 #include <rt/lights/pointlight.h>
 #include <rt/lights/spotlight.h>
 #include <rt/lights/directional.h>
+#include <rt/lights/projectivelight.h>
 
 #include <rt/integrators/raytrace.h>
 
@@ -108,9 +109,40 @@ void renderCornellboxB(float scale, const char* filename) {
 }
 }
 
+void renderCornellboxC(float scale, const char* filename) {
+    Image img(400, 400);
+    World world;
+    Group* scene = new SimpleGroup();
+    world.scene = scene;
+
+    PerspectiveCamera cam(Point(278*scale, 273*scale, -800*scale), Vector(0, 0, 1), Vector(0, 1, 0), 0.686f, 0.686f);
+
+    DummyMaterial* mat = new DummyMaterial();
+
+    // walls
+    makeWalls(scene, scale, nullptr, mat);
+
+    //short box
+    makeBox(scene, Point(082.f, 000.1f, 225.f)*scale, Vector(158.f, 000.f, 047.f)*scale, Vector(048.f, 000.f, -160.f)*scale, Vector(000.f, 165.f, 000.f)*scale, nullptr, mat);
+
+    //tall box
+    makeBox(scene, Point(265.f, 000.1f, 296.f)*scale, Vector(049.f, 000.f, 160.f)*scale, Vector(158.f, 000.f, -049.f)*scale, Vector(000.f, 330.f, 000.f)*scale, nullptr, mat);
+
+    //projective light
+    world.light.push_back(new ProjectiveLight(Point(288*scale,529.99f*scale,279.5f*scale),RGBColor(0,0,1.0f)));
+    world.light.push_back(new ProjectiveLight(Point(490*scale,329.99f*scale,279.5f*scale),RGBColor(1.0f,0,0)));
+    world.light.push_back(new ProjectiveLight(Point(40*scale,329.99f*scale,279.5f*scale),RGBColor(0,1.0f,0)));
+    RayTracingIntegrator integrator(&world);
+
+    Renderer engine(&cam, &integrator);
+    engine.render(img);
+    img.writePNG(filename);
+}
+
 void a_lighting() {
     renderCornellboxA(0.001f, "a5-1.png");
     renderCornellboxA(0.01f, "a5-2.png");
     renderCornellboxB(0.001f, "a5-3.png");
     renderCornellboxB(0.01f, "a5-4.png");
+    renderCornellboxC(0.01f, "a5-5.png");
 }
