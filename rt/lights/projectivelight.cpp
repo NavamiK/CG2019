@@ -1,10 +1,10 @@
 #include <rt/lights/projectivelight.h>
 #include <rt/ray.h>
 #include <cmath>
-#include <iostream>
-using namespace rt;
-//rt::RGBColor a1computeColor(rt::uint x, rt::uint y, rt::uint width, rt::uint height);
-RGBColor a1computeColor(uint x, uint y, uint width, uint height);
+#include <core/scalar.h>
+//using namespace rt;
+rt::RGBColor a1computeColor(rt::uint x, rt::uint y, rt::uint width, rt::uint height);
+//RGBColor a1computeColor(int x, int y, int width, int height);
 
 namespace rt {
 
