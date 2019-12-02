@@ -15,13 +15,14 @@ LightHit PointLight::getLightHit(const Point& p) const {
     Vector hitPointToLight = position - p;
     lightHit.distance = hitPointToLight.length();
     lightHit.direction = hitPointToLight.normalize();
-    lightHit.normal = -hitPointToLight;
+    lightHit.normal = -hitPointToLight; 
+
     return lightHit;
 }
 
 RGBColor PointLight::getIntensity(const LightHit& irr) const {
     /* TODO */
-    return intensity * (1.f / (irr.distance*irr.distance)); //4 pi term needed?
+    return intensity * (1.f / (irr.distance*irr.distance));
 }
 
 }
