@@ -6,6 +6,7 @@ InfinitePlane::InfinitePlane(const Point& origin, const Vector& normal, CoordMap
 {
     this->origin = origin;
 	this->normal = normal;
+    this->material = material;
     /* TODO */
 }
 

@@ -13,6 +13,7 @@ Quad::Quad(const Point& origin, const Vector& span1, const Vector& span2, CoordM
     this->v4 = origin + span1 + span2;
     this->t1 = new Triangle(v1, v2, v3, nullptr, nullptr);
     this->t2 = new Triangle(v3, v2, v4, nullptr, nullptr);
+    this->material = material;
 }
 
 BBox Quad::getBounds() const {
@@ -25,13 +26,17 @@ BBox Quad::getBounds() const {
 
 Intersection Quad::intersect(const Ray& ray, float previousBestDistance) const {
     /* TODO */ 
+    Intersection intersection;
     Intersection i1 = t1->intersect(ray, previousBestDistance);
     if(i1)
-        return i1;
+        intersection = i1;
     else{
         Intersection i2 = t2->intersect(ray, previousBestDistance);
-        return i2;
+        intersection = i2;
     }
+    if(intersection)
+        intersection.solid = this; //Solid for intersection is Quad and not the triangles
+    return intersection;
 }
 
 Solid::Sample Quad::sample() const {

@@ -101,7 +101,8 @@ void Instance::scale(const Vector& s) {
 }
 
 void Instance::setMaterial(Material* m) {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */ 
+    archetype->setMaterial(m);
 }
 
 void Instance::setCoordMapper(CoordMapper* cm) {
