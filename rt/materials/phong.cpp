@@ -28,7 +28,8 @@ Material::SampleReflectance PhongMaterial::getSampleReflectance(const Point& tex
 }
 
 Material::Sampling PhongMaterial::useSampling() const {
-	/* TODO */ NOT_IMPLEMENTED;
+	/* TODO */
+	return SAMPLING_NOT_NEEDED;
 }
 
 }
