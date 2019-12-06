@@ -19,7 +19,8 @@ BVH::~BVH()
 
 BBox BVH::getBounds() const
 {
-      /* TODO */ NOT_IMPLEMENTED;
+      /* TODO */
+      return this->root->boundingBox;
 }
 
 void BVH::rebuildIndex()
