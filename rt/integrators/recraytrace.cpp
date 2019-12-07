@@ -1,14 +1,19 @@
-#include <rt/integrators/raytrace.h>
-#include <rt/world.h>
+#include <rt/integrators/recraytrace.h>
+#include <rt/intersection.h>
 #include <rt/lights/light.h>
+#include <rt/world.h>
 #include <rt/solids/solid.h>
 #include <rt/materials/material.h>
 
-float OFFSET = 0.0001f;
+
+//float OFFSET = 0.0001f;
+
 namespace rt {
 
-RGBColor RayTracingIntegrator::getRadiance(const Ray& ray) const {
+RGBColor RecursiveRayTracingIntegrator::getRadiance(const Ray& ray) const {
     /* TODO */
+    //TODO: continue... need to change it to recursion.
+    float offset =  0.0001f;
     RGBColor totalRadiance = RGBColor::rep(0.0f);
     RGBColor emission, reflectance, intensity;
     Intersection intersection = world->scene->intersect(ray);
@@ -16,7 +21,7 @@ RGBColor RayTracingIntegrator::getRadiance(const Ray& ray) const {
         for(int i = 0; i < world->light.size(); i++){
             LightHit lightHit = world->light[i]->getLightHit(intersection.hitPoint());
             //Shift the ray origin towards it's direction by an offset, to avoid self intersection
-            Ray shadowRay(intersection.hitPoint() + lightHit.direction * OFFSET, lightHit.direction);
+            Ray shadowRay(intersection.hitPoint() + lightHit.direction * offset, lightHit.direction);
             if(dot(intersection.normal(), shadowRay.d) > 0.0f){
                 Intersection shaIntersec = world->scene->intersect(shadowRay, lightHit.distance);
                 //If no intersection of shadow ray, or the intersection distnace greater than distance to light source, update radiance
@@ -28,7 +33,7 @@ RGBColor RayTracingIntegrator::getRadiance(const Ray& ray) const {
                     totalRadiance = totalRadiance + emission + intensity * reflectance;
                 }
             }
-        }   
+        }
     }
 
     return totalRadiance;
