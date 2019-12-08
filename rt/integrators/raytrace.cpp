@@ -18,7 +18,7 @@ RGBColor RayTracingIntegrator::getRadiance(const Ray& ray) const {
         for(int i = 0; i < world->light.size(); i++){
             LightHit lightHit = world->light[i]->getLightHit(intersection.hitPoint());
             //Shift the ray origin towards it's direction by an offset, to avoid self intersection
-            Ray shadowRay(intersection.hitPoint() +intersection.normal() * OFFSET, lightHit.direction);
+            Ray shadowRay(intersection.hitPoint() + intersection.normal() * OFFSET, lightHit.direction);
             if(dot(intersection.normal(), shadowRay.d) > 0.0f){
                 Intersection shaIntersec = world->scene->intersect(shadowRay, lightHit.distance);
                 //If no intersection of shadow ray, or the intersection distnace greater than distance to light source, update radiance
