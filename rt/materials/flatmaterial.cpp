@@ -5,14 +5,17 @@ namespace rt {
 FlatMaterial::FlatMaterial(Texture* texture)
 {
     /* TODO */
+    this->texture = texture;
 }
 
 RGBColor FlatMaterial::getReflectance(const Point& texPoint, const Vector& normal, const Vector& outDir, const Vector& inDir) const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */
+    return RGBColor::rep(0.0f);
 }
 
 RGBColor FlatMaterial::getEmission(const Point& texPoint, const Vector& normal, const Vector& outDir) const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */ 
+    return texture->getColor(texPoint);
 }
 
 Material::SampleReflectance FlatMaterial::getSampleReflectance(const Point& texPoint, const Vector& normal, const Vector& outDir) const {
