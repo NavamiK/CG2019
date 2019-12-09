@@ -24,7 +24,6 @@ RGBColor RayTracingIntegrator::getRadiance(const Ray& ray) const {
                 //If no intersection of shadow ray, or the intersection distnace greater than distance to light source, update radiance
                 if(!shaIntersec){
                     intensity = world->light[i]->getIntensity(lightHit);
-                    Vector t = cross(lightHit.direction,intersection.normal());
                     reflectance = intersection.solid->material->getReflectance(intersection.local(), intersection.normal(),  -ray.d, -shadowRay.d);
                     totalRadiance = totalRadiance + intensity * reflectance;
                 }
