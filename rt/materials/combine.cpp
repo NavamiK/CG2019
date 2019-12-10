@@ -14,7 +14,7 @@ void CombineMaterial::add(Material* m, float w) {
 RGBColor CombineMaterial::getReflectance(const Point& texPoint, const Vector& normal, const Vector& outDir, const Vector& inDir) const {
     RGBColor reflectance;
     for(auto m : materials){
-        reflectance = reflectance + m.first->getReflectance(texPoint, normal, outDir, inDir);
+        reflectance = reflectance + m.first->getReflectance(texPoint, normal, outDir, inDir) * m.second;
     }
 
     return reflectance;
@@ -23,7 +23,8 @@ RGBColor CombineMaterial::getReflectance(const Point& texPoint, const Vector& no
 RGBColor CombineMaterial::getEmission(const Point& texPoint, const Vector& normal, const Vector& outDir) const {
     RGBColor emissions = RGBColor::rep(0.f);
     for(size_t i = 0; i < materials.size(); i++){
-        emissions = emissions + materials[i].first->getEmission(texPoint, normal, outDir);
+        if(materials[i].first->useSampling() == SAMPLING_NOT_NEEDED)
+            emissions = emissions + materials[i].first->getEmission(texPoint, normal, outDir) * materials[i].second;
     }
 
     return emissions;
@@ -42,6 +43,8 @@ Material::SampleReflectance CombineMaterial::getSampleReflectance(const Point& t
             reflectance = reflectance + sampleRef.reflectance * m.second; // weight the reflectance.
             direction = direction + sampleRef.direction;
         }
+        // no sampling required.
+        // this will be computed by recursiveRayTrace. getReflectance will be called there.
     }
 
     return (SampleReflectance(direction, reflectance));
