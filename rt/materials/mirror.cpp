@@ -12,6 +12,7 @@ MirrorMaterial::MirrorMaterial(float eta, float kappa)
 RGBColor MirrorMaterial::getReflectance(const Point& texPoint, const Vector& normal, const Vector& outDir, const Vector& inDir) const {
     /* TODO */
     //TODO; you may flip the normal to face the same direction as the in and our vecs.
+    //TODO: this should not be here. this is for dielectrics.
     float cosThetaIn = dot(inDir, normal);
     float cosThetaOut = dot(outDir, normal);
     float delta = fabs(cosThetaIn - cosThetaOut) == 0.f ? 1.f : 0.f;
@@ -33,10 +34,17 @@ RGBColor MirrorMaterial::getEmission(const Point& texPoint, const Vector& normal
 
 Material::SampleReflectance MirrorMaterial::getSampleReflectance(const Point& texPoint, const Vector& normal, const Vector& outDir) const {
     /* TODO */
-    SampleReflectance sampleRef;
-    sampleRef.direction = outDir;
-    sampleRef.reflectance = RGBColor::rep(0.f);
-    return sampleRef;
+    //copied from cookTorrance.
+    // return mirror sample reflectance.
+    Vector reflectionDirection = -outDir + 2.f * dot(outDir, normal) * normal;
+    //slide# 31.
+    float mirrorBrdf = 1.f / dot(normal, outDir); // TODO: don't know if this is correct.
+    RGBColor reflectance = RGBColor::rep(mirrorBrdf);
+
+    SampleReflectance ref;
+    ref.direction = reflectionDirection;
+    ref.reflectance = reflectance;
+    return ref;
 }
 
 Material::Sampling MirrorMaterial::useSampling() const {

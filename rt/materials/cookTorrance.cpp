@@ -32,8 +32,16 @@ namespace rt {
     }
 
     Material::SampleReflectance CookTorrance::getSampleReflectance(const rt::Point &texPoint, const rt::Vector &normal,const rt::Vector &outDir) const {
-        // TODO: how should this be implemented with sampling secondary?
-        NOT_IMPLEMENTED;
+        // return mirror sample reflectance.
+        Vector reflectionDirection = -outDir + 2.f * dot(outDir, normal) * normal;
+        //slide# 31.
+        float mirrorBrdf = 1.f / dot(normal, outDir); // TODO: don't know if this is correct.
+        RGBColor reflectance = RGBColor::rep(mirrorBrdf);
+
+        SampleReflectance ref;
+        ref.direction = reflectionDirection;
+        ref.reflectance = reflectance;
+        return ref;
     }
 
     Material::Sampling CookTorrance::useSampling() const {
