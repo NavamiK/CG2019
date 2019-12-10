@@ -9,6 +9,7 @@ Triangle::Triangle(Point vertices[3], CoordMapper* texMapper, Material* material
     this->v2 = vertices[1];
     this->v3 = vertices[2];
     this->material = material;
+    this->area = getArea();
 }
 
 Triangle::Triangle(const Point& v1, const Point& v2, const Point& v3, CoordMapper* texMapper, Material* material)
@@ -17,6 +18,8 @@ Triangle::Triangle(const Point& v1, const Point& v2, const Point& v3, CoordMappe
     this->v1 = v1;
     this->v2 = v2;
     this->v3 = v3;
+    this->material = material;
+    this->area = getArea();
 }
 
 BBox Triangle::getBounds() const {
@@ -59,24 +62,35 @@ Intersection Triangle::intersect(const Ray& ray, float previousBestDistance) con
     if ((t > EPSILON)&& (t < previousBestDistance)) // ray intersection
     {
         Vector normal = cross(edge1, edge2);
-        Intersection intersection(t, ray, this, normal.normalize(), ray.getPoint(t));
+        Intersection intersection(t, ray, this, normal.normalize(), getBaryCoords(ray.getPoint(t)));
         return intersection;
     }
     else // This means that there is a line intersection but not a ray intersection.
-        return  Intersection::failure();;
+        return  Intersection::failure();
+}
 
+Point Triangle::getBaryCoords(const Point& p) const{
+    Point bary;
+    bary.x = getArea(v2 - p, v3 - p) / area;
+    bary.y = getArea(v1 - p, v3 - p) / area;
+    bary.z = getArea(v1 - p, v2 - p) / area;
+    assert(bary.x >=0  && bary.y >=0 && bary.z >=0);
+    return bary;
 }
 
 Solid::Sample Triangle::sample() const {
     /* TODO */ NOT_IMPLEMENTED;
 }
 
+float Triangle::getArea(const Vector& edge1, const Vector& edge2) const{
+    return cross(edge1, edge2).length()/2;
+}
+
 float Triangle::getArea() const {
     /* TODO */ 
     Vector edge1 = v2 - v1;
     Vector edge2 = v3 - v1;
-    float triangleArea = cross(edge1, edge2).length()/2;
-    return triangleArea;
+    return getArea(edge1, edge2);
 }
 
 }
