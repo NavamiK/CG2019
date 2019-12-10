@@ -11,40 +11,32 @@ MirrorMaterial::MirrorMaterial(float eta, float kappa)
 
 RGBColor MirrorMaterial::getReflectance(const Point& texPoint, const Vector& normal, const Vector& outDir, const Vector& inDir) const {
     /* TODO */
-    //TODO; you may flip the normal to face the same direction as the in and our vecs.
-    //TODO: this should not be here. this is for dielectrics.
-    float cosThetaIn = dot(inDir, normal);
-    float cosThetaOut = dot(outDir, normal);
-    float delta = fabs(cosThetaIn - cosThetaOut) == 0.f ? 1.f : 0.f;
-
-    float denom = 1.f/(kappa*cosThetaIn + eta*cosThetaOut);
-    float r1 = (kappa*cosThetaIn - eta*cosThetaOut) * denom;
-    float r2 = (eta*cosThetaIn - kappa*cosThetaOut) * denom;
-    float Fr = 0.5f * (r1 + r2);
-    float brdf = Fr * delta/fabs(cosThetaIn);
-
-    return RGBColor::rep(brdf);
+    return RGBColor::rep(0.f);
 }
 
 RGBColor MirrorMaterial::getEmission(const Point& texPoint, const Vector& normal, const Vector& outDir) const {
     /* TODO */
-    //TODO: verify.
-    return RGBColor::rep(0.f); // I don't think mirrors emit light.
+    return RGBColor::rep(0.f); 
 }
 
 Material::SampleReflectance MirrorMaterial::getSampleReflectance(const Point& texPoint, const Vector& normal, const Vector& outDir) const {
-    /* TODO */
-    //copied from cookTorrance.
-    // return mirror sample reflectance.
-    Vector reflectionDirection = -outDir + 2.f * dot(outDir, normal) * normal;
-    //slide# 31.
-    float mirrorBrdf = 1.f / dot(normal, outDir); // TODO: don't know if this is correct.
-    RGBColor reflectance = RGBColor::rep(mirrorBrdf);
+    /* TODO */ 
+    float eta_kappa_sqr = (eta*eta) + (kappa*kappa);
+    float two_eta = 2 * eta;
+    Vector ref_dir = -outDir + (2 * dot(outDir, normal) * normal);
+    ref_dir = ref_dir.normalize();
 
-    SampleReflectance ref;
-    ref.direction = reflectionDirection;
-    ref.reflectance = reflectance;
-    return ref;
+    float cos_i = dot(ref_dir, normal);
+    float cos_i_sq = cos_i * cos_i;
+    float two_n_cos_theta = two_eta * cos_i;
+
+    float r_perp = eta_kappa_sqr - two_n_cos_theta + cos_i_sq;
+    r_perp = r_perp / (eta_kappa_sqr + two_n_cos_theta + cos_i_sq);
+
+    float r_para = (eta_kappa_sqr * cos_i_sq) - two_n_cos_theta + 1;
+    r_para = r_para / ((eta_kappa_sqr * cos_i_sq) + two_n_cos_theta + 1);
+
+    return SampleReflectance(ref_dir, RGBColor::rep(0.5f * (r_para + r_perp)) ); 
 }
 
 Material::Sampling MirrorMaterial::useSampling() const {

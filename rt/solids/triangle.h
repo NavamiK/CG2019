@@ -16,9 +16,12 @@ public:
     virtual Intersection intersect(const Ray& ray, float previousBestDistance = FLT_MAX) const;
     virtual Sample sample() const;
     virtual float getArea() const;
+    float getArea(const Vector& edge1, const Vector& edge2) const;
+    Point getBaryCoords(const Point& p) const;
 private:
     Point vertices[3];
     Point v1, v2, v3;
+    float area;
 };
 
 }
