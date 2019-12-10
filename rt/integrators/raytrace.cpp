@@ -4,7 +4,6 @@
 #include <rt/solids/solid.h>
 #include <rt/materials/material.h>
 
-float OFFSET = 0.0001f;
 namespace rt {
 
 RGBColor RayTracingIntegrator::getRadiance(const Ray& ray) const {

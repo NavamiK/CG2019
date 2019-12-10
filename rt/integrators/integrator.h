@@ -15,6 +15,7 @@ public:
     virtual RGBColor getRadiance(const Ray& ray) const = 0;
 protected:
     World* world;
+    float OFFSET = 0.0001f;
 };
 
 }

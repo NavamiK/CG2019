@@ -33,13 +33,10 @@ RGBColor MirrorMaterial::getEmission(const Point& texPoint, const Vector& normal
 
 Material::SampleReflectance MirrorMaterial::getSampleReflectance(const Point& texPoint, const Vector& normal, const Vector& outDir) const {
     /* TODO */
-    if(useSampling() == SAMPLING_NOT_NEEDED){
-        SampleReflectance sampleRef;
-        sampleRef.direction = outDir;
-        sampleRef.reflectance = RGBColor::rep(0.f);
-        return sampleRef;
-    }
-    NOT_IMPLEMENTED; //TODO: check the other conditions.
+    SampleReflectance sampleRef;
+    sampleRef.direction = outDir;
+    sampleRef.reflectance = RGBColor::rep(0.f);
+    return sampleRef;
 }
 
 Material::Sampling MirrorMaterial::useSampling() const {
