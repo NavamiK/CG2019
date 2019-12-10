@@ -15,16 +15,7 @@ namespace rt {
     }
 
     RGBColor CookTorrance::getReflectance(const rt::Point &texPoint, const rt::Vector &normal, const rt::Vector &outDir,const rt::Vector &inDir) const {
-        RGBColor Fr = getFresnel(normal, inDir, outDir);
-        float G = getGeometricAttenuation(normal, inDir, outDir);
-        float D = getMicrofacetDistribution(normal, inDir, outDir);
-        RGBColor kGlossy = Fr * D * G / (pi * dot(normal, outDir) * dot(normal, inDir));
-        RGBColor kDiffuse = (1.f/pi) * dot(normal, inDir) * diffuse->getColor(texPoint);
-
-        // glossy and diffuse constants. should sum up to one. //TODO; change later, just a guess for now.
-        float Pd = 0.5f, Pg = 0.5f;
-
-        return kGlossy*Pg + kDiffuse*Pd; // = brdf.
+        return RGBColor::rep(0.f);
     }
 
     RGBColor CookTorrance::getEmission(const rt::Point &texPoint, const rt::Vector &normal,const rt::Vector &outDir) const {
@@ -33,14 +24,20 @@ namespace rt {
 
     Material::SampleReflectance CookTorrance::getSampleReflectance(const rt::Point &texPoint, const rt::Vector &normal,const rt::Vector &outDir) const {
         // return mirror sample reflectance.
-        Vector reflectionDirection = -outDir + 2.f * dot(outDir, normal) * normal;
-        //slide# 31.
-        float mirrorBrdf = 1.f / dot(normal, outDir); // TODO: don't know if this is correct.
-        RGBColor reflectance = RGBColor::rep(mirrorBrdf);
+        Vector refDir = -outDir + 2.f * dot(outDir, normal) * normal;
+
+        RGBColor Fr = getFresnel(normal, refDir, outDir);
+        float G = getGeometricAttenuation(normal, refDir, outDir);
+        float D = getMicrofacetDistribution(normal, refDir, outDir);
+        RGBColor kGlossy = Fr * D * G / (pi * dot(normal, outDir) * dot(normal, refDir));
+        RGBColor kDiffuse = (1.f/pi) * dot(normal, refDir) * diffuse->getColor(texPoint);
+        // glossy and diffuse constants. should sum up to one. //TODO; change later, just a guess for now.
+        float Pd = 0.5f, Pg = 0.5f;
+        RGBColor Brdf = kGlossy*Pg + kDiffuse*Pd;
 
         SampleReflectance ref;
-        ref.direction = reflectionDirection;
-        ref.reflectance = reflectance;
+        ref.direction = refDir;
+        ref.reflectance = Brdf;
         return ref;
     }
 
