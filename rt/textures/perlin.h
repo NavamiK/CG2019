@@ -2,6 +2,8 @@
 #define CG1RAYTRACER_TEXTURES_PERLIN_HEADER
 
 #include <rt/textures/texture.h>
+#include <core/interpolate.h>
+#include <vector>
 
 namespace rt {
 
@@ -12,6 +14,11 @@ public:
     virtual RGBColor getColor(const Point& coord);
     virtual RGBColor getColorDX(const Point& coord);
     virtual RGBColor getColorDY(const Point& coord);
+private:
+    RGBColor white, black;
+    std::vector<float> amplitudes;
+    std::vector<float> frequencies;
+    //float persistence;
 };
 
 }
