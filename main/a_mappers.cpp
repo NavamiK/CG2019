@@ -21,12 +21,14 @@
 #include <rt/solids/triangle.h>
 #include <rt/solids/sphere.h>
 #include <rt/integrators/raytrace.h>
+#include <rt/solids/environmentSolid.h>
 
 #include <rt/groups/simplegroup.h>
 #include <rt/coordmappers/plane.h>
 #include <rt/coordmappers/cylindrical.h>
 #include <rt/coordmappers/spherical.h>
 #include <rt/coordmappers/tmapper.h>
+#include <rt/coordmappers/environmentMapper.h>
 
 
 using namespace rt;
@@ -150,6 +152,9 @@ void trymapper(const char* filename, CoordMapper* spheremapper1, CoordMapper* sp
     scene.add(new Sphere(Point(400.f,450.f,300.f)*scale, 150.f*scale, spheremapper1, &white));
     scene.add(new Sphere(Point(200.f,100.f,300.f)*scale, 150.f*scale, spheremapper2, &white));
 
+    //environ map.
+    scene.add(new EnvironmentSolid());
+
     RayTracingIntegrator integrator(&world);
 
     Renderer engine(&cam, &integrator);
@@ -172,5 +177,10 @@ void a_mappers() {
     trymapper("a6-4e.png",
         new SphericalCoordMapper(Point(.4f,.45f,.3f),Vector(0.0f,hsq2,hsq2),Vector(0.5f,0.0f,0.0f)),
         new SphericalCoordMapper(Point(.3f,.1f,.3f),Vector(0.0f,hsq2,-hsq2),Vector(0.5f,0.0f,0.0f))
+    );
+
+    trymapper("a6-4e.png",
+              new EnvironmentMapper(Point::rep(0.f),Vector::rep(0.f),Vector::rep(0.f)),
+              new TriangleMapper(Point(0,0,0), Point(0,3,0), Point(3,0,0))//copied above.
     );
 }

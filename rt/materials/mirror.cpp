@@ -11,21 +11,7 @@ MirrorMaterial::MirrorMaterial(float eta, float kappa)
 
 RGBColor MirrorMaterial::getReflectance(const Point& texPoint, const Vector& normal, const Vector& outDir, const Vector& inDir) const {
     /* TODO */
-    //Doesn't matter, will never be called
-    //TODO; you may flip the normal to face the same direction as the in and our vecs.
-    /*
-    float cosThetaIn = dot(-inDir, normal);
-    float cosThetaOut = dot(outDir, normal);
-    float delta = fabs(cosThetaIn - cosThetaOut) == 0.f ? 1.f : 0.f;
-
-    float denom = 1.f/(kappa*cosThetaIn + eta*cosThetaOut);
-    float r1 = (kappa*cosThetaIn - eta*cosThetaOut) * denom;
-    float r2 = (eta*cosThetaIn - kappa*cosThetaOut) * denom;
-    float Fr = 0.5f * (r1 + r2);
-    float brdf = Fr * delta/fabs(cosThetaIn);
-
-    return RGBColor::rep(brdf);*/
-    return RGBColor::rep(0.f); 
+    return RGBColor::rep(0.f);
 }
 
 RGBColor MirrorMaterial::getEmission(const Point& texPoint, const Vector& normal, const Vector& outDir) const {

@@ -5,8 +5,6 @@
 #include <rt/solids/solid.h>
 #include <rt/materials/material.h>
 
-
-
 namespace rt {
 
 RGBColor RecursiveRayTracingIntegrator::getRadiance(const Ray& ray) const {
