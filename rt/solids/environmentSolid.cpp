@@ -4,7 +4,7 @@ namespace rt{
 
 EnvironmentSolid::EnvironmentSolid(rt::CoordMapper *texMapper, rt::Material *material) {
     this->texMapper = texMapper;
-    this->material = material;
+    if(texMapper!=nullptr) this->material = material;
 }
 
 Intersection EnvironmentSolid::intersect(const rt::Ray &ray, float previousBestDistance) const {

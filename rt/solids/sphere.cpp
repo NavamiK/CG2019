@@ -8,6 +8,7 @@ Sphere::Sphere(const Point& center, float radius, CoordMapper* texMapper, Materi
     this->center = center;
     this->radius = radius;
     this->material = material;
+    if(texMapper!=nullptr) this->texMapper = texMapper;
 }
 
 BBox Sphere::getBounds() const {

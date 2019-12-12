@@ -14,6 +14,7 @@ Quad::Quad(const Point& origin, const Vector& span1, const Vector& span2, CoordM
     this->t1 = new Triangle(v1, v2, v3, nullptr, nullptr);
     this->t2 = new Triangle(v3, v2, v4, nullptr, nullptr);
     this->material = material;
+    if(texMapper!=nullptr) this->texMapper = texMapper;
 }
 
 BBox Quad::getBounds() const {

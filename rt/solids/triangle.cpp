@@ -9,6 +9,7 @@ Triangle::Triangle(Point vertices[3], CoordMapper* texMapper, Material* material
     this->v2 = vertices[1];
     this->v3 = vertices[2];
     this->material = material;
+    if(texMapper!=nullptr) this->texMapper = texMapper;
     this->area = getArea();
 }
 
@@ -19,6 +20,7 @@ Triangle::Triangle(const Point& v1, const Point& v2, const Point& v3, CoordMappe
     this->v2 = v2;
     this->v3 = v3;
     this->material = material;
+    if(texMapper!=nullptr) this->texMapper = texMapper;
     this->area = getArea();
 }
 

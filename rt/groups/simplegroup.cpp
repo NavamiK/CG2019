@@ -44,7 +44,10 @@ void SimpleGroup::setMaterial(Material* m) {
 }
 
 void SimpleGroup::setCoordMapper(CoordMapper* cm) {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */
+    for (auto iter = primitives.begin(); iter != primitives.end(); ++iter){
+        (*iter)->setCoordMapper(cm);
+    } 
 }
 
 }
