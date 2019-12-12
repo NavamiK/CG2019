@@ -5,6 +5,9 @@ namespace rt {
 CylindricalCoordMapper::CylindricalCoordMapper(const Point& origin, const Vector& longitudinalAxis, const Vector& polarAxis)
 {
     /* TODO */
+    this->origin = origin;
+    this->longitudinalAxis = longitudinalAxis;
+    this->polarAxis = polarAxis;
 }
 
 Point CylindricalCoordMapper::getCoords(const Intersection& hit) const {
