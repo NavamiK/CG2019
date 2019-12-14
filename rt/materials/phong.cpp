@@ -17,7 +17,9 @@ RGBColor PhongMaterial::getReflectance(const Point& texPoint, const Vector& norm
     
     Vector reflDir = (inDir - 2 * dot(inDir, normal) * normal).normalize();
     float cosTheta = dot(reflDir, outDir);
-    return specular->getColor(texPoint) * powf(cosTheta, exponent);
+    if (cosTheta < 0 || dot(-inDir, normal) < 0)
+    		return RGBColor(0,0,0); 
+    return specular->getColor(texPoint) * (powf(cosTheta, exponent) * (exponent + 2) * dot(normal, -inDir)) / ( 2 * pi );
 }
 
 RGBColor PhongMaterial::getEmission(const Point& texPoint, const Vector& normal, const Vector& outDir) const {
