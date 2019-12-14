@@ -15,7 +15,8 @@ namespace rt {
     }
 
     RGBColor CookTorrance::getReflectance(const rt::Point &texPoint, const rt::Vector &normal, const rt::Vector &outDir,const rt::Vector &inDir) const {
-        return RGBColor::rep(0.f);
+        // lambertian: duffise.
+        return (1.f/pi) * dot(normal, -inDir) * diffuse->getColor(texPoint);
     }
 
     RGBColor CookTorrance::getEmission(const rt::Point &texPoint, const rt::Vector &normal,const rt::Vector &outDir) const {
@@ -25,7 +26,7 @@ namespace rt {
     Material::SampleReflectance CookTorrance::getSampleReflectance(const rt::Point &texPoint, const rt::Vector &normal,const rt::Vector &outDir) const {
         // return mirror sample reflectance.
         Vector refDir = -outDir + 2.f * dot(outDir, normal) * normal;
-
+        //TODO: Fr and D are = 0
         RGBColor Fr = getFresnel(normal, refDir, outDir);
         float G = getGeometricAttenuation(normal, refDir, outDir);
         float D = getMicrofacetDistribution(normal, refDir, outDir);
@@ -48,7 +49,11 @@ namespace rt {
     RGBColor CookTorrance::getFresnel(const Vector &normal, const Vector &inDir, const Vector &outDir) const {
         //copied from mirror reflectance function.
         float cosThetaIn = dot(inDir, normal);
-        float cosThetaOut = dot(outDir, normal);
+        //compute refracted dir.
+        Vector ref_dir = -outDir + (2 * dot(outDir, normal) * normal);
+        ref_dir = ref_dir.normalize();
+        float cosThetaOut = dot(ref_dir, normal);
+
         float delta = fabs(cosThetaIn - cosThetaOut) == 0.f ? 1.f : 0.f;
 
         float denom = 1.f/(kappa*cosThetaIn + eta*cosThetaOut);
@@ -72,8 +77,8 @@ namespace rt {
         // found a formula for H at:
         //https://computergraphics.stackexchange.com/questions/4394/path-tracing-the-cook-torrance-brdf
         Vector H = (inDir + outDir).normalize();
-        float theta = dot(normal, H);
-        float x = pow(tan(theta) / m, 2);
+        float theta = dot(normal.normalize(), H);
+        float x = (tan(theta) / m, 2);
         float D = (1.f/(pi * m*m * pow(cos(theta), 4))) * exp(-x);
         return D;
     }
