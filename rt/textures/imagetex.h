@@ -29,6 +29,7 @@ private:
     BorderHandlingType bh;
     InterpolationType ip;
     Image img;
+    uint h, w;  
 };
 
 }

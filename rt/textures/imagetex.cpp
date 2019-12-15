@@ -17,6 +17,8 @@ ImageTexture::ImageTexture(const std::string& filename, BorderHandlingType bh, I
     Image image;
     image.readPNG(filename);
     this->img = image;
+    this->h = image.height();
+    this->w = image.width();
 }
 
 ImageTexture::ImageTexture(const Image& image, BorderHandlingType bh, InterpolationType i)
@@ -25,6 +27,8 @@ ImageTexture::ImageTexture(const Image& image, BorderHandlingType bh, Interpolat
     this->bh = bh;
     this->ip = i;
     this->img = image;
+    this->h = image.height();
+    this->w = image.width();
 }
 
 RGBColor ImageTexture::getColor(const Point& coord) {
@@ -37,122 +41,122 @@ RGBColor ImageTexture::getColor(const Point& coord) {
     //assert(tu>=0 && tv>=0);
     switch(ip){
         case NEAREST:
-            tmpu = coord.x * (img.width());
-            tmpv = coord.y * (img.height());
+            tmpu = coord.x * w;
+            tmpv = coord.y * h;
             switch (bh)
             {
             case CLAMP:               
                 if(tmpu<0.0f) 
                     tu = 0.0f;
-                else if(tmpu>img.width()-1)
-                    tu = img.width()-1;
+                else if(tmpu>w-1)
+                    tu = w-1;
                 else tu = tmpu;
 
                 if(tmpv<0.f) 
                     tv = 0.f;
-                else if(tmpv>img.height()-1)
-                    tv = img.height()-1;
+                else if(tmpv>h-1)
+                    tv = h-1;
                 else tv = tmpv;
                 break;
             case REPEAT:
                 if(tmpu<0.0f) 
-                    tu = img.width() + fmod(tmpu, img.width());
-                else if(tmpu>img.width()-1)
-                    tu = fmod(tmpu, img.width());
+                    tu = w + fmod(tmpu, w);
+                else if(tmpu>w-1)
+                    tu = fmod(tmpu, w);
                 else tu = tmpu;
 
                 if(tmpv<0.f) 
-                    tv = img.height() + fmod(tmpv, img.height());
-                else if(tmpv>img.height()-1)
-                    tv = fmod(tmpv, img.height());
+                    tv = h + fmod(tmpv, h);
+                else if(tmpv>h-1)
+                    tv = fmod(tmpv, h);
                 else tv = tmpv;
                 break;
             case MIRROR:
                 if(tmpu<0.0f) 
-                    tu = img.width() + fmod(tmpu, img.width());
-                else if(tmpu>img.width()-1)
-                    tu = fmod(tmpu, img.width());
-                    //tu = img.width() - fmod(tmpu, img.width());
+                    tu = w + fmod(tmpu, w);
+                else if(tmpu>w-1)
+                    tu = fmod(tmpu, w);
+                    //tu = w - fmod(tmpu, w);
                 else tu = tmpu;
 
                 if(tmpv<0.f) 
-                    tv = img.height() + fmod(tmpv, img.height());
-                else if(tmpv>img.height()-1)
-                    //tv = img.height() - fmod(tmpv, img.height());
-                    tv = fmod(tmpv, img.height());
+                    tv = h + fmod(tmpv, h);
+                else if(tmpv>h-1)
+                    //tv = h - fmod(tmpv, h);
+                    tv = fmod(tmpv, h);
                 else tv = tmpv;
-                lu = tmpu / img.width();
+                lu = tmpu / w;
                 if(tmpu < 0)
                     lu = lu + 1;
-                lv = tmpv / img.height();
+                lv = tmpv / h;
                 if(tmpv < 0)
                     lv = lv + 1;
                 if(lu%2==1)
-                    tu = img.width() - tu;
+                    tu = w - tu;
                 if(lv%2==1)
-                    tv = img.height() - tv;
+                    tv = h - tv;
                 break;
             }
             assert(((int)tu)<=511 && ((int)tv)<=511);
             return img(tu, tv);
             break;
         case BILINEAR:
-            tmpu = coord.x * (img.width()-1);
-            tmpv = coord.y * (img.height()-1);
+            tmpu = coord.x * (w-1);
+            tmpv = coord.y * (h-1);
             switch (bh)
             {
             case CLAMP:               
                 if(tmpu<0.0f) 
                     tu = 0.0f;
-                else if(tmpu>img.width()-2)
-                    tu = img.width()-2;
+                else if(tmpu>w-2)
+                    tu = w-2;
                 else tu = tmpu;
 
                 if(tmpv<0.f) 
                     tv = 0.f;
-                else if(tmpv>img.height()-2)
-                    tv = img.height()-2;
+                else if(tmpv>h-2)
+                    tv = h-2;
                 else tv = tmpv;
                 break;
             case REPEAT:
                 if(tmpu<0.0f) 
-                    tu = img.width() -1 + fmod(tmpu, img.width());
-                else if(tmpu>img.width()-2)
-                    tu = fmod(tmpu, img.width());
+                    tu = w -1 + fmod(tmpu, w);
+                else if(tmpu>w-2)
+                    tu = fmod(tmpu, w);
                 else tu = tmpu;
 
                 if(tmpv<0.f) 
-                    tv = img.height() -1 + fmod(tmpv, img.height());
-                else if(tmpv>img.height()-2)
-                    tv = fmod(tmpv, img.height());
+                    tv = h -1 + fmod(tmpv, h);
+                else if(tmpv>h-2)
+                    tv = fmod(tmpv, h);
                 else tv = tmpv;
                 break;
             case MIRROR:
                 if(tmpu<0.0f) 
-                    tu = img.width()-1 + fmod(tmpu, img.width());
-                else if(tmpu>img.width()-1)
-                    tu = fmod(tmpu, img.width())-1;
+                    tu = w-1 + fmod(tmpu, w);
+                else if(tmpu>w-1)
+                    tu = fmod(tmpu, w)-1;
                 else tu = tmpu;
 
                 if(tmpv<0.f) 
-                    tv = img.height()-1 + fmod(tmpv, img.height());
-                else if(tmpv>img.height()-1)
-                    //tv = img.height() - fmod(tmpv, img.height());
-                    tv = fmod(tmpv, img.height())-1;
+                    tv = h-1 + fmod(tmpv, h);
+                else if(tmpv>h-1)
+                    //tv = h - fmod(tmpv, h);
+                    tv = fmod(tmpv, h)-1;
                 else tv = tmpv;
                 if (!(tu>=0 && (int)tu<=510 && tv>=0 && (int)tv<=510)){
                     //std::cout<<"Issues";
                 }
-                lu = tmpu / img.width();
+                lu = tmpu / w;
                 if(tmpu < 0)
                     lu = lu + 1;
-                lv = tmpv / img.height();
+                lv = tmpv / h;
                 if(tmpv < 0)
                     lv = lv + 1;
                 if(lu%2==1)
-                    tu = img.width()-1 - tu;
+                    tu = w-1 - tu;
                 if(lv%2==1)
-                    tv = img.height()-1 - tv;
+                    tv = h-1 - tv;
                 //assert(((int)tu)<=510 && ((int)tv)<=510);
                 break;
             }
