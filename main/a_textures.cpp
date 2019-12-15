@@ -133,15 +133,15 @@ void a_textures() {
     engine.render(img);
     img.writePNG("a6-2c.png");
 
-    world.scene = imageDebugTextures(ImageTexture::CLAMP);
-    engine.render(img);
-    img.writePNG("a6-2d.png");
-
-    world.scene = imageDebugTextures(ImageTexture::REPEAT);
-    engine.render(img);
-    img.writePNG("a6-2e.png");
-
-    world.scene = imageDebugTextures(ImageTexture::MIRROR);
-    engine.render(img);
-    img.writePNG("a6-2f.png");
+//    world.scene = imageDebugTextures(ImageTexture::CLAMP);
+//    engine.render(img);
+//    img.writePNG("a6-2d.png");
+//
+//    world.scene = imageDebugTextures(ImageTexture::REPEAT);
+//    engine.render(img);
+//    img.writePNG("a6-2e.png");
+//
+//    world.scene = imageDebugTextures(ImageTexture::MIRROR);
+//    engine.render(img);
+//    img.writePNG("a6-2f.png");
 }

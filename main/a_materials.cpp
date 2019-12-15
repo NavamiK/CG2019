@@ -21,6 +21,7 @@
 #include <rt/materials/phong.h>
 #include <rt/materials/mirror.h>
 #include <rt/materials/combine.h>
+#include <rt/materials/cookTorrance.h>
 
 #include <rt/integrators/recraytrace.h>
 
@@ -64,6 +65,16 @@ void a7prepMaterials1(Material** materials) {
     materials[4] = new LambertianMaterial(blacktex, whitetex);
 }
 
+void cookTorrance1(Material** materials) {
+    materials[0] = new CookTorrance(blacktex, whitetex, 1.f, 15.f);
+    materials[1] = new CookTorrance(blacktex, redtex, 1.f, 1.5f);
+    materials[2] = new CookTorrance(blacktex, greentex, 1.f, 1.5f);
+
+    materials[3] = new CookTorrance(blacktex, whitetex, 1.f, 1.5f);
+
+    materials[4] = new CookTorrance(blacktex, whitetex, 1.f, 1.5f);
+}
+
 void a7prepMaterials2(Material** materials) {
     materials[0] = new LambertianMaterial(blacktex, whitetex);
     materials[1] = new LambertianMaterial(blacktex, redtex);
@@ -73,8 +84,37 @@ void a7prepMaterials2(Material** materials) {
     materials[4] = new MirrorMaterial(0.0f, 0.0f);
 }
 
+void cookTorrance2(Material** materials) {
+    materials[0] = new LambertianMaterial(blacktex, whitetex);
+    materials[1] = new LambertianMaterial(blacktex, redtex);
+    materials[2] = new LambertianMaterial(blacktex, greentex);
+
+    materials[3] = new CookTorrance(blacktex, whitetex, 1.f, 1.5f);
+    materials[4] = new CookTorrance(blacktex, whitetex, 1.2f, 0.8f);
+}
+
 
 void a7prepMaterials3(Material** materials) {
+    materials[0] = new LambertianMaterial(blacktex, whitetex);
+    materials[1] = new LambertianMaterial(blacktex, redtex);
+
+    CombineMaterial* green = new CombineMaterial();
+    green->add(new LambertianMaterial(blacktex, greentex), 0.5f);
+    green->add(new PhongMaterial(whitetex, 2.0f), 0.5f);
+    materials[2] = green;
+
+    materials[3] = new MirrorMaterial(2.485f, 3.433f);
+
+    MirrorMaterial* mirror = new MirrorMaterial(0.0f, 0.0f);
+    PhongMaterial* phong = new PhongMaterial(whitetex, 10.0f);
+    CombineMaterial* combined = new CombineMaterial();
+    combined->add(materials[0],0.2f);
+    combined->add(phong,0.62f);
+    combined->add(mirror,0.18f);
+    materials[4] = combined;
+}
+
+void cookTorrance3(Material** materials) {
     materials[0] = new LambertianMaterial(blacktex, whitetex);
     materials[1] = new LambertianMaterial(blacktex, redtex);
 
@@ -140,11 +180,21 @@ void a7renderCornellbox(float scale, const char* filename, Material** materials)
 void a_materials() {
     Material** materials = new Material*[5];
     initTextures();
-    a7prepMaterials1(materials);
-    a7renderCornellbox(0.001f, "a6-1a.png", materials);
-    a7prepMaterials2(materials);
-    a7renderCornellbox(0.001f, "a6-1b.png", materials);
-    a7prepMaterials3(materials);
-    a7renderCornellbox(0.001f, "a6-1c.png", materials);
+//    a7prepMaterials1(materials);
+//    a7renderCornellbox(0.001f, "a6-1a.png", materials);
+    //////////////////////////
+    cookTorrance1(materials);
+    a7renderCornellbox(0.001f, "cook1.png", materials);
+
+    cookTorrance2(materials);
+    a7renderCornellbox(0.001f, "cook2.png", materials);
+
+    cookTorrance3(materials);
+    a7renderCornellbox(0.001f, "cook3.png", materials);
+    //////////////////////////
+//    a7prepMaterials2(materials);
+//    a7renderCornellbox(0.001f, "a6-1b.png", materials);
+//    a7prepMaterials3(materials);
+//    a7renderCornellbox(0.001f, "a6-1c.png", materials);
     delete [] materials;
 }

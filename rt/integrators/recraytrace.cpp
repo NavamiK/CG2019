@@ -48,7 +48,8 @@ RGBColor RecursiveRayTracingIntegrator::getRecursiveRadiance(const Ray& ray, int
         if(sampling == Material::SAMPLING_ALL || sampling == Material::SAMPLING_SECONDARY){
             Material::SampleReflectance sampleReflectance = intersection.solid->material->getSampleReflectance(texPoint, intersection.normal(),  -ray.d);
             Ray secondaryRay(intersection.hitPoint() + intersection.normal() * offset, sampleReflectance.direction);
-            totalRadiance =  totalRadiance + sampleReflectance.reflectance * getRadiance(secondaryRay);
+            RGBColor radiance = getRadiance(secondaryRay);
+            totalRadiance =  totalRadiance + sampleReflectance.reflectance * radiance; //getRadiance(secondaryRay);
         }
     } 
     return totalRadiance;
