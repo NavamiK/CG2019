@@ -8,7 +8,6 @@ TriangleMapper::TriangleMapper(Point ntv[3])
     this->tv0 = ntv[0];
     this->tv1 = ntv[1];
     this->tv2 = ntv[2];
-    this->area = getArea();
 }
 
 TriangleMapper::TriangleMapper(const Point& tv0, const Point& tv1, const Point& tv2)
@@ -17,29 +16,17 @@ TriangleMapper::TriangleMapper(const Point& tv0, const Point& tv1, const Point& 
     this->tv0 = tv0;
     this->tv1 = tv1;
     this->tv2 = tv2;
-    this->area = getArea();
 }
 
 Point TriangleMapper::getCoords(const Intersection& hit) const {
     /* TODO */ 
-    Point bary;
-    Point p = hit.local();
-    bary.x = getArea(tv1 - p, tv2 - p) / area;
-    bary.y = getArea(tv0 - p, tv2 - p) / area;
-    bary.z = getArea(tv0 - p, tv1 - p) / area;
-    assert(bary.x >=0  && bary.y >=0 && bary.z >=0);
-    return bary;
-}
-
-float TriangleMapper::getArea() const {
-    /* TODO */ 
-    Vector edge1 = tv1 - tv0;
-    Vector edge2 = tv2 - tv0;
-    return getArea(edge1, edge2);
-}
-
-float TriangleMapper::getArea(const Vector& edge1, const Vector& edge2) const{
-    return cross(edge1, edge2).length()/2;
+    Point local = hit.local();
+    //t.x = (tv0.x - tv2.x) * local.x + (tv1.x - tv2.x) * local.y + tv2.x;
+    //t.y = (tv0.y - tv2.y) * local.x + (tv1.y - tv2.y) * local.y + tv2.y;
+    //t.z = 0.f;
+    Point t = local.x * tv0 + local.y * tv1 + local.z * tv2;
+    //Point t = local.z * tv0 + local.x * tv1 + local.y * tv2;
+    return t;
 }
 
 }

@@ -2,6 +2,7 @@
 #define CG1RAYTRACER_COORDMAPPERS_PLANE_HEADER
 
 #include <rt/coordmappers/coordmapper.h>
+#include <core/matrix.h> 
 
 namespace rt {
 
@@ -15,6 +16,7 @@ public:
 private:
     Vector e1, e2, normal;
     Point origin;
+    Matrix m;
 };
 
 }
