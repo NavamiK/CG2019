@@ -53,10 +53,14 @@ Point SphericalCoordMapper::getCoords(const Intersection& hit) const {
    Vector aR = azimuthRef;
      Vector hitP=hit.local()-origin;
     Vector newPolar = (aR.normalize()- dot(aR.normalize(),z.normalize())*z).normalize();
-    float y=(dot(hitP.normalize(),z.normalize())+1)/2;
+    //float y=(dot(hitP.normalize(),z.normalize())+1)/2;
+    //float y=acos(dot(hitP.normalize(),z.normalize())) * z.length();
+    float y=acos(dot(hitP.normalize(),z.normalize())) * z.length();
+    assert(y>=0);
     Vector hitP_Polar=(hitP- dot(hitP,z.normalize())*z).normalize();
-    float x=(dot(hitP_Polar,newPolar)+1)/2;
-    return Point (x,y,1);
+    float x=(acos(dot(hitP_Polar,newPolar))) * aR.length();
+    assert(x>=0);
+    return Point (x,y,0);
 
 }
 
