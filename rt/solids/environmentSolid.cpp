@@ -2,9 +2,10 @@
 
 namespace rt{
 
-EnvironmentSolid::EnvironmentSolid(rt::CoordMapper *texMapper, rt::Material *material) {
-    this->texMapper = texMapper;
-    if(texMapper!=nullptr) this->material = material;
+EnvironmentSolid::EnvironmentSolid(CoordMapper *texMapper, Material *material) {
+    if(texMapper!=nullptr)
+        this->texMapper = texMapper;
+    this->material = material;
 }
 
 Intersection EnvironmentSolid::intersect(const rt::Ray &ray, float previousBestDistance) const {

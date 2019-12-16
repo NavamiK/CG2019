@@ -9,7 +9,7 @@ namespace rt {
 
     class EnvironmentMapper : public CoordMapper {
     public:
-        EnvironmentMapper(const Point& origin, const Vector& longitudinalAxis, const Vector& polarAxis);
+        EnvironmentMapper() {}
         virtual Point getCoords(const Intersection& hit) const;
     };
 
