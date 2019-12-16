@@ -15,8 +15,7 @@ public:
 
 private:
     Point origin;
-    Vector zenith, azimuthRef, normal;
-    Matrix rotM, transM, m;
+    Vector z, aR;
     float radius, scaleX, scaleY;
 };
 
