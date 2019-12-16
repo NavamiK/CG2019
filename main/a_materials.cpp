@@ -180,8 +180,12 @@ void a7renderCornellbox(float scale, const char* filename, Material** materials)
 void a_materials() {
     Material** materials = new Material*[5];
     initTextures();
-//    a7prepMaterials1(materials);
-//    a7renderCornellbox(0.001f, "a6-1a.png", materials);
+    a7prepMaterials1(materials);
+    a7renderCornellbox(0.001f, "a6-1a.png", materials);
+    a7prepMaterials2(materials);
+    a7renderCornellbox(0.001f, "a6-1b.png", materials);
+    a7prepMaterials3(materials);
+    a7renderCornellbox(0.001f, "a6-1c.png", materials);
     //////////////////////////
     cookTorrance1(materials);
     a7renderCornellbox(0.001f, "cook1.png", materials);
@@ -192,9 +196,6 @@ void a_materials() {
     cookTorrance3(materials);
     a7renderCornellbox(0.001f, "cook3.png", materials);
     //////////////////////////
-//    a7prepMaterials2(materials);
-//    a7renderCornellbox(0.001f, "a6-1b.png", materials);
-//    a7prepMaterials3(materials);
-//    a7renderCornellbox(0.001f, "a6-1c.png", materials);
+    
     delete [] materials;
 }

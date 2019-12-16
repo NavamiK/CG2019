@@ -29,15 +29,15 @@ rt::RGBColor PerlinTexture::getColor(const Point& coord) {
         p = frequencies[i] * coord;
         lu = floor(p.x); lv = floor(p.y); lw = floor(p.z);
         fu = p.x - lu; fv = p.y - lv; fw = p.z - lw;
-        n1 = noise(lu, lv, lw);
-        n2 = noise(lu + 1, lv, lw);
-        n3 = noise(lu, lv + 1, lw);
-        n4 = noise(lu + 1, lv + 1, lw);
-        n5 = noise(lu, lv, lw + 1);
-        n6 = noise(lu + 1, lv, lw + 1);
-        n7 = noise(lu, lv + 1, lw);
-        n8 = noise(lu + 1, lv + 1, lw);
-        total = total + fabs(lerp3d(n1, n2, n3, n4, n5, n6, n7, n8, fu, fv, fw) * amplitudes[i]); 
+        n1 = fabs(noise(lu, lv, lw));
+        n2 = fabs(noise(lu + 1, lv, lw));
+        n3 = fabs(noise(lu, lv + 1, lw));
+        n4 = fabs(noise(lu + 1, lv + 1, lw));
+        n5 = fabs(noise(lu, lv, lw + 1));
+        n6 = fabs(noise(lu + 1, lv, lw + 1));
+        n7 = fabs(noise(lu, lv + 1, lw + 1));
+        n8 = fabs(noise(lu + 1, lv + 1, lw + 1));
+        total = total + (lerp3d(n1, n2, n3, n4, n5, n6, n7, n8, fu, fv, fw) * amplitudes[i]); 
     }    
     return lerp(black, white, total);
 }

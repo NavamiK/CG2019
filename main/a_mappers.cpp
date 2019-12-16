@@ -153,7 +153,7 @@ void trymapper(const char* filename, CoordMapper* spheremapper1, CoordMapper* sp
     scene.add(new Sphere(Point(200.f,100.f,300.f)*scale, 150.f*scale, spheremapper2, &white));
 
     //environ map.
-    scene.add(new EnvironmentSolid());
+    //scene.add(new EnvironmentSolid());
 
     RayTracingIntegrator integrator(&world);
 
@@ -163,6 +163,7 @@ void trymapper(const char* filename, CoordMapper* spheremapper1, CoordMapper* sp
 }
 
 void a_mappers() {
+    
     trynomapper("a6-4a.png");
     trymapper("a6-4b.png", nullptr, nullptr);
     trymapper("a6-4c.png",
@@ -178,9 +179,10 @@ void a_mappers() {
         new SphericalCoordMapper(Point(.4f,.45f,.3f),Vector(0.0f,hsq2,hsq2),Vector(0.5f,0.0f,0.0f)),
         new SphericalCoordMapper(Point(.3f,.1f,.3f),Vector(0.0f,hsq2,-hsq2),Vector(0.5f,0.0f,0.0f))
     );
-
+    /*
     trymapper("a6-4e.png",
               new EnvironmentMapper(Point::rep(0.f),Vector::rep(0.f),Vector::rep(0.f)),
               new TriangleMapper(Point(0,0,0), Point(0,3,0), Point(3,0,0))//copied above.
     );
+    */
 }

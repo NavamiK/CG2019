@@ -2,6 +2,7 @@
 #define CG1RAYTRACER_COORDMAPPERS_CYLINDRICAL_HEADER
 
 #include <rt/coordmappers/coordmapper.h>
+#include <core/matrix.h> 
 
 namespace rt {
 
@@ -13,7 +14,10 @@ public:
     virtual Point getCoords(const Intersection& hit) const;
 private:
     Point origin;
-    Vector longitudinalAxis, polarAxis;
+    Vector longitudinalAxis, polarAxis, normal;
+    Matrix rotM, transM, cartToCylM;
+    float height;
+    float scaleX;
 };
 
 }

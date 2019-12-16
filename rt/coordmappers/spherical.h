@@ -2,6 +2,7 @@
 #define CG1RAYTRACER_COORDMAPPERS_SPHERICAL_HEADER
 
 #include <rt/coordmappers/coordmapper.h>
+#include <core/matrix.h> 
 
 namespace rt {
 
@@ -14,8 +15,9 @@ public:
 
 private:
     Point origin;
-    Vector zeith, azimuthRef;
-
+    Vector zenith, azimuthRef, normal;
+    Matrix rotM, transM, m;
+    float radius, scaleX, scaleY;
 };
 
 }
