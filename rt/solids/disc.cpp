@@ -9,6 +9,7 @@ Disc::Disc(const Point& center, const Vector& normal, float radius, CoordMapper*
     this->radius = radius;
     this->normal = normal;
     this->material = material;
+    if(texMapper!=nullptr) this->texMapper = texMapper;
 }
 
 BBox Disc::getBounds() const {

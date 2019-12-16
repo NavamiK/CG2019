@@ -19,7 +19,8 @@ BVH::~BVH()
 
 BBox BVH::getBounds() const
 {
-      /* TODO */ NOT_IMPLEMENTED;
+      /* TODO */
+      return this->root->boundingBox;
 }
 
 void BVH::rebuildIndex()
@@ -183,7 +184,10 @@ void BVH::setMaterial(Material *m)
 
 void BVH::setCoordMapper(CoordMapper *cm)
 {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */ 
+    for (auto iter = primitives.begin(); iter != primitives.end(); ++iter){
+        (*iter)->setCoordMapper(cm);
+    } 
 }
 
 } 

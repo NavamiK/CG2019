@@ -8,6 +8,7 @@ AABox::AABox(const Point& corner1, const Point& corner2, CoordMapper* texMapper,
     this->corner1 = corner1;
     this->corner2 = corner2;
     this->material = material;
+    if(texMapper!=nullptr) this->texMapper = texMapper;
 }
 
 BBox AABox::getBounds() const {

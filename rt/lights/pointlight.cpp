@@ -16,6 +16,7 @@ LightHit PointLight::getLightHit(const Point& p) const {
     lightHit.distance = hitPointToLight.length();
     lightHit.direction = hitPointToLight.normalize();
     lightHit.normal = -hitPointToLight; 
+
     return lightHit;
 }
 
