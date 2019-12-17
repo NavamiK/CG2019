@@ -14,10 +14,8 @@ public:
     virtual Point getCoords(const Intersection& hit) const;
 private:
     Point origin;
-    Vector longitudinalAxis, polarAxis, normal;
-    Matrix rotM, transM, cartToCylM;
-    float height;
-    float scaleX;
+    Vector lA, pA;
+    float scaleX, scaleY;
 };
 
 }
