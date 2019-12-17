@@ -4,6 +4,9 @@
 #include <rt/solids/solid.h>
 #include <rt/materials/material.h>
 #include <rt/coordmappers/coordmapper.h>
+#include <rt/solids/environmentSolid.h>
+#include <rt/materials/flatmaterial.h>
+
 namespace rt {
 
 RGBColor RayTracingIntegrator::getRadiance(const Ray& ray) const {
@@ -15,6 +18,7 @@ RGBColor RayTracingIntegrator::getRadiance(const Ray& ray) const {
     if(intersection){
         texPoint = intersection.solid->texMapper->getCoords(intersection);
         emission = intersection.solid->material->getEmission(texPoint, intersection.normal(), -ray.d);
+
         totalRadiance = totalRadiance + emission;
         for(int i = 0; i < world->light.size(); i++){
             LightHit lightHit = world->light[i]->getLightHit(intersection.hitPoint());
