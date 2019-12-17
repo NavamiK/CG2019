@@ -2,7 +2,7 @@
 #include <core/image.h>
 #include <rt/renderer.h>
 #include <rt/ray.h>
-#include <iostream>
+#include <core/random.h>
 #include <rt/cameras/camera.h>
 #include <rt/integrators/integrator.h>
 
@@ -21,14 +21,30 @@ void Renderer::render(Image& img) {
     Ray ray;
     for(prcx = 0; prcx < resx; prcx++)
         for(prcy = 0; prcy < resy; prcy++){
-            ndcx = (prcx + 0.5f) / resx;
-            ndcy = (prcy + 0.5f) / resy;
-            // Screen space coordinates [-1, 1]
-            sscx = ndcx * 2.0f - 1;
-            sscy = -(ndcy * 2.0f - 1);           
-            ray = (this->cam)->getPrimaryRay(sscx, sscy);
-            RGBColor pixelColor = (this->integrator)->getRadiance(ray);
-            img(prcx, prcy) = pixelColor;
+            if(samples == 1){
+                ndcx = (prcx + 0.5f) / resx;
+                ndcy = (prcy + 0.5f) / resy;
+                // Screen space coordinates [-1, 1]
+                sscx = ndcx * 2.0f - 1;
+                sscy = -(ndcy * 2.0f - 1);
+                ray = (this->cam)->getPrimaryRay(sscx, sscy);
+                RGBColor pixelColor = (this->integrator)->getRadiance(ray);
+                img(prcx, prcy) = pixelColor;
+            }
+            else{
+                RGBColor pixcelColorSum = RGBColor::rep(0.f);
+                ndcx = (prcx) / resx;//Don't shot through the pixel center.
+                ndcy = (prcy) / resy;
+                // Screen space coordinates [-1, 1]
+                sscx = ndcx * 2.0f - 1;
+                sscy = -(ndcy * 2.0f - 1);
+
+                for(int s = 0; s < samples; s++){
+                    ray = (this->cam)->getPrimaryRay(sscx * random(), sscy * random());
+                    pixcelColorSum = pixcelColorSum + (this->integrator)->getRadiance(ray);
+                }
+                img(prcx, prcy) = pixcelColorSum / samples;
+            }
 
         }
 }
