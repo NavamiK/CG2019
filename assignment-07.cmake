@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.0)
 
 set(MY_ADDITIONAL_SOURCES
     # Please add your source files here
+    rt/solids/movingSphere.h
+    rt/solids/movingSphere.cpp
 )
 
 set(ASSIGNMENT_SOURCES
