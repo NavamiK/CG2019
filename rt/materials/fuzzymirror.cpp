@@ -4,15 +4,19 @@ namespace rt {
 
 FuzzyMirrorMaterial::FuzzyMirrorMaterial(float eta, float kappa, float fuzzyangle)
 {
-    /* TODO */
+    this->eta = eta;
+    this->kappa = kappa;
+    this->fuzzyAngle = fuzzyangle;
 }
 
 RGBColor FuzzyMirrorMaterial::getReflectance(const Point& texPoint, const Vector& normal, const Vector& outDir, const Vector& inDir) const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */
+    return RGBColor::rep(0.f);
 }
 
 RGBColor FuzzyMirrorMaterial::getEmission(const Point& texPoint, const Vector& normal, const Vector& outDir) const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */
+    return RGBColor::rep(0.f);
 }
 
 Material::SampleReflectance FuzzyMirrorMaterial::getSampleReflectance(const Point& texPoint, const Vector& normal, const Vector& outDir) const {
@@ -20,7 +24,8 @@ Material::SampleReflectance FuzzyMirrorMaterial::getSampleReflectance(const Poin
 }
 
 Material::Sampling FuzzyMirrorMaterial::useSampling() const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */
+    return SAMPLING_ALL;
 }
 
 }
