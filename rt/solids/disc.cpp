@@ -1,4 +1,5 @@
 #include <rt/solids/disc.h>
+#include <core/random.h>
 
 namespace rt {
 
@@ -39,7 +40,20 @@ Intersection Disc::intersect(const Ray& ray, float previousBestDistance) const {
 }
 
 Solid::Sample Disc::sample() const {
-    NOT_IMPLEMENTED;
+    // find random point on disc.
+    float rx, ry, rz;
+    Point p;
+    do{
+        rx = (random() * radius) + center.x;
+        ry = (random() * radius) + center.y;
+        rz = (random() * radius) + center.z;
+        p = Point(rx, ry, rz);
+    }while((p - center).length() > radius);
+
+    Sample sample;
+    sample.point = p;
+    sample.normal = normal;
+    return sample;
 }
 
 float Disc::getArea() const {
