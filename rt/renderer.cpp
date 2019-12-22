@@ -33,14 +33,14 @@ void Renderer::render(Image& img) {
             }
             else{
                 RGBColor pixcelColorSum = RGBColor::rep(0.f);
-                ndcx = (prcx) / resx;//Don't shot through the pixel center.
-                ndcy = (prcy) / resy;
+                ndcx = (prcx / resx) * random();//Don't shot through the pixel center.
+                ndcy = (prcy / resy) * random();
                 // Screen space coordinates [-1, 1]
                 sscx = ndcx * 2.0f - 1;
                 sscy = -(ndcy * 2.0f - 1);
 
                 for(int s = 0; s < samples; s++){
-                    ray = (this->cam)->getPrimaryRay(sscx * random(), sscy * random());
+                    ray = (this->cam)->getPrimaryRay(sscx, sscy);
                     pixcelColorSum = pixcelColorSum + (this->integrator)->getRadiance(ray);
                 }
                 img(prcx, prcy) = pixcelColorSum / samples;
