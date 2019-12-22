@@ -11,7 +11,7 @@ LightHit AreaLight::getLightHit(const Point& p) const {
     Solid::Sample sample = source->sample();
 
     lightHit.direction = (sample.point - p).normalize();
-    lightHit.normal = -lightHit.direction;
+    lightHit.normal = sample.normal;
     lightHit.distance = lightHit.direction.length();
 
     return lightHit;
@@ -20,6 +20,8 @@ LightHit AreaLight::getLightHit(const Point& p) const {
 RGBColor AreaLight::getIntensity(const LightHit& irr) const {
     /* TODO */
     RGBColor emission = source->material->getEmission(Point::rep(0.f), Vector::rep(0.f), Vector::rep(0.f));
+    Solid::Sample sample = source->sample();
+
     return (emission/4.f*pi) * dot(irr.normal, irr.direction) / (irr.distance*irr.distance);
 }
 

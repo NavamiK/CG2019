@@ -1,4 +1,5 @@
 #include <rt/solids/quad.h>
+#include <core/random.h>
 
 namespace rt {
 

@@ -83,16 +83,26 @@ Point Triangle::getBaryCoords(const Point& p) const{
 
 Solid::Sample Triangle::sample() const {
     /* TODO */
-    Vector s1, s2, s3;// sides of the triangle.
+    Vector s1, s2;// sides of the triangle.
     s1 = v1 - v2;
     s2 = v2 - v3;
-    s3 = v1 - v3;
 
-    Vector p = random() * s1 + random() * s2 + random() * s3;
+    float lambda1 = random();
+    float lambda2 = random();
+    float lambda3;
+
+    if((lambda1 + lambda2) < 1.f){
+        lambda3 = 1.f - (lambda1 + lambda2);
+    }
+    else{
+        lambda3 = 1.f - ((1.f/lambda1) + (1.f/lambda2));
+    }
+
+    Point p = lambda1*v1 + lambda2*v2 + lambda3*v3;
     Vector normal = cross(s1, s2);
 
     Sample sample;
-    sample.point = Point(p.x, p.y, p.z);
+    sample.point = p;
     sample.normal = normal;
     return sample;
 
