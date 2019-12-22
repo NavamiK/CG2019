@@ -35,8 +35,8 @@ void Renderer::render(Image& img) {
                 RGBColor pixcelColorSum = RGBColor::rep(0.f);
 
                 for(int s = 0; s < samples; s++){
-                    ndcx = ((prcx + 0.5f) / resx) * random();
-                    ndcy = ((prcy + 0.5f) / resy) * random();
+                    ndcx = ((prcx + random()) / resx);
+                    ndcy = ((prcy + random()) / resy);
                     // Screen space coordinates [-1, 1]
                     sscx = ndcx * 2.0f - 1;
                     sscy = -(ndcy * 2.0f - 1);
