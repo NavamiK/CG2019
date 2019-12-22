@@ -12,7 +12,7 @@ LightHit AreaLight::getLightHit(const Point& p) const {
 
     lightHit.direction = (sample.point - p).normalize();
     lightHit.normal = sample.normal;
-    lightHit.distance = lightHit.direction.length();
+    lightHit.distance = (sample.point - p).length();
 
     return lightHit;
 }
