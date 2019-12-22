@@ -33,8 +33,8 @@ void Renderer::render(Image& img) {
             }
             else{
                 RGBColor pixcelColorSum = RGBColor::rep(0.f);
-                ndcx = (prcx / resx) * random();//Don't shot through the pixel center.
-                ndcy = (prcy / resy) * random();
+                ndcx = ((prcx + 0.5f) / resx) * random();
+                ndcy = ((prcy + 0.5f) / resy) * random();
                 // Screen space coordinates [-1, 1]
                 sscx = ndcx * 2.0f - 1;
                 sscy = -(ndcy * 2.0f - 1);
