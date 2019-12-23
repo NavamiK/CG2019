@@ -23,7 +23,7 @@ RGBColor AreaLight::getIntensity(const LightHit& irr) const {
 
     RGBColor power = emission * source->getArea();
 
-    return (power * dot(irr.normal, irr.direction)) / (irr.distance*irr.distance);
+    return emission * (dot(irr.normal, irr.direction) / (irr.distance*irr.distance)) * source->getArea();
 }
 
 AreaLight::AreaLight(Solid* source)
