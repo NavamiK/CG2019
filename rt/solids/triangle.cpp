@@ -83,34 +83,8 @@ Point Triangle::getBaryCoords(const Point& p) const{
 
 Solid::Sample Triangle::sample() const {
     /* TODO */
-    Vector s1, s2, s3;// sides of the triangle.
-//    s1 = v1 - v2;
-//    s2 = v2 - v3;
-//    s3 = v3 - v1;
-
-    ///test...
-    s1 = v2 - v1;
-    s2 = v3 - v1;
-    ///test...
-
-    //create a random vector in the triangle, and make points from it.
-//    Vector vt = random() * s1 + random() * s2 + random() * s3;
-//    Point p(vt.x, vt.y, vt.z);
-//
-//    // create 3 triangles with this point.
-//    Triangle t1(v1, v2, p, nullptr, nullptr);
-//    Triangle t2(v1, v3, p, nullptr, nullptr);
-//    Triangle t3(v2, v3, p, nullptr, nullptr);
-//
-//    // calculate the lambdas.
-//    float b1 = t1.getArea() / getArea();
-//    float b2  = t2.getArea() / getArea();
-//    float b3 = t3.getArea() / getArea();
-//    float lambda1 = b1 / (b1 + b2 + b3);
-//    float lambda2 = b2 / (b1 + b2 + b3);
-//    float lambda3 = 1.f - (lambda1 + lambda2);
-
-/////////////////////////////////try this.
+    Vector s1 = v2 - v1;
+    Vector s2 = v3 - v1;
     float r = random();
     float t = random();
 
@@ -120,17 +94,12 @@ Solid::Sample Triangle::sample() const {
     }
 
     Point trianglePoint = v1 + (s1 * r) + s2 * t;
-////////////////////////////////try this.
-
-   // Point trianglePoint = lambda1*v1 + lambda2*v2 + lambda3*v3;
     Vector normal = cross(s1, s2);
-
 
     Sample sample;
     sample.point = trianglePoint;
     sample.normal = normal;
     return sample;
-
 }
 
 float Triangle::getArea(const Vector& edge1, const Vector& edge2) const{
