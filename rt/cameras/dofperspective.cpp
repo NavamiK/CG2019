@@ -36,7 +36,7 @@ Ray DOFPerspectiveCamera::getPrimaryRay(float x, float y) const {
     Vector d;
     x = x * tan(horizontalOpeningAngle/2);
     y = y * tan(verticalOpeningAngle/2);
-    d = dof * forward + dof * x * spanX + dof * y * spanY;
+    d = forward + dof * x * spanX + dof * y * spanY;
     d = d.normalize();
     float time = time0 + random()*(time1-time0);
     Ray primaryRay(center, d, time);
