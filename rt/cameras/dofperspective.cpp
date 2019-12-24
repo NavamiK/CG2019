@@ -30,12 +30,13 @@ Ray DOFPerspectiveCamera::getPrimaryRay(float x, float y) const {
     float c = pi * apertureRadius * apertureRadius; // coc
     float m = 1.f; // magnification.
     float N = 1.f;//focalDistance/(apertureRadius*apertureRadius); // TODO: replace by 1.f later. lens number
-    float dof = (2 * N *c ) / (m*m - (((N*c)/focalDistance)));
+    //float dof = (2 * N *c ) / (m*m - (((N*c)/focalDistance)));
+    float dof = apertureRadius/focalDistance;
 
     Vector d;
     x = x * tan(horizontalOpeningAngle/2);
     y = y * tan(verticalOpeningAngle/2);
-    d = dof * forward + x * spanX + y * spanY;
+    d = dof * forward + dof * x * spanX + dof * y * spanY;
     d = d.normalize();
     float time = time0 + random()*(time1-time0);
     Ray primaryRay(center, d, time);
