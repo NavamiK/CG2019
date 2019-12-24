@@ -21,13 +21,15 @@ RGBColor GlassMaterial::getEmission(const Point& texPoint, const Vector& normal,
 
 Material::SampleReflectance GlassMaterial::getSampleReflectance(const Point& texPoint, const Vector& normal, const Vector& outDir) const {
     /* TODO */
-    float refract_index = eta;
+    float ni = eta;
+    float nt = eta;
     if(dot(normal, outDir) > 0.f){
-        refract_index = 1.f/eta;
+        nt = 1.f/eta;
     }
 
+    //TODO: change.
     Vector reflection_dir = -outDir + (2 * dot(outDir, normal) * normal);
-    Vector refraction_dir = getRefractrationDir(refract_index, normal, outDir);
+    Vector refraction_dir = getRefractrationDir(nt, normal, outDir);
 
     Vector direction;
     if(refraction_dir != Vector::rep(0.f)){
@@ -40,12 +42,11 @@ Material::SampleReflectance GlassMaterial::getSampleReflectance(const Point& tex
         direction = reflection_dir;
     }
 
-    // slide # 46. materials.
-    float cosTheta = dot(normal, outDir.normalize());
-    float rParallel = ((eta*eta)* cosTheta*cosTheta - 2.f * eta * cosTheta + 1) /
-                      ((eta*eta)* cosTheta*cosTheta + 2.f * eta * cosTheta + 1);
-    float rPerpendicular = ((eta*eta) - 2*eta*cosTheta + cosTheta*cosTheta) /
-            ((eta*eta) + 2*eta*cosTheta + cosTheta*cosTheta);
+    // slide # 47. materials.
+    float cosThetaI = dot(normal, reflection_dir);
+    float cosThetaT = dot(-normal, refraction_dir);
+    float rParallel = (nt * cosThetaI - ni * cosThetaT) / (nt * cosThetaI + ni * cosThetaT);
+    float rPerpendicular = (ni * cosThetaI - nt * cosThetaT) / (ni * cosThetaI + nt * cosThetaT);
 
     float Fr = 0.5f * (rParallel + rPerpendicular);
 
