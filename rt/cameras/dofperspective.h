@@ -17,7 +17,9 @@ public:
         float verticalOpeningAngle,
         float horizonalOpeningAngle,
         float focalDistance,
-        float apertureRadius
+        float apertureRadius,
+        float time0=0.f,
+        float time1=0.f
     );
 
     virtual Ray getPrimaryRay(float x, float y) const;
@@ -28,6 +30,9 @@ private:
     float verticalOpeningAngle;
     float horizontalOpeningAngle;
     float focalDistance, apertureRadius;
+
+    Vector spanX, spanY;
+    float time0, time1;
 };
 
 }
