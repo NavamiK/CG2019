@@ -23,23 +23,17 @@ Material::SampleReflectance GlassMaterial::getSampleReflectance(const Point& tex
     /* TODO */
     float ni = eta;
     float nt = eta;
-    if(dot(normal, outDir) > 0.f){
-        nt = 1.f/eta;
-    }
 
-    //TODO: change.
     Vector reflection_dir = -outDir + (2 * dot(outDir, normal) * normal);
     Vector refraction_dir = getRefractrationDir(nt, normal, outDir);
 
     Vector direction;
-    if(refraction_dir != Vector::rep(0.f)){
-        // randomly choose one direction.
-        if(random() < 0.5)
-            direction = reflection_dir;
-        else
-            direction = refraction_dir;
-    }else{
+    if(dot(normal, outDir) > 0.f){
+        nt = 1.f/eta;
         direction = reflection_dir;
+    }
+    else{
+        direction = refraction_dir == Vector::rep(0.f) ? reflection_dir : refraction_dir;
     }
 
     // slide # 47. materials.
