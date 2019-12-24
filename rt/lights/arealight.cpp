@@ -22,8 +22,7 @@ RGBColor AreaLight::getIntensity(const LightHit& irr) const {
     RGBColor emission = source->material->getEmission(Point::rep(0.f), Vector::rep(0.f), Vector::rep(0.f));
 
     RGBColor power = emission * source->getArea();
-    RGBColor reflectance = source->material->getSampleReflectance(source->sample().point, irr.normal, irr.direction).reflectance;
-    return power * reflectance * (dot(irr.normal, irr.direction) / (irr.distance*irr.distance));
+    return power  * (dot(irr.normal, irr.direction) / (4.f * pi * irr.distance*irr.distance));
 }
 
 AreaLight::AreaLight(Solid* source)
