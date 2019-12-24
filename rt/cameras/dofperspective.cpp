@@ -29,7 +29,7 @@ Ray DOFPerspectiveCamera::getPrimaryRay(float x, float y) const {
     //https://en.wikipedia.org/wiki/Circle_of_confusion
     float c = pi * apertureRadius * apertureRadius; // coc
     float m = 1.f; // magnification.
-    float N = focalDistance/(apertureRadius*apertureRadius); // TODO: replace by 1.f later. lens number
+    float N = 1.f;//focalDistance/(apertureRadius*apertureRadius); // TODO: replace by 1.f later. lens number
     float dof = (2 * N *c ) / (m*m - (((N*c)/focalDistance)));
 
     Vector d;
