@@ -44,11 +44,10 @@ Intersection Quad::intersect(const Ray& ray, float previousBestDistance) const {
 
 Solid::Sample Quad::sample() const {
     /* TODO */
-    if(random() < .5f){//randomly sample from one triangle.
+    if(random() < .5f)//randomly sample from one triangle.
         return t1->sample();
-    }else{
+    else
         return t2->sample();
-    }
 }
 
 float Quad::getArea() const {

@@ -32,7 +32,7 @@ void Renderer::render(Image& img) {
                 img(prcx, prcy) = pixelColor;
             }
             else{
-                RGBColor pixcelColorSum = RGBColor::rep(0.f);
+                RGBColor pixelColorSum = RGBColor::rep(0.f);
 
                 for(int s = 0; s < samples; s++){
                     ndcx = ((prcx + random()) / resx);
@@ -41,9 +41,9 @@ void Renderer::render(Image& img) {
                     sscx = ndcx * 2.0f - 1;
                     sscy = -(ndcy * 2.0f - 1);
                     ray = (this->cam)->getPrimaryRay(sscx, sscy);
-                    pixcelColorSum = pixcelColorSum + (this->integrator)->getRadiance(ray);
+                    pixelColorSum = pixelColorSum + (this->integrator)->getRadiance(ray);
                 }
-                img(prcx, prcy) = pixcelColorSum / samples;
+                img(prcx, prcy) = pixelColorSum / samples;
             }
 
         }
