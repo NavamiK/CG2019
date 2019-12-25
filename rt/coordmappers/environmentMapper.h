@@ -7,11 +7,17 @@ namespace rt {
 
     class Vector;
 
-    class EnvironmentMapper : public CoordMapper {
-    public:
-        EnvironmentMapper() {}
-        virtual Point getCoords(const Intersection& hit) const;
-    };
+class EnvironmentMapper : public CoordMapper {
+public:
+    EnvironmentMapper(const Point& origin, const Vector& longitudinalAxis, const Vector& polarAxis);
+    virtual Point getCoords(const Intersection& hit) const;
+
+private:
+    Point origin;
+    Vector longitudinalAxis;
+    Vector polarAxis;
+
+};
 
 }
 

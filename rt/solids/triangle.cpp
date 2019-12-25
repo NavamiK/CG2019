@@ -1,4 +1,5 @@
 #include <rt/solids/triangle.h>
+#include <core/random.h>
 
 namespace rt {
 
@@ -81,7 +82,24 @@ Point Triangle::getBaryCoords(const Point& p) const{
 }
 
 Solid::Sample Triangle::sample() const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */
+    Vector s1 = v2 - v1;
+    Vector s2 = v3 - v1;
+    float r = random();
+    float t = random();
+
+    if((r + t) >= 1.f){
+        r = 1.f - r;
+        t = 1.f - t;
+    }
+
+    Point trianglePoint = v1 + (s1 * r) + s2 * t;
+    Vector normal = cross(s1, s2);
+
+    Sample sample;
+    sample.point = trianglePoint;
+    sample.normal = normal;
+    return sample;
 }
 
 float Triangle::getArea(const Vector& edge1, const Vector& edge2) const{

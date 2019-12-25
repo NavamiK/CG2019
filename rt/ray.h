@@ -10,9 +10,10 @@ class Ray {
 public:
     Point o;
     Vector d;
+    float time;
 
     Ray() {}
-    Ray(const Point& o, const Vector& d);
+    Ray(const Point& o, const Vector& d, float time = 0.f);
     Point getPoint(float distance) const;
 };
 
