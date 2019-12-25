@@ -16,6 +16,7 @@ public:
 
 private:
     Solid *source;
+    float offset =  0.0001f;
 };
 
 }

@@ -12,7 +12,7 @@ LightHit AreaLight::getLightHit(const Point& p) const {
 
     lightHit.direction = (sample.point - p).normalize();
     lightHit.normal = sample.normal;
-    lightHit.distance = (sample.point - p).length();
+    lightHit.distance = (sample.point - p).length() - offset;
 
     return lightHit;
 }
@@ -20,7 +20,6 @@ LightHit AreaLight::getLightHit(const Point& p) const {
 RGBColor AreaLight::getIntensity(const LightHit& irr) const {
     /* TODO */
     RGBColor emission = source->material->getEmission(Point::rep(0.f), Vector::rep(0.f), Vector::rep(0.f));
-
     RGBColor power = emission * source->getArea();
     return power  * (dot(irr.normal, -irr.direction) / (irr.distance*irr.distance));
 }
