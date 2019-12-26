@@ -27,9 +27,7 @@ Material::SampleReflectance FuzzyMirrorMaterial::getSampleReflectance(const Poin
     Disc disc(texPoint + perfectReflection, perfectReflection, tan(fuzzyAngle), nullptr, nullptr);
 
     Vector direction = disc.sample().point - texPoint;
-    if(dot(direction, normal) < 0)
-        direction = perfectReflection;
-        
+       
     // Slide # 46 (metals).
     float eta_kappa_sqr = eta * eta + kappa * kappa;
     float cosIn = dot(normal, direction);
