@@ -21,27 +21,29 @@ RGBColor FuzzyMirrorMaterial::getEmission(const Point& texPoint, const Vector& n
 }
 
 Material::SampleReflectance FuzzyMirrorMaterial::getSampleReflectance(const Point& texPoint, const Vector& normal, const Vector& outDir) const {
+    
+    Vector perfectReflection = (-outDir + 2.f * dot(outDir, normal) * normal).normalize();
 
-    Vector perfectReflection = -outDir + 2.f * dot(outDir, normal) * normal;
-
-    //TODO: disk may not be at unit distance.
-    //TODO: what do they mean by "ray direction" in the description.
-    float radius = fabs(dot(perfectReflection, normal) - fuzzyAngle);
-    Disc disc(texPoint, -perfectReflection.normalize(), radius, nullptr, nullptr);
+    Disc disc(texPoint + perfectReflection, perfectReflection, tan(fuzzyAngle), nullptr, nullptr);
 
     Vector direction = disc.sample().point - texPoint;
-
+    if(dot(direction, normal) < 0)
+        direction = perfectReflection;
+        
     // Slide # 46 (metals).
-    float cosIn = dot(normal, outDir);
-    float rParallel = ((eta*eta + kappa*kappa)*cosIn*cosIn - 2.f*cosIn + 1) /
-            ((eta*eta + kappa*kappa)*cosIn*cosIn + 2.f*cosIn + 1);
+    float eta_kappa_sqr = eta * eta + kappa * kappa;
+    float cosIn = dot(normal, direction);
+    float cosInsq = cosIn * cosIn;
+    float two_eta_cosIn = 2.f * eta * cosIn;
 
-    float rPerpendicular = ((eta*eta + kappa*kappa) - 2.f*eta*cosIn + cosIn*cosIn)/
-            ((eta*eta + kappa*kappa) + 2.f*eta*cosIn + cosIn*cosIn);
+    float rParallel = (eta_kappa_sqr * cosInsq - two_eta_cosIn + 1) /
+            (eta_kappa_sqr * cosInsq + two_eta_cosIn + 1);
+
+    float rPerpendicular = (eta_kappa_sqr - two_eta_cosIn + cosInsq)/
+            (eta_kappa_sqr + two_eta_cosIn + cosInsq);
 
     float Fr = 0.5f * (rParallel + rPerpendicular);
-
-    return SampleReflectance(direction + perfectReflection, RGBColor::rep(Fr));
+    return SampleReflectance(direction, RGBColor::rep(Fr));
 }
 
 Material::Sampling FuzzyMirrorMaterial::useSampling() const {
