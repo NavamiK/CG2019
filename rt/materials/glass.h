@@ -13,7 +13,7 @@ public:
     virtual SampleReflectance getSampleReflectance(const Point& texPoint, const Vector& normal, const Vector& outDir) const;
     virtual Sampling useSampling() const;
 
-    Vector getRefractrationDir(float idx, Vector normal, Vector outDir) const;
+    Vector getRefractionDir(float idx, Vector normal, Vector outDir) const;
 
 private:
     float eta;
