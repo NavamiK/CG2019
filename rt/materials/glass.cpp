@@ -20,7 +20,7 @@ RGBColor GlassMaterial::getEmission(const Point& texPoint, const Vector& normal,
 }
 
 
-Vector refract(const Vector &I, const Vector &N, const float &ior) 
+Vector refract(const Vector I, const Vector &N, const float &ior) 
 { 
     float cosi = dot(I, N); 
     float etai = 1, etat = ior; 
@@ -34,7 +34,7 @@ Vector refract(const Vector &I, const Vector &N, const float &ior)
         return eta * I + (eta * cosi - sqrtf(k)) * n; 
 }
 
-float fresnel(const Vector &I, const Vector &N, const float &ior) 
+float fresnel(const Vector I, const Vector &N, const float &ior) 
 { 
     float kr;
     float cosi = dot(I, N); 
@@ -70,7 +70,7 @@ Material::SampleReflectance GlassMaterial::getSampleReflectance(const Point& tex
     else if(random() < 0.5f)
         return SampleReflectance(reflDir, RGBColor::rep(kr));
     else 
-        return SampleReflectance(refractionVector, RGBColor::rep(1.f-kr));
+        return SampleReflectance(refractionVector, RGBColor::rep((1.f-kr)/sqrt(eta)));
 }
 
 Material::Sampling GlassMaterial::useSampling() const {
