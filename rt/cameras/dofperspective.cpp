@@ -1,7 +1,7 @@
 #include <rt/cameras/dofperspective.h>
 #include <rt/ray.h>
 #include <cmath>
-#include <core/scalar.h>
+#include <core/random.h>
 
 namespace rt {
 
@@ -23,23 +23,30 @@ DOFPerspectiveCamera::DOFPerspectiveCamera(const Point& center, const Vector& fo
 
 }
 
+//References
+//https://medium.com/@elope139/depth-of-field-in-path-tracing-e61180417027
+//https://www.scratchapixel.com/lessons/3d-basic-rendering/3d-viewing-pinhole-camera
+
 Ray DOFPerspectiveCamera::getPrimaryRay(float x, float y) const {
     /* TODO */
-    //formula from:
-    //https://en.wikipedia.org/wiki/Circle_of_confusion
-    float c = pi * apertureRadius * apertureRadius; // coc
-    float m = 1.f; // magnification.
-    float N = 1.f;//focalDistance/(apertureRadius*apertureRadius); // TODO: replace by 1.f later. lens number
-    //float dof = (2 * N *c ) / (m*m - (((N*c)/focalDistance)));
-    float dof = apertureRadius/focalDistance;
-
     Vector d;
     x = x * tan(horizontalOpeningAngle/2);
     y = y * tan(verticalOpeningAngle/2);
-    d = dof * forward + x * spanX + y * spanY;
+    d = forward + x * spanX + y * spanY;
     d = d.normalize();
+
+    Point focalPoint = center + focalDistance * d; 
+    float r = random(); float s = random(); float t = random(); float u  = random();
+    if(r < 0.5)
+        s = -s;
+    if(t < 0.5)
+        u = -u;
+    Point rayOrigin = center + s * apertureRadius * spanX + u * apertureRadius * spanY;
+    Vector rayDirection = (focalPoint - rayOrigin).normalize();
+
     float time = time0 + random()*(time1-time0);
-    Ray primaryRay(center, d, time);
+    
+    Ray primaryRay(rayOrigin, rayDirection, time);
     return primaryRay;
 }
 

@@ -1,5 +1,6 @@
 #include <rt/materials/glass.h>
 #include <core/random.h>
+#include <core/scalar.h>
 #include <cmath>
 
 namespace rt {
@@ -70,7 +71,7 @@ Material::SampleReflectance GlassMaterial::getSampleReflectance(const Point& tex
     else if(random() < 0.5f)
         return SampleReflectance(reflDir, RGBColor::rep(kr));
     else 
-        return SampleReflectance(refractionVector, RGBColor::rep((1.f-kr)/sqrt(eta)));
+        return SampleReflectance(refractionVector, RGBColor::rep((1.f-kr)/sqr(eta)));
 }
 
 Material::Sampling GlassMaterial::useSampling() const {
