@@ -4,6 +4,8 @@ set(MY_ADDITIONAL_SOURCES
     # Please add your source files here
     rt/solids/movingSphere.h
     rt/solids/movingSphere.cpp
+    rt/integrators/raytraceblur.h
+    rt/integrators/raytraceblur.cpp
 )
 
 set(ASSIGNMENT_SOURCES

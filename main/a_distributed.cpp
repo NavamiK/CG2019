@@ -15,6 +15,8 @@
 #include <rt/materials/fuzzymirror.h>
 #include <rt/lights/arealight.h>
 #include <rt/lights/pointlight.h>
+#include <rt/integrators/raytraceblur.h>
+#include <rt/materials/flatmaterial.h>
 
 using namespace rt;
 
@@ -87,12 +89,40 @@ void renderCornellbox(float scale, const char* filename, Camera* cam, Material* 
     img.writePNG(filename);
 }
 
+void renderBlurredSphere(float scale, const char* filename, Camera* cam, int numSamples=1) {
+    Image img(400, 400);
+    World world;
+    SimpleGroup* scene = new SimpleGroup();
+    world.scene = scene;
+
+    Texture* yellowtex = new ConstantTexture(RGBColor(0.7f,.7f,0.f));
+    Texture* redtex = new ConstantTexture(RGBColor(0.7f,0.f,0.f));
+
+    Material* flatMaterial1 = new FlatMaterial(yellowtex);
+    Material* flatMaterial2 = new FlatMaterial(redtex);
+    
+    //Here we test the motion blur of back wall and sphere 
+    scene->add(new Sphere(Point(150.0f, 100.0f, 240.0f)*scale, 99.0f*scale, nullptr, flatMaterial1));
+    scene->add(new Quad(Point(000.f, 000.f, 560.f)*scale, Vector(000.f, 550.f, 000.f)*scale, Vector(550.f, 000.f, 000.f)*scale, nullptr, flatMaterial2)); //back wall
+
+    //Visit this integrator to find about the transformation applied 
+    //(object expanding / horizontal translation motion)
+    RayTracingBlurIntegrator integrator(&world);
+
+    Renderer engine(cam, &integrator);
+    if (numSamples>1)
+        engine.setSamples(numSamples);
+    engine.render(img);
+    img.writePNG(filename);
 }
 
-void a_distributed() {
-        PerspectiveCamera* cam = new PerspectiveCamera(Point(0.278f, 0.273f, -0.800f), Vector(0, 0, 1), Vector(0, 1, 0), 0.686f, 0.686f);
-    DOFPerspectiveCamera* dofcam = new DOFPerspectiveCamera(Point(0.278f, 0.273f, -0.8f), Vector(0, 0, 1), Vector(0, 1, 0), 0.686f, 0.686f, 1.025f, 0.045f);
+}
 
+void a_distributed() {        
+    PerspectiveCamera* cam = new PerspectiveCamera(Point(0.278f, 0.273f, -0.800f), Vector(0, 0, 1), Vector(0, 1, 0), 0.686f, 0.686f);
+    DOFPerspectiveCamera* dofcam = new DOFPerspectiveCamera(Point(0.278f, 0.273f, -0.8f), Vector(0, 0, 1), Vector(0, 1, 0), 0.686f, 0.686f, 1.025f, 0.045f);
+    PerspectiveCamera* motionblurcam = new PerspectiveCamera(Point(0.278f, 0.273f, -0.800f), Vector(0, 0, 1), Vector(0, 1, 0), 0.686f, 0.686f, 0.f, 1.f);
+    
     Texture* blacktex = new ConstantTexture(RGBColor::rep(0.0f));
     Texture* whitetex = new ConstantTexture(RGBColor::rep(1.0f));
     Material* floorMaterial1 = new LambertianMaterial(blacktex, whitetex);
@@ -102,7 +132,8 @@ void a_distributed() {
     Material* sphereMaterial2 = new GlassMaterial(2.0f);
 
     renderCornellbox(0.001f, "a7-1.png", cam, sphereMaterial1, floorMaterial1, 30);
-    renderCornellbox(0.001f, "a7-2.png", cam, sphereMaterial2, floorMaterial2, 30);
-    renderCornellbox(0.001f, "a7-3a.png", dofcam, sphereMaterial2, floorMaterial2, 30);
+    renderCornellbox(0.001f, "a7-2.png", cam, sphereMaterial1, floorMaterial2, 30);
+    renderCornellbox(0.001f, "a7-3a.png", dofcam, sphereMaterial1, floorMaterial2, 30);
     renderCornellbox(0.001f, "a7-3b.png", dofcam, sphereMaterial2, floorMaterial2, 1000);
+    renderBlurredSphere(0.001f, "a7-4.png", motionblurcam, 15);
 }
