@@ -14,6 +14,7 @@ T lerpbar(const T& a, const T& b, const T& c, float aWeight, float bWeight) {
     /* TODO */ 
     float cWeight = 1 - aWeight - bWeight;
     T p = aWeight * a + bWeight * b + cWeight * c;
+    return p;
 }
 
 template <typename T>

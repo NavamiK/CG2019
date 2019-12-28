@@ -15,6 +15,15 @@ public:
         CoordMapper* texMapper, Material* material);
 
     virtual Intersection intersect(const Ray& ray, float previousBestDistance = FLT_MAX) const;
+    float getAreaSmoothT(const Vector& edge1, const Vector& edge2) const;
+    Point getBaryCoordsSmoothT(const Point& p) const;
+
+private:
+    //Point vertices[3];
+    Point v1, v2, v3;
+    Vector n1, n2, n3;
+    Vector edge1, edge2;
+    float area;
 };
 
 }
