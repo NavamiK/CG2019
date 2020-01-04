@@ -30,11 +30,13 @@ Vector refract(const Vector I, const Vector &N, const float &ior)
     float eta = etai / etat; 
     float k = 1 - eta * eta * (1 - cosi * cosi); 
     if (k < 0){
-        std::cout<<"TotalInnerReflection1 "<<std::endl;
+        //std::cout<<"TotalInnerReflection1 "<<std::endl;
         return Vector::rep(0.f);
     }
-    else
-        return eta * I + (eta * cosi - sqrtf(k)) * n; 
+    else{
+        Vector refractionVector =  eta * I + (eta * cosi - sqrtf(k)) * n; 
+        return Vector(refractionVector.y, refractionVector.x, refractionVector.z);
+    }
 }
 
 float fresnel(const Vector I, const Vector &N, const float &ior) 
