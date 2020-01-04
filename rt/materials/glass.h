@@ -13,7 +13,8 @@ public:
     virtual SampleReflectance getSampleReflectance(const Point& texPoint, const Vector& normal, const Vector& outDir) const;
     virtual Sampling useSampling() const;
 
-    Vector getRefractionDir(float idx, Vector normal, Vector outDir) const;
+    float fresnel(const Vector I, const Vector &N, const float &ior) const;
+    Vector refract(const Vector I, const Vector &N, const float &ior) const;
 
 private:
     float eta;

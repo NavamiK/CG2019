@@ -132,7 +132,7 @@ void a_distributed() {
     Material* sphereMaterial2 = new GlassMaterial(2.0f);
 
     renderCornellbox(0.001f, "a7-1.png", cam, sphereMaterial1, floorMaterial1, 30);
-    renderCornellbox(0.001f, "a7-2.png", cam, sphereMaterial1, floorMaterial2, 30);
+    renderCornellbox(0.001f, "a7-2.png", cam, sphereMaterial2, floorMaterial2, 5);
     renderCornellbox(0.001f, "a7-3a.png", dofcam, sphereMaterial1, floorMaterial2, 30);
     renderCornellbox(0.001f, "a7-3b.png", dofcam, sphereMaterial2, floorMaterial2, 1000);
     renderBlurredSphere(0.001f, "a7-4.png", motionblurcam, 15);

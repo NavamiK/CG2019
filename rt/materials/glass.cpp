@@ -21,7 +21,7 @@ RGBColor GlassMaterial::getEmission(const Point& texPoint, const Vector& normal,
 }
 
 
-Vector refract(const Vector I, const Vector &N, const float &ior) 
+Vector GlassMaterial::refract(const Vector I, const Vector &N, const float &ior) const
 { 
     float cosi = dot(I, N); 
     float etai = 1, etat = ior; 
@@ -33,13 +33,11 @@ Vector refract(const Vector I, const Vector &N, const float &ior)
         //std::cout<<"TotalInnerReflection1 "<<std::endl;
         return Vector::rep(0.f);
     }
-    else{
-        Vector refractionVector =  eta * I + (eta * cosi - sqrtf(k)) * n; 
-        return Vector(refractionVector.y, refractionVector.x, refractionVector.z);
-    }
+    else
+        return eta * I + (eta * cosi - sqrtf(k)) * n; 
 }
 
-float fresnel(const Vector I, const Vector &N, const float &ior) 
+float GlassMaterial::fresnel(const Vector I, const Vector &N, const float &ior) const
 { 
     float kr;
     float cosi = dot(I, N); 
@@ -69,10 +67,12 @@ Material::SampleReflectance GlassMaterial::getSampleReflectance(const Point& tex
     /* TODO */
     // Logic as per 
     // https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/reflection-refraction-fresnel   
+    
     Vector reflDir = (-outDir + (2 * dot(outDir, normal) * normal)).normalize();
-    Vector refractionVector = refract(-reflDir, normal, eta);
-    float kr = fresnel(-reflDir, normal, eta); 
-    if(kr >=1 )  { //Never re
+    Vector refraDir = refract(-outDir, normal, eta);
+    float kr = fresnel(-outDir, normal, eta); 
+    
+    if(kr >=1 )  { 
         //std::cout<<"TotalInnerReflection3 "<<std::endl;
         return SampleReflectance(reflDir.normalize(), RGBColor::rep(1.f));
     }
@@ -82,7 +82,7 @@ Material::SampleReflectance GlassMaterial::getSampleReflectance(const Point& tex
     }    
     else {
         //std::cout<<"Refraction "<<std::endl;
-        return SampleReflectance(refractionVector.normalize(), 2 * RGBColor::rep((1.f-kr)));
+        return SampleReflectance(refraDir.normalize(), 2 * RGBColor::rep((1.f-kr)));
     }
 }
 
