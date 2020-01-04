@@ -29,8 +29,10 @@ Vector refract(const Vector I, const Vector &N, const float &ior)
     if (cosi < 0) { cosi = -cosi; } else { std::swap(etai, etat); n = -N; } 
     float eta = etai / etat; 
     float k = 1 - eta * eta * (1 - cosi * cosi); 
-    if (k < 0)
+    if (k < 0){
+        std::cout<<"TotalInnerReflection1 "<<std::endl;
         return Vector::rep(0.f);
+    }
     else
         return eta * I + (eta * cosi - sqrtf(k)) * n; 
 }
@@ -45,9 +47,11 @@ float fresnel(const Vector I, const Vector &N, const float &ior)
     float sint = etai / etat * sqrtf(std::max(0.f, 1 - cosi * cosi)); 
     // Total internal reflection
     if (sint >= 1) { 
+        //std::cout<<" TotalInnerReflection2" <<std::endl;
         kr = 1; 
     } 
     else { 
+        //std::cout<<"Refraction";
         float cost = sqrtf(std::max(0.f, 1 - sint * sint)); 
         cosi = fabsf(cosi); 
         float Rs = ((etat * cosi) - (etai * cost)) / ((etat * cosi) + (etai * cost)); 
@@ -66,12 +70,18 @@ Material::SampleReflectance GlassMaterial::getSampleReflectance(const Point& tex
     Vector reflDir = (-outDir + (2 * dot(outDir, normal) * normal)).normalize();
     Vector refractionVector = refract(-reflDir, normal, eta);
     float kr = fresnel(-reflDir, normal, eta); 
-    if(abs(kr-1)<EPSILON)  
-        return SampleReflectance(reflDir, RGBColor::rep(kr));
-    else if(random() < 0.5f)
-        return SampleReflectance(reflDir, RGBColor::rep(kr));
-    else 
-        return SampleReflectance(refractionVector, RGBColor::rep((1.f-kr)/sqr(eta)));
+    if(kr >=1 )  { //Never re
+        //std::cout<<"TotalInnerReflection3 "<<std::endl;
+        return SampleReflectance(reflDir.normalize(), RGBColor::rep(1.f));
+    }
+    else if(random() < 0.5f){
+        //std::cout<<"Reflection "<<std::endl;
+        return SampleReflectance(reflDir.normalize(), 2 * RGBColor::rep(kr));
+    }    
+    else {
+        //std::cout<<"Refraction "<<std::endl;
+        return SampleReflectance(refractionVector.normalize(), 2 * RGBColor::rep((1.f-kr)));
+    }
 }
 
 Material::Sampling GlassMaterial::useSampling() const {

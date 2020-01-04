@@ -41,7 +41,7 @@ Material::SampleReflectance FuzzyMirrorMaterial::getSampleReflectance(const Poin
             (eta_kappa_sqr + two_eta_cosIn + cosInsq);
 
     float Fr = 0.5f * (rParallel + rPerpendicular);
-    return SampleReflectance(direction, RGBColor::rep(Fr));
+    return SampleReflectance(direction.normalize(), RGBColor::rep(Fr));
 }
 
 Material::Sampling FuzzyMirrorMaterial::useSampling() const {
