@@ -82,7 +82,7 @@ Material::SampleReflectance GlassMaterial::getSampleReflectance(const Point& tex
     }    
     else {
         //std::cout<<"Refraction "<<std::endl;
-        return SampleReflectance(refraDir.normalize(), 2 * RGBColor::rep((1.f-kr) * (1/sqr(eta))));
+        return SampleReflectance(refraDir.normalize(), 2 * RGBColor::rep((1.f-kr)));
     }
 }
 
