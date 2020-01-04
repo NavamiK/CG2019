@@ -71,7 +71,7 @@ Material::SampleReflectance GlassMaterial::getSampleReflectance(const Point& tex
     Vector reflDir = (-outDir + (2 * dot(outDir, normal) * normal)).normalize();
     Vector refraDir = refract(-outDir, normal, eta);
     float kr = fresnel(-outDir, normal, eta); 
-    
+
     if(kr >=1 )  { 
         //std::cout<<"TotalInnerReflection3 "<<std::endl;
         return SampleReflectance(reflDir.normalize(), RGBColor::rep(1.f));
@@ -82,7 +82,7 @@ Material::SampleReflectance GlassMaterial::getSampleReflectance(const Point& tex
     }    
     else {
         //std::cout<<"Refraction "<<std::endl;
-        return SampleReflectance(refraDir.normalize(), 2 * RGBColor::rep((1.f-kr)));
+        return SampleReflectance(refraDir.normalize(), 2 * RGBColor::rep((1.f-kr) * (1/sqr(eta))));
     }
 }
 

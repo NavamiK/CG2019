@@ -13,7 +13,7 @@ RGBColor RecursiveRayTracingIntegrator::getRadiance(const Ray& ray) const {
     return getRecursiveRadiance(ray, maxDepth);
 }
 
-RGBColor RecursiveRayTracingIntegrator::getRecursiveRadiance(const Ray& ray, int depth) const {
+RGBColor RecursiveRayTracingIntegrator::getRecursiveRadiance(const Ray& ray, int& depth) const {
     /* TODO */
     RGBColor totalRadiance = RGBColor::rep(0.0f);
 
@@ -24,12 +24,15 @@ RGBColor RecursiveRayTracingIntegrator::getRecursiveRadiance(const Ray& ray, int
     RGBColor emission, reflectance, intensity;
     Point texPoint;
     Intersection intersection = world->scene->intersect(ray);
+
     if(intersection){
         texPoint = intersection.solid->texMapper->getCoords(intersection);
         Material::Sampling sampling = intersection.solid->material->useSampling();
+    
         if(sampling == Material::SAMPLING_NOT_NEEDED || sampling == Material::SAMPLING_SECONDARY){
             emission = intersection.solid->material->getEmission(texPoint, intersection.normal(), -ray.d);
             totalRadiance = totalRadiance + emission;
+            
             for(int i = 0; i < world->light.size(); i++){
                 LightHit lightHit = world->light[i]->getLightHit(intersection.hitPoint());
                 //Shift the ray origin towards it's direction by an offset, to avoid self intersection
@@ -45,11 +48,12 @@ RGBColor RecursiveRayTracingIntegrator::getRecursiveRadiance(const Ray& ray, int
                 }
             }
         }
+        
         if(sampling == Material::SAMPLING_ALL || sampling == Material::SAMPLING_SECONDARY){
             Material::SampleReflectance sampleReflectance = intersection.solid->material->getSampleReflectance(texPoint, intersection.normal(),  -ray.d);
             Ray secondaryRay(intersection.hitPoint() + sampleReflectance.direction * offset, sampleReflectance.direction, intersection.ray.time);
-            RGBColor radiance = getRadiance(secondaryRay);
-            totalRadiance =  totalRadiance + sampleReflectance.reflectance * radiance; //getRadiance(secondaryRay);
+            RGBColor radiance = getRecursiveRadiance(secondaryRay, depth);
+            totalRadiance =  totalRadiance + sampleReflectance.reflectance * radiance; 
         }
     } 
     return totalRadiance;
