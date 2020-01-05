@@ -65,12 +65,12 @@ float GlassMaterial::fresnel(const Vector I, const Vector &N, const float &ior) 
 
 Material::SampleReflectance GlassMaterial::getSampleReflectance(const Point& texPoint, const Vector& normal, const Vector& outDir) const {
     /* TODO */
-    // Logic as per 
-    // https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/reflection-refraction-fresnel   
-    
+       
     Vector reflDir = (-outDir + (2 * dot(outDir, normal) * normal)).normalize();
     Vector refraDir = refract(-outDir, normal, eta);
-    float kr = fresnel(-outDir, normal, eta); 
+    float kr = fresnel(-outDir, normal, eta);
+    
+     
 
     if(kr >=1 )  { 
         //std::cout<<"TotalInnerReflection3 "<<std::endl;
@@ -82,7 +82,12 @@ Material::SampleReflectance GlassMaterial::getSampleReflectance(const Point& tex
     }    
     else {
         //std::cout<<"Refraction "<<std::endl;
-        return SampleReflectance(refraDir.normalize(), 2 * RGBColor::rep((1.f-kr)));
+        float cosi = dot(-outDir, normal); 
+        float etai = 1, etat = eta; 
+        if (cosi > 0) 
+            std::swap(etai, etat);
+        float inverse_eta = etai / etat; 
+        return SampleReflectance(refraDir.normalize(), 2 * sqr(inverse_eta) * RGBColor::rep((1.f-kr)));
     }
 }
 
