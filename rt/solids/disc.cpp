@@ -42,11 +42,11 @@ Intersection Disc::intersect(const Ray& ray, float previousBestDistance) const {
 Solid::Sample Disc::sample() const {
     // find random point on disc.
     float rx, ry, rz;
-    float r = random();
-    float t = sqrt(random());
-    float r1 = r * radius * cos(2*pi*t);
-    float r2 = r * radius * sin(2*pi*t);
-    float r3 = r * radius * sin(2*pi*t);
+    float u = random();
+    float v = sqrt(random());
+    float r1 = v * radius * cos(2*pi*u);
+    float r2 = v * radius * sin(2*pi*u);
+    float r3 = v * radius * sin(2*pi*u);
     
     rx = r1 + center.x;
     ry = r2 + center.y;
