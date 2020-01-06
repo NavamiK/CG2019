@@ -23,7 +23,8 @@ Material::SampleReflectance FlatMaterial::getSampleReflectance(const Point& texP
 }
 
 Material::Sampling FlatMaterial::useSampling() const {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */
+    return SAMPLING_NOT_NEEDED;
 }
 
 }

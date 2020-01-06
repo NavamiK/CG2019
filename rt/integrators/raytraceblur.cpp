@@ -1,4 +1,4 @@
-#include <rt/integrators/raytrace.h>
+#include <rt/integrators/raytraceblur.h>
 #include <rt/world.h>
 #include <rt/lights/light.h>
 #include <rt/solids/solid.h>
@@ -6,15 +6,29 @@
 #include <rt/coordmappers/coordmapper.h>
 #include <rt/solids/environmentSolid.h>
 #include <rt/materials/flatmaterial.h>
+#include <rt/primmod/instance.h>
+#include <core/interpolate.h>
 
 namespace rt {
 
-RGBColor RayTracingIntegrator::getRadiance(const Ray& ray) const {
+RGBColor RayTracingBlurIntegrator::getRadiance(const Ray& ray) const {
     /* TODO */
     RGBColor totalRadiance = RGBColor::rep(0.0f);
     RGBColor emission, reflectance, intensity;
-    Intersection intersection = world->scene->intersect(ray);
     Point texPoint;
+
+    Instance* sceneInstance = new Instance(world->scene);
+
+    // Use this instead to generate image blur due to scaling during exposure time
+    Vector s = lerp(scale0, scale1, ray.time);
+    sceneInstance->scale(s);
+
+    //Use this instead to generate image blur due to translation (in x direction) of objection during camera exposure
+    //Vector t = lerp(translate0, translate1, ray.time);
+    //sceneInstance->translate(t);
+    
+    Intersection intersection = sceneInstance->intersect(ray);
+
     if(intersection){
         texPoint = intersection.solid->texMapper->getCoords(intersection);
         emission = intersection.solid->material->getEmission(texPoint, intersection.normal(), -ray.d);
