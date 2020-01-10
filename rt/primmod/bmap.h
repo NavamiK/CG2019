@@ -15,6 +15,18 @@ public:
     virtual Intersection intersect(const Ray& ray, float previousBestDistance = FLT_MAX) const;
     virtual void setMaterial(Material* m);
     virtual void setCoordMapper(CoordMapper* cm);
+
+    Triangle *base;
+    Texture *bumpMap;
+    Point bv1, bv2, bv3;
+    float vscale;
+
+    //texture base vectors.
+    Vector tbv12, tbv13, tNormal;
+
+    Material *material;
+    CoordMapper *coordMapper;
+
 };
 
 }

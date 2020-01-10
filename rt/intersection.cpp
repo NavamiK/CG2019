@@ -39,6 +39,10 @@ Vector Intersection::normal() const {
 
 }
 
+Vector Intersection::setNormal(const Vector n) {
+    normalVector = n;
+}
+
 Point Intersection::local() const {
     /* TODO */ 
     return localPoint;
