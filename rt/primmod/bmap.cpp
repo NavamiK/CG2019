@@ -35,7 +35,7 @@ Intersection BumpMapper::intersect(const Ray& ray, float previousBestDistance) c
         RGBColor dx = bumpMap->getColorDX(hitTex);
         RGBColor dy = bumpMap->getColorDY(hitTex);
 
-         != RGBColor::rep(0.f)){
+        if(dx != RGBColor::rep(0.f)){
             std::cout << "it's not zero\n";
         }
 
