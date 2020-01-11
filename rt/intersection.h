@@ -22,6 +22,7 @@ public:
     Point hitPoint() const;
     Vector normal() const;
     Point local() const;
+    Vector setNormal(const Vector n);
 
     operator bool(); //this allows intersection object to be put directly in conditional statements. Becomes true iff there is an intersection
 

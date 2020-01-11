@@ -3,6 +3,7 @@
 
 #include <core/macros.h>
 #include <core/assert.h>
+#include "color.h"
 
 namespace rt {
 
@@ -39,6 +40,7 @@ Vector operator * (float scalar, const Vector& b);
 Vector operator * (const Vector& a, float scalar);
 Vector operator / (const Vector& a, float scalar);
 Vector cross(const Vector& a, const Vector& b);
+Vector cross(const Vector &a, const RGBColor &b);
 float dot(const Vector& a, const Vector& b);
 
 Vector min(const Vector& a, const Vector& b);
