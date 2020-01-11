@@ -220,7 +220,7 @@ RGBColor ImageTexture::getColorDX(const Point& coord) {
                     break;
             }
             assert(((int) tu) <= 511);
-            return img(tu, h);
+            return img(tu, h-1);
         case BILINEAR:
             tmpu = coord.x * (w - 1);
             switch (bh) {
@@ -260,7 +260,7 @@ RGBColor ImageTexture::getColorDX(const Point& coord) {
 
             fu = tu - (int) tu;
             uint u = floor(tu);
-            return lerp(img(u, h), img(u+1, h), fu);
+            return lerp(img(u, h-1), img(u+1, h-1), fu);
     }
 }
 
@@ -303,7 +303,7 @@ RGBColor ImageTexture::getColorDY(const Point& coord) {
                     break;
             }
             assert(((int)tv)<=511);
-            return img(w, tv);
+            return img(w-1, tv);
         case BILINEAR:
             tmpv = coord.y * (h-1);
             switch (bh)
@@ -344,7 +344,7 @@ RGBColor ImageTexture::getColorDY(const Point& coord) {
 
             fv = tv - (int)tv;
             uint v = floor(tv);
-            return lerp(img(w, v), img(w, v+1), fv);
+            return lerp(img(w-1, v), img(w-1, v+1), fv);
     }
 }
 }

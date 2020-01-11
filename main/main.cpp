@@ -30,9 +30,10 @@ int main(int argc, char* argv[])
     //a_textures();
     //a_local();
     //a_mappers();
+//    a_distributed();
+//    a_smooth();
 
-    a_distributed();
-    a_smooth();
+    a_bumpmappers();
   
     return 0;
 }

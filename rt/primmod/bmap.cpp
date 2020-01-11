@@ -32,26 +32,35 @@ Intersection BumpMapper::intersect(const Ray& ray, float previousBestDistance) c
         //texture coordinates.
         Point local = intersection.local();
         Point hitTex = local.x * bv1 + local.y * bv2 + local.z * bv3;
-        RGBColor dx = bumpMap->getColorDX(hitTex) * vscale;
-        RGBColor dy = bumpMap->getColorDY(hitTex) * vscale;
+        RGBColor dx = bumpMap->getColorDX(hitTex);
+        RGBColor dy = bumpMap->getColorDY(hitTex);
+
+         != RGBColor::rep(0.f)){
+            std::cout << "it's not zero\n";
+        }
 
         //from texture base, to world space.
+        //TODO: I think this is wrong.
         Matrix tm(Float4(tbv12.x, tbv13.x, tNormal.x, bv1.x),
                   Float4(tbv12.y, tbv13.y, tNormal.y, bv1.y),
                   Float4(tbv12.z, tbv13.z, tNormal.z, bv1.z),
                   Float4(0,       0,       0,         1.f));
-        tm = tm.invert();
-
+        //tm = tm.invert();
+        //TODO: I think this too.
         Vector w1 = tm * tbv12;
         Vector w2 = tm * tbv13;
 
+
+
         //Multiply world vectors and the gradient to perturb the normal in world space.
-        Vector D = cross(w1, dx) + cross(w2, dy);
+        Vector u = cross(w1, dx);
+        Vector v = cross(w2, dy);
         Vector N = intersection.normal();
-        N = N + D;
+
+        Vector D = cross(N, v) - cross(N, u);
+        N = (N + D).normalize();
         intersection.setNormal(N);
     }
-
     return intersection;
 }
 
