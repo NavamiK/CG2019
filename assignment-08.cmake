@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.0)
 
 set(MY_ADDITIONAL_SOURCES
+    main/a_volume.cpp
+    rt/integrators/volumetrace.h
+    rt/integrators/volumetrace.cpp
     # Please add your source files here
 )
 

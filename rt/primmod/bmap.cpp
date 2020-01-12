@@ -17,6 +17,23 @@ BumpMapper::BumpMapper(Triangle* base, Texture* bumpmap, const Point& bv1, const
     tbv12 = bv2 - bv1;
     tbv13 = bv3 - bv1;
     tNormal = cross(tbv12, tbv13);
+    mTexToLocal = Matrix(
+                  Float4(tbv12.x, tbv13.x, 0, bv1.x),
+                  Float4(tbv12.y, tbv13.y, 0, bv1.y),
+                  Float4(0,       0,       1, 0),
+                  Float4(0,       0,       0, 1)).invert();
+    Vector v12 = base->v2 - base->v1;
+    Vector v13 = base->v3 - base->v1;
+    Vector normal = cross(v12, v13); 
+    mLocalToWorld = Matrix(
+        Float4(v12.x, v13.x, normal.x, (base->v1).x),
+        Float4(v12.y, v13.y, normal.y, (base->v1).y),
+        Float4(v12.z, v13.z, normal.z, (base->v1).z),
+        Float4(0,     0,     0,        1)
+    );
+    mTexToWorld = product(mLocalToWorld, mTexToLocal);
+    wx = mTexToWorld * tbv12;
+    wy = mTexToWorld * tbv13;
 }
 
 BBox BumpMapper::getBounds() const {
@@ -34,13 +51,17 @@ Intersection BumpMapper::intersect(const Ray& ray, float previousBestDistance) c
         Point hitTex = local.x * bv1 + local.y * bv2 + local.z * bv3;
         RGBColor dx = bumpMap->getColorDX(hitTex);
         RGBColor dy = bumpMap->getColorDY(hitTex);
+        //dy =  RGBColor::rep(0.f);
 
+        /*
         if(dx != RGBColor::rep(0.f)){
             std::cout << "it's not zero\n";
         }
+        */
 
         //from texture base, to world space.
         //TODO: I think this is wrong.
+        /*
         Matrix tm(Float4(tbv12.x, tbv13.x, tNormal.x, bv1.x),
                   Float4(tbv12.y, tbv13.y, tNormal.y, bv1.y),
                   Float4(tbv12.z, tbv13.z, tNormal.z, bv1.z),
@@ -58,6 +79,9 @@ Intersection BumpMapper::intersect(const Ray& ray, float previousBestDistance) c
         Vector N = intersection.normal();
 
         Vector D = cross(N, v) - cross(N, u);
+        */
+        Vector D = dx.g * wx + dy.g * wy;
+        Vector N = intersection.normal();
         N = (N + D).normalize();
         intersection.setNormal(N);
     }
@@ -66,12 +90,12 @@ Intersection BumpMapper::intersect(const Ray& ray, float previousBestDistance) c
 
 void BumpMapper::setMaterial(Material* m) {
     /* TODO */
-    material = m;
+    base->setMaterial(m);
 }
 
 void BumpMapper::setCoordMapper(CoordMapper* cm) {
     /* TODO */
-    coordMapper = cm;
+    base->setCoordMapper(cm);
 }
 
 }

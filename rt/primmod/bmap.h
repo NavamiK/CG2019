@@ -2,6 +2,7 @@
 #define CG1RAYTRACER_PRIMMOD_BMAP_HEADER
 
 #include <rt/primitive.h>
+#include <core/matrix.h>
 
 namespace rt {
 
@@ -22,10 +23,11 @@ public:
     float vscale;
 
     //texture base vectors.
-    Vector tbv12, tbv13, tNormal;
+    Vector tbv12, tbv13, tNormal, wx, wy;
+    Matrix mTexToWorld, mTexToLocal, mLocalToWorld;
 
-    Material *material;
-    CoordMapper *coordMapper;
+    //Material *material;
+    //CoordMapper *coordMapper;
 
 };
 

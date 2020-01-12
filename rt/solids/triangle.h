@@ -18,7 +18,6 @@ public:
     virtual float getArea() const;
     float getArea(const Vector& edge1, const Vector& edge2) const;
     Point getBaryCoords(const Point& p) const;
-private:
     //Point vertices[3];
     Point v1, v2, v3;
     Vector edge1, edge2, normal;

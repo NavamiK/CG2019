@@ -1,5 +1,6 @@
 #include <rt/textures/imagetex.h>
 #include <core/interpolate.h>
+ 
 namespace rt {
 
 ImageTexture::ImageTexture()
@@ -95,7 +96,7 @@ RGBColor ImageTexture::getColor(const Point& coord) {
                     tv = h - tv;
                 break;
             }
-            assert(((int)tu)<=511 && ((int)tv)<=511);
+            //assert(((int)tu)<=511 && ((int)tv)<=511);
             return img(tu, tv);
             break;
         case BILINEAR:
@@ -181,170 +182,44 @@ RGBColor ImageTexture::getColor(const Point& coord) {
     
 }
 
+const float& clamp( const float& v, const float& lo, const float& hi )
+{
+    assert( !(hi < lo) );
+    return (v < lo) ? lo : (hi < v) ? hi : v;
+}
+
 RGBColor ImageTexture::getColorDX(const Point& coord) {
     /* TODO */
-    float tu, fu, tmpu;
-    int lu;
+    float h = 0.001f;
+    float rightX = coord.x + h;
+    rightX = clamp(rightX, 0.f, (float)(img.width()-1));
 
-    switch(ip) {
-        case NEAREST:
-            tmpu = coord.x * w;
-            switch (bh) {
-                case CLAMP:
-                    if (tmpu < 0.0f)
-                        tu = 0.0f;
-                    else if (tmpu > w - 1)
-                        tu = w - 1;
-                    else tu = tmpu;
-                    break;
-                case REPEAT:
-                    if (tmpu < 0.0f)
-                        tu = w + fmod(tmpu, w);
-                    else if (tmpu > w - 1)
-                        tu = fmod(tmpu, w);
-                    else tu = tmpu;
-                    break;
-                case MIRROR:
-                    if (tmpu < 0.0f)
-                        tu = w + fmod(tmpu, w);
-                    else if (tmpu > w - 1)
-                        tu = fmod(tmpu, w);
-                        //tu = w - fmod(tmpu, w);
-                    else tu = tmpu;
+    Point leftPoint(coord.x, coord.y, coord.z);
+    RGBColor leftColor = getColor(leftPoint);
 
-                    lu = tmpu / w;
-                    if (tmpu < 0)
-                        lu = lu + 1;
-                    if (lu % 2 == 1)
-                        tu = w - tu;
-                    break;
-            }
-            assert(((int) tu) <= 511);
-            return img(tu, h-1);
-        case BILINEAR:
-            tmpu = coord.x * (w - 1);
-            switch (bh) {
-                case CLAMP:
-                    if (tmpu < 0.0f)
-                        tu = 0.0f;
-                    else if (tmpu > w - 2)
-                        tu = w - 2;
-                    else tu = tmpu;
-                    break;
-                case REPEAT:
-                    if (tmpu < 0.0f)
-                        tu = w - 1 + fmod(tmpu, w);
-                    else if (tmpu > w - 2)
-                        tu = fmod(tmpu, w);
-                    else tu = tmpu;
-                    break;
-                case MIRROR:
-                    if (tmpu < 0.0f)
-                        tu = w - 1 + fmod(tmpu, w);
-                    else if (tmpu > w - 1)
-                        tu = fmod(tmpu, w) - 1;
-                    else tu = tmpu;
+    Point rightPoint(rightX, coord.y, coord.z);
+    RGBColor rightColor = getColor(rightPoint);
 
-                    lu = tmpu / w;
-                    if (tmpu < 0)
-                        lu = lu + 1;
-                    if (lu % 2 == 1)
-                        tu = w - 1 - tu;
-                    break;
-            }
-
-            if (tu > 510)
-                tu = 510;
-            if (tu < 0)
-                tu = 0;
-
-            fu = tu - (int) tu;
-            uint u = floor(tu);
-            return lerp(img(u, h-1), img(u+1, h-1), fu);
-    }
+    RGBColor gradientX = (rightColor - leftColor) / h;
+    return gradientX;
 }
 
 RGBColor ImageTexture::getColorDY(const Point& coord) {
     /* TODO */
-    float tv, fv, tmpv;
-    int lv;
+    float h = 0.001f;
+    //float bottomY = coord.y - h; 
+    //bottomY = clamp(bottomY, 0.f, (float)img.height());
 
-    switch(ip){
-        case NEAREST:
-            tmpv = coord.y * h;
-            switch (bh)
-            {
-                case CLAMP:
-                    if(tmpv<0.f)
-                        tv = 0.f;
-                    else if(tmpv>h-1)
-                        tv = h-1;
-                    else tv = tmpv;
-                    break;
-                case REPEAT:
-                    if(tmpv<0.f)
-                        tv = h + fmod(tmpv, h);
-                    else if(tmpv>h-1)
-                        tv = fmod(tmpv, h);
-                    else tv = tmpv;
-                    break;
-                case MIRROR:
-                    if(tmpv<0.f)
-                        tv = h + fmod(tmpv, h);
-                    else if(tmpv>h-1)
-                        tv = fmod(tmpv, h);
-                    else tv = tmpv;
+    float topY = coord.y + h; 
+    topY = clamp(topY, 0.f, (float)(img.height()-1));
 
-                    lv = tmpv / h;
-                    if(tmpv < 0)
-                        lv = lv + 1;
-                    if(lv%2==1)
-                        tv = h - tv;
-                    break;
-            }
-            assert(((int)tv)<=511);
-            return img(w-1, tv);
-        case BILINEAR:
-            tmpv = coord.y * (h-1);
-            switch (bh)
-            {
-                case CLAMP:
-                    if(tmpv<0.f)
-                        tv = 0.f;
-                    else if(tmpv>h-2)
-                        tv = h-2;
-                    else tv = tmpv;
-                    break;
-                case REPEAT:
-                    if(tmpv<0.f)
-                        tv = h -1 + fmod(tmpv, h);
-                    else if(tmpv>h-2)
-                        tv = fmod(tmpv, h);
-                    else tv = tmpv;
-                    break;
-                case MIRROR:
-                    if(tmpv<0.f)
-                        tv = h-1 + fmod(tmpv, h);
-                    else if(tmpv>h-1)
-                        tv = fmod(tmpv, h)-1;
-                    else tv = tmpv;
+    Point bottomPoint(coord.x, coord.y, coord.z);
+    RGBColor bottomColor = getColor(bottomPoint);
 
-                    lv = tmpv / h;
-                    if(tmpv < 0)
-                        lv = lv + 1;
-                    if(lv%2==1)
-                        tv = h-1 - tv;
-                    break;
-            }
+    Point topPoint(coord.x, topY, coord.z);
+    RGBColor topColor = getColor(topPoint);
 
-            if(tv>510)
-                tv=510;
-            if(tv<0)
-                tv=0;
-
-            fv = tv - (int)tv;
-            uint v = floor(tv);
-            return lerp(img(w-1, v), img(w-1, v+1), fv);
-    }
+    RGBColor gradientY = (topColor - bottomColor) / h;
+    return gradientY;
 }
 }
