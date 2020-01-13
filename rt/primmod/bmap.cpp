@@ -80,9 +80,13 @@ Intersection BumpMapper::intersect(const Ray& ray, float previousBestDistance) c
 
         Vector D = cross(N, v) - cross(N, u);
         */
-        Vector D = dx.g * wx + dy.g * wy;
+        Vector O_u(1, 0, 0);
+        Vector O_v(0, 1, 0); 
         Vector N = intersection.normal();
-        N = (N + D).normalize();
+        Vector D = dx.g * cross(N, O_v) - dy.g * cross(N, O_u);
+        //Vector D = dx.g * wx + dy.g * wy;
+        
+        N = (N - D).normalize();
         intersection.setNormal(N);
     }
     return intersection;

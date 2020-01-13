@@ -16,11 +16,18 @@
 #include <rt/lights/directional.h>
 #include <rt/lights/projectivelight.h>
 
-#include <rt/integrators/volumetrace.h>
+#include <rt/integrators/volumetrace_a.h>
+#include <rt/integrators/volumetrace_b.h>
 
 using namespace rt;
 
 namespace {
+
+enum FogType {
+        UNIFORM_AMBIENT,
+        UNIFORM_TRUELIGHT,
+        PERLIN_TRUELIGHT
+    };
 
 void makeBox(Group* scene, const Point& aaa, const Vector& forward, const Vector& left, const Vector& up, CoordMapper* texMapper, Material* material) {
     scene->add(new Quad(aaa, left, forward, texMapper, material));
@@ -40,7 +47,8 @@ void makeWalls(Group* scene, float scale, CoordMapper* texMapper, Material* mate
     scene->add(new Quad(Point(550.f, 550.f, 000.f)*scale, Vector(000.f, -550.f, 000.f)*scale, Vector(000.f, 000.f, 560.f)*scale, texMapper, material)); //left wall
 }
 
-void renderCornellboxA(float scale, const char* filename) {
+void renderCornellboxA(float scale, const char* filename, FogType fogType) {
+
     Image img(400, 400);
     World world;
     Group* scene = new SimpleGroup();
@@ -54,26 +62,35 @@ void renderCornellboxA(float scale, const char* filename) {
     makeWalls(scene, scale, nullptr, mat);
 
     //short box
-    //makeBox(scene, Point(082.f, 000.1f, 225.f)*scale, Vector(158.f, 000.f, 047.f)*scale, Vector(048.f, 000.f, -160.f)*scale, Vector(000.f, 165.f, 000.f)*scale, nullptr, mat);
+    makeBox(scene, Point(082.f, 000.1f, 225.f)*scale, Vector(158.f, 000.f, 047.f)*scale, Vector(048.f, 000.f, -160.f)*scale, Vector(000.f, 165.f, 000.f)*scale, nullptr, mat);
 
     //tall box
-    //makeBox(scene, Point(265.f, 000.1f, 296.f)*scale, Vector(049.f, 000.f, 160.f)*scale, Vector(158.f, 000.f, -049.f)*scale, Vector(000.f, 330.f, 000.f)*scale, nullptr, mat);
+    makeBox(scene, Point(265.f, 000.1f, 296.f)*scale, Vector(049.f, 000.f, 160.f)*scale, Vector(158.f, 000.f, -049.f)*scale, Vector(000.f, 330.f, 000.f)*scale, nullptr, mat);
 
     //point light
     world.light.push_back(new PointLight(Point(288*scale,529.99f*scale,279.5f*scale),RGBColor::rep(40000.0f*scale*scale)));
     world.light.push_back(new PointLight(Point(490*scale,329.99f*scale,279.5f*scale),RGBColor(60000.0f*scale*scale,0,0)));
     world.light.push_back(new PointLight(Point(40*scale,329.99f*scale,279.5f*scale),RGBColor(0,60000.0f*scale*scale,0)));
 
-    VolumeTracingIntegrator integrator(&world);
-
-    Renderer engine(&cam, &integrator);
-    engine.render(img);
-    img.writePNG(filename);
+    if(fogType == FogType::UNIFORM_AMBIENT){
+        VolumeTracingAIntegrator integratorA(&world);
+        Renderer engineA(&cam, &integratorA);
+        engineA.render(img);
+        img.writePNG(filename);
+    }
+    else if (fogType == FogType::UNIFORM_TRUELIGHT){
+        VolumeTracingBIntegrator integratorB(&world);
+        Renderer engineB(&cam, &integratorB);
+        engineB.render(img);
+        img.writePNG(filename);
+    }    
 }
 }
 
 
 void a_volume() {
-    renderCornellboxA(0.001f, "a5-1.png");
-    //renderCornellboxA(0.01f, "a5-2.png");
+    //This is for testing uniform fog lit by ambient light - Assignment 8.4 (i)
+    renderCornellboxA(0.001f, "a8-3.png", FogType::UNIFORM_AMBIENT);
+    renderCornellboxA(0.001f, "a8-4.png", FogType::UNIFORM_TRUELIGHT);
+    //renderCornellboxA(0.001f, "a8-4.png", VolumeTracingIntegrator::PERLIN_TRUELIGHT);
 }
