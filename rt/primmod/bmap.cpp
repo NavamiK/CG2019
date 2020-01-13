@@ -14,6 +14,7 @@ BumpMapper::BumpMapper(Triangle* base, Texture* bumpmap, const Point& bv1, const
     this->bv1 = bv1;
     this->bv2 = bv2;
     this->bv3 = bv3;
+    /*
     tbv12 = bv2 - bv1;
     tbv13 = bv3 - bv1;
     tNormal = cross(tbv12, tbv13);
@@ -34,11 +35,14 @@ BumpMapper::BumpMapper(Triangle* base, Texture* bumpmap, const Point& bv1, const
     mTexToWorld = product(mLocalToWorld, mTexToLocal);
     wx = mTexToWorld * tbv12;
     wy = mTexToWorld * tbv13;
+    */
+    O_u = Vector(1, 0, 0);
+    O_v = Vector(0, 1, 0);     
 }
 
 BBox BumpMapper::getBounds() const {
     /* TODO */
-    return base->getBounds(); //TODO: may add the texture bounds here.
+    return base->getBounds();
 }
 
 Intersection BumpMapper::intersect(const Ray& ray, float previousBestDistance) const {
@@ -49,42 +53,12 @@ Intersection BumpMapper::intersect(const Ray& ray, float previousBestDistance) c
         //texture coordinates.
         Point local = intersection.local();
         Point hitTex = local.x * bv1 + local.y * bv2 + local.z * bv3;
+        
         RGBColor dx = bumpMap->getColorDX(hitTex);
         RGBColor dy = bumpMap->getColorDY(hitTex);
-        //dy =  RGBColor::rep(0.f);
-
-        /*
-        if(dx != RGBColor::rep(0.f)){
-            std::cout << "it's not zero\n";
-        }
-        */
-
-        //from texture base, to world space.
-        //TODO: I think this is wrong.
-        /*
-        Matrix tm(Float4(tbv12.x, tbv13.x, tNormal.x, bv1.x),
-                  Float4(tbv12.y, tbv13.y, tNormal.y, bv1.y),
-                  Float4(tbv12.z, tbv13.z, tNormal.z, bv1.z),
-                  Float4(0,       0,       0,         1.f));
-        //tm = tm.invert();
-        //TODO: I think this too.
-        Vector w1 = tm * tbv12;
-        Vector w2 = tm * tbv13;
-
-
-
-        //Multiply world vectors and the gradient to perturb the normal in world space.
-        Vector u = cross(w1, dx);
-        Vector v = cross(w2, dy);
-        Vector N = intersection.normal();
-
-        Vector D = cross(N, v) - cross(N, u);
-        */
-        Vector O_u(1, 0, 0);
-        Vector O_v(0, 1, 0); 
+        
         Vector N = intersection.normal();
         Vector D = dx.g * cross(N, O_v) - dy.g * cross(N, O_u);
-        //Vector D = dx.g * wx + dy.g * wy;
         
         N = (N - D).normalize();
         intersection.setNormal(N);

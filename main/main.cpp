@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
     //a_mappers();
 //    a_distributed();
 //    a_smooth();
-    //a_bumpmappers();
+    a_bumpmappers();
     a_volume();
     return 0;
 }

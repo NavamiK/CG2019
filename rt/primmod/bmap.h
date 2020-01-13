@@ -24,11 +24,8 @@ public:
 
     //texture base vectors.
     Vector tbv12, tbv13, tNormal, wx, wy;
-    Matrix mTexToWorld, mTexToLocal, mLocalToWorld;
-
-    //Material *material;
-    //CoordMapper *coordMapper;
-
+    //Matrix mTexToWorld, mTexToLocal, mLocalToWorld;
+    Vector O_u, O_v;
 };
 
 }

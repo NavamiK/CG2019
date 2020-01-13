@@ -18,12 +18,15 @@
 
 #include <rt/integrators/volumetrace_a.h>
 #include <rt/integrators/volumetrace_b.h>
+#include <rt/integrators/volumetrace_c.h>
+#include <rt/integrators/raytrace.h>
 
 using namespace rt;
 
 namespace {
 
 enum FogType {
+        NO_FOG,
         UNIFORM_AMBIENT,
         UNIFORM_TRUELIGHT,
         PERLIN_TRUELIGHT
@@ -83,14 +86,26 @@ void renderCornellboxA(float scale, const char* filename, FogType fogType) {
         Renderer engineB(&cam, &integratorB);
         engineB.render(img);
         img.writePNG(filename);
-    }    
+    }
+    else if (fogType == FogType::PERLIN_TRUELIGHT){
+        VolumeTracingCIntegrator integratorC(&world);
+        Renderer engineC(&cam, &integratorC);
+        engineC.render(img);
+        img.writePNG(filename);
+    }else{
+        RayTracingIntegrator integrator(&world);
+        Renderer engine(&cam, &integrator);
+        engine.render(img);
+        img.writePNG(filename);
+    }
 }
 }
 
 
 void a_volume() {
-    //This is for testing uniform fog lit by ambient light - Assignment 8.4 (i)
-    renderCornellboxA(0.001f, "a8-3.png", FogType::UNIFORM_AMBIENT);
-    renderCornellboxA(0.001f, "a8-4.png", FogType::UNIFORM_TRUELIGHT);
-    //renderCornellboxA(0.001f, "a8-4.png", VolumeTracingIntegrator::PERLIN_TRUELIGHT);
+    //This is for testing different scenarios of Assignment 8.4 
+    renderCornellboxA(0.001f, "a8-3.png", FogType::NO_FOG);
+    renderCornellboxA(0.001f, "a8-4.png", FogType::UNIFORM_AMBIENT);
+    renderCornellboxA(0.001f, "a8-5.png", FogType::UNIFORM_TRUELIGHT);
+    renderCornellboxA(0.001f, "a8-6.png", FogType::PERLIN_TRUELIGHT);
 }

@@ -6,6 +6,8 @@ set(MY_ADDITIONAL_SOURCES
     rt/integrators/volumetrace_a.cpp
     rt/integrators/volumetrace_b.h
     rt/integrators/volumetrace_b.cpp
+    rt/integrators/volumetrace_c.h
+    rt/integrators/volumetrace_c.cpp
     # Please add your source files here
 )
 
