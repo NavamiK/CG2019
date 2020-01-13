@@ -80,6 +80,14 @@ Vector cross(const Vector& a, const Vector& b) {
     return res;
 }
 
+Vector cross(const Vector &a, const RGBColor &b){
+    Vector res;
+    res.x = a.y * b.r - a.z * b.g;
+    res.y = a.z * b.r - a.x * b.b;
+    res.z = a.x * b.g - a.y * b.r;
+    return res;
+}
+
 float dot(const Vector& a, const Vector& b) {
     float res; 
     res = a.x * b.x + a.y * b.y + a.z * b.z;

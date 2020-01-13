@@ -11,6 +11,7 @@ void a_mappers();
 void a_distributed();
 void a_smooth();
 void a_bumpmappers();
+void a_volume();
 
 #include <stdexcept>
 #include <iostream>
@@ -30,9 +31,9 @@ int main(int argc, char* argv[])
     //a_textures();
     //a_local();
     //a_mappers();
-
-    a_distributed();
-    a_smooth();
-  
+//    a_distributed();
+//    a_smooth();
+    a_bumpmappers();
+    a_volume();
     return 0;
 }

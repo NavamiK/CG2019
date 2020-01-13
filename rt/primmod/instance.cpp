@@ -106,7 +106,8 @@ void Instance::setMaterial(Material* m) {
 }
 
 void Instance::setCoordMapper(CoordMapper* cm) {
-    /* TODO */ NOT_IMPLEMENTED;
+    /* TODO */
+     archetype->setCoordMapper(cm);
 }
 
 Intersection Instance::intersect(const Ray& ray, float previousBestDistance) const {
