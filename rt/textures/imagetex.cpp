@@ -190,21 +190,6 @@ const float& clamp( const float& v, const float& lo, const float& hi )
 
 RGBColor ImageTexture::getColorDX(const Point& coord) {
     /* TODO */
-    //float h = 0.001f;
-    //float rightX = coord.x + h;
-    //rightX = clamp(rightX, 0.f, (float)(img.width()-1));
-
-    /*
-    Point currentPoint(coord.x, coord.y, coord.z);
-    //RGBColor leftColor = getColor(leftPoint);
-    RGBColor currentColor = getColor(currentPoint * img.width());
-
-    //Point rightPoint(rightX, coord.y, coord.z);
-    Point rightPoint((coord.x * img.width()) + 1, coord.y * img.width(), coord.z * img.width());
-    RGBColor rightColor = getColor(rightPoint);
-
-    RGBColor gradientX = (rightColor - currentColor);
-    return gradientX;*/
     float tu, tv, fu, fv, tmpu, tmpv;
     int lu, lv;
 
@@ -266,8 +251,7 @@ RGBColor ImageTexture::getColorDX(const Point& coord) {
                     tv = h - tv;
                 break;
             }
-            //assert(((int)tu)<=511 && ((int)tv)<=511);
-            return img(clamp(tu+1, 0, w-1), tv) - img(tu,tv);
+            return img(clamp(tu+1, 0, w-1), tv) - img(tu, tv);
             break;
         case BILINEAR:
             tmpu = coord.x * (w-1);
@@ -326,7 +310,6 @@ RGBColor ImageTexture::getColorDX(const Point& coord) {
                     tu = w-1 - tu;
                 if(lv%2==1)
                     tv = h-1 - tv;
-                //assert(((int)tu)<=510 && ((int)tv)<=510);
                 break;
             }
                  
@@ -343,34 +326,15 @@ RGBColor ImageTexture::getColorDX(const Point& coord) {
             //assert(((int)tu)<=509 && ((int)tv)<=509);
             uint u = floor(tu);
             uint v = floor(tv);
-            return lerp2d(img(u,v), img(u,v+1), img(u+1, v), img(u+1, v+1), fv, fu);
-            //if(v==389)
-            //std::cout<<"Wait";
-            //return img(u,v);
-    
+            RGBColor currentPixelColor = lerp2d(img(u,v), img(u,v+1), img(u+1, v), img(u+1, v+1), fv, fu);
+            u = clamp(u+1, 0, w-2);
+            RGBColor rightPixelColor = lerp2d(img(u,v), img(u,v+1), img(u+1, v), img(u+1, v+1), fv, fu);
+            return rightPixelColor - currentPixelColor;    
     }
 }
 
 RGBColor ImageTexture::getColorDY(const Point& coord) {
     /* TODO */
-    //float h = 1.0f;
-    //float bottomY = coord.y - h; 
-    //bottomY = clamp(bottomY, 0.f, (float)img.height());
-
-    //float topY = coord.y + h; 
-    //topY = clamp(topY, 0.f, (float)(img.height()-1));
-
-    /*
-    Point currentPoint(coord.x, coord.y, coord.z);
-    RGBColor currentColor = getColor(currentPoint * img.height());
-
-    //Point topPoint(coord.x, topY, coord.z);
-    Point topPoint(coord.x * img.height(), (coord.y * img.height()) + 1, coord.z * img.height());
-    RGBColor topColor = getColor(topPoint);
-
-    RGBColor gradientY = (topColor - currentColor);
-    return gradientY;
-    */
     float tu, tv, fu, fv, tmpu, tmpv;
     int lu, lv;
 
@@ -432,7 +396,6 @@ RGBColor ImageTexture::getColorDY(const Point& coord) {
                     tv = h - tv;
                 break;
             }
-            //assert(((int)tu)<=511 && ((int)tv)<=511);
             return img(tu, clamp(tv+1, 0, h-1)) - img(tu, tv);
             break;
         case BILINEAR:
@@ -509,9 +472,10 @@ RGBColor ImageTexture::getColorDY(const Point& coord) {
             //assert(((int)tu)<=509 && ((int)tv)<=509);
             uint u = floor(tu);
             uint v = floor(tv);
-            return lerp2d(img(u,v), img(u,v+1), img(u+1, v), img(u+1, v+1), fv, fu);
-            //RGBColor = lerp2d(img(u,v), img(u,v+1), img(u+1, v), img(u+1, v+1), fv, fu);
-    
+            RGBColor currentPixelColor = lerp2d(img(u,v), img(u,v+1), img(u+1, v), img(u+1, v+1), fv, fu);
+            v = clamp(v+1, 0, h-2);
+            RGBColor topPixelColor = lerp2d(img(u,v), img(u,v+1), img(u+1, v), img(u+1, v+1), fv, fu);
+            return topPixelColor - currentPixelColor;
     }
 }
 }
