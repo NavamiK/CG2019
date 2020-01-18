@@ -6,4 +6,6 @@ set(ASSIGNMENT_SOURCES
     rt/integrators/raytracefire.cpp
     rt/volumes/vsphere.h
     rt/volumes/vsphere.cpp
+    rt/volumes/vcone.h
+    rt/volumes/vcone.cpp
 )
