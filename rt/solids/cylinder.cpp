@@ -58,37 +58,20 @@ namespace rt{
             hitPoint = ray.getPoint(distance);
 
             // Refine cylinder intersection point
-            float hitRad = std::sqrt(hitPoint.x * hitPoint.x + hitPoint.z * hitPoint.z);
-            hitPoint.x *= radius / hitRad;
-            hitPoint.z *= radius / hitRad;
-            phi = std::atan2(hitPoint.z, hitPoint.x);
-            if (phi < 0) phi += 2 * pi;
+//            float hitRad = std::sqrt(hitPoint.x * hitPoint.x + hitPoint.z * hitPoint.z);
+//            hitPoint.x *= radius / hitRad;
+//            hitPoint.z *= radius / hitRad;
+//            phi = std::atan2(hitPoint.z, hitPoint.x);
+//            if (phi < 0) phi += 2 * pi;
 
             if (hitPoint.y < yMin || hitPoint.y > yMax) return Intersection::failure();
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //TODO: this is only used for the normal (N). but the debuger showed that it's only diff is +/-x and +/-y
-        // Find parametric representation of cylinder hit
-        float u = phi / phiMax;
-        float v = (hitPoint.y - yMin) / (yMax - yMin);
-
         // Compute cylinder $\dpdu$ and $\dpdv$
         Vector dpdu(-phiMax * hitPoint.z, 0, phiMax * hitPoint.x);
         Vector dpdv(0, yMax - yMin, 0);
-
-        // Compute cylinder $\dndu$ and $\dndv$
-        Vector d2Pduu = -phiMax * phiMax * Vector(hitPoint.x, 0.f, hitPoint.z);
-        Vector d2Pduv(0, 0, 0), d2Pdvv(0, 0, 0);
-
-        // Compute coefficients for fundamental forms
-        float E = dot(dpdu, dpdu);
-        float F = dot(dpdu, dpdv);
-        float G = dot(dpdv, dpdv);
         Vector N = cross(dpdu, dpdv).normalize();
-        float e = dot(N, d2Pduu);
-        float f = dot(N, d2Pduv);
-        float g = dot(N, d2Pdvv);
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

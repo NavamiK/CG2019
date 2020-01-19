@@ -36,6 +36,6 @@ int main(int argc, char* argv[])
     //a_smooth();
     //a_bumpmappers();
     //a_volume();
-    a_fire();
+    //a_fire();
     return 0;
 }

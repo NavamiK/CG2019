@@ -24,8 +24,8 @@ void a_solids() {
     SimpleGroup* scene = new SimpleGroup();
     //scene->add(new Sphere(Point(-2.f,  1.7f,  0), 2   , nullptr, nullptr));
     //here...
-    float radius = 2.f, yMin = 0, yMax = 4.f, phiMax = 360;
-
+    float radius = 2.2f, yMin = 0, yMax = 1.f, phiMax = 360;
+    Point center(1,    -1,     1);
     scene->add(new Cylinder(radius, yMin, yMax, phiMax, nullptr, nullptr));
 //    scene->add(new Sphere(Point(1,    -1,     1), 2.2f, nullptr, nullptr));
 //    scene->add(new Sphere(Point(3.f,   0.8f, -2), 2, nullptr, nullptr));
