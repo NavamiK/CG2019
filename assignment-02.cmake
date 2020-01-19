@@ -14,7 +14,11 @@ set(MY_ADDITIONAL_SOURCES
     rt/solids/triangle.cpp
     rt/intersection.cpp
     rt/bbox.cpp
-)
+    # files for the project.
+    rt/solids/cylinder.h
+    rt/solids/cylinder.cpp
+    #testing.
+        )
 
 set(ASSIGNMENT_SOURCES
     rt/groups/group.h
