@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 {
     //a_julia();
     //a_cameras();  
-    //a_solids();
+    a_solids();
     //a_indexing();
     //a_instancing();
     //a_lighting();
@@ -36,6 +36,6 @@ int main(int argc, char* argv[])
     //a_smooth();
     //a_bumpmappers();
     //a_volume();
-    a_fire();
+    //a_fire();
     return 0;
 }
