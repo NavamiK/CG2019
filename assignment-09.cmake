@@ -8,4 +8,6 @@ set(ASSIGNMENT_SOURCES
     rt/volumes/vsphere.cpp
     rt/volumes/vcone.h
     rt/volumes/vcone.cpp
+    rt/primmod/vinstance.h
+    rt/primmod/vinstance.cpp
 )
