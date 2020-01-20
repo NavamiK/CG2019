@@ -2,11 +2,10 @@
 #include <cmath>
 
 namespace rt{
-    Cylinder::Cylinder(float radius, float yMin, float yMax, float phiMax, rt::CoordMapper *texMapper, rt::Material *material) {
+    Cylinder::Cylinder(float radius, float yMin, float yMax, rt::CoordMapper *texMapper, rt::Material *material) {
         this->radius = radius;
         this->yMin = yMin;
         this->yMax = yMax;
-        this->phiMax = phiMax;
         this->texMapper = texMapper;
         this->material = material;
     }
@@ -15,7 +14,7 @@ namespace rt{
         // logic from pbrt book.
         float a = ray.d.x * ray.d.x + ray.d.z * ray.d.z;
         float b = 2.f * (ray.d.x * ray.o.x + ray.d.z * ray.o.z);
-        float c = (ray.o.x * ray.o.x) + (ray.o.z + ray.o.z) - radius * radius;
+        float c = (ray.o.x * ray.o.x) + (ray.o.z * ray.o.z) - radius * radius;
 
         //solve qaudratic equation for t.
         float discriminant = b * b - 4.f * a * c;
@@ -36,9 +35,9 @@ namespace rt{
         distance = t0;
         if(distance <= 0.f){
             distance = t1;
-            if(distance > pd) return Intersection::failure();
+            if(distance > pd) 
+                return Intersection::failure();
         }
-
 
         Point hitPoint = ray.getPoint(distance);
 
@@ -66,15 +65,6 @@ namespace rt{
 
             if (hitPoint.y < yMin || hitPoint.y > yMax) return Intersection::failure();
         }
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Compute cylinder $\dpdu$ and $\dpdv$
-        Vector dpdu(-phiMax * hitPoint.z, 0, phiMax * hitPoint.x);
-        Vector dpdv(0, yMax - yMin, 0);
-        Vector N = cross(dpdu, dpdv).normalize();
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
         // normal idea taken here:
         //https://stackoverflow.com/questions/36266357/how-can-i-compute-normal-on-the-surface-of-a-cylinder
