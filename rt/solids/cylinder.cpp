@@ -6,8 +6,8 @@ namespace rt{
         this->radius = radius;
         this->yMin = yMin;
         this->yMax = yMax;
-        this->texMapper = texMapper;
         this->material = material;
+        if(texMapper!=nullptr) this->texMapper = texMapper;
     }
 
     Intersection Cylinder::intersect(const rt::Ray &ray, float previousBestDistance) const {
@@ -41,13 +41,6 @@ namespace rt{
 
         Point hitPoint = ray.getPoint(distance);
 
-        //refine hit points.
-        float hitRadius = sqrt(hitPoint.x * hitPoint.x + hitPoint.z * hitPoint.z);
-        hitPoint.x *= radius/hitRadius;
-        hitPoint.z *= radius/hitRadius;
-        float phi = atan2(hitPoint.z, hitPoint.x);
-        if(phi < 0) phi = phi + 2.f * pi;
-
         // Test cylinder intersection against clipping parameters
         if (hitPoint.y < yMin || hitPoint.y > yMax) {
             if (distance == t1) return Intersection::failure();
@@ -55,13 +48,6 @@ namespace rt{
             if (t1 > pd) return Intersection::failure();
             // Compute cylinder hit point and $\phi$
             hitPoint = ray.getPoint(distance);
-
-            // Refine cylinder intersection point
-//            float hitRad = std::sqrt(hitPoint.x * hitPoint.x + hitPoint.z * hitPoint.z);
-//            hitPoint.x *= radius / hitRad;
-//            hitPoint.z *= radius / hitRad;
-//            phi = std::atan2(hitPoint.z, hitPoint.x);
-//            if (phi < 0) phi += 2 * pi;
 
             if (hitPoint.y < yMin || hitPoint.y > yMax) return Intersection::failure();
         }
@@ -78,10 +64,9 @@ namespace rt{
     }
 
     BBox Cylinder::getBounds() const {
-        NOT_IMPLEMENTED;
-//        Point pMin(-radius, -radius, yMin);
-//        Point pMax(radius, radius, yMax);
-//        return (BBox(pMin, pMax));
+        Point pMin(-radius, -radius, yMin);
+        Point pMax(radius, radius, yMax);
+        return (BBox(pMin, pMax));
     }
 
     float Cylinder::getArea() const {
@@ -92,5 +77,13 @@ namespace rt{
 
     Solid::Sample Cylinder::sample() const {
         NOT_IMPLEMENTED;
+    }
+
+    void Cylinder::setCoordMapper(rt::CoordMapper *cm) {
+        texMapper = cm;
+    }
+
+    void Cylinder::setMaterial(rt::Material *m) {
+        material = m;
     }
 };
