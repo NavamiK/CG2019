@@ -38,15 +38,17 @@ void renderFireworks(float scale, const char* filename, int numSamples=1) {
     PerspectiveCamera cam(Point(0, 0, 10), Vector(0, 0, -1), Vector(0, 1, 0), pi/3, pi/3);
     //DOFPerspectiveCamera dofcam(Point(278*scale, 273*scale, -800*scale), Vector(0, 0, 1), Vector(0, 1, 0), 0.686f, 0.686f, 1.025f, 0.045f);
     
-    //scene->add(new Sphere(Point(150.0f, 100.0f, 240.0f)*scale, 99.0f*scale, nullptr, nullptr));
-    //scene->add(new Sphere(Point(450.0f, 50.0f, 50.0f)*scale, 49.0f*scale, nullptr, nullptr));
-    //VSphere testSphere(Point(150.0f, 100.0f, 240.0f)*scale, 150.0f*scale);
-    VCone testCone(Point(150.0f, 100.0f, 240.0f)*scale, 0.3f*scale, 20.0f*scale); //0.02 - height, 0.0003 - radius
-    VCone *instanceCone = new VCone(Point(150.0f, 100.0f, 240.0f)*scale, 0.3f*scale, 20.0f*scale);
-    VInstance* normal = new VInstance(instanceCone);
-
     VGroup* vscene = new VSimpleGroup();
+    VCone *instanceCone = new VCone(Point(150.0f, 100.0f, 240.0f)*scale, 0.3f*scale, 20.0f*scale);
+    
+    VInstance* normal = new VInstance(instanceCone);
     vscene->add(normal);
+    
+    VInstance* second = new VInstance(instanceCone);
+    second->scale(Vector(1.0f, 1.0f + 0.3f, 1.0f));
+    second->translate(Vector(1.0f, 1.0f + 0.3f, 1.0f));
+    second->rotate(Vector(0.3f, 0.0f, 0.7f),-1.0f);
+    vscene->add(second);
     
     RayTraceFireIntegrator integrator(&world, vscene);
     Renderer engine(&cam, &integrator);
