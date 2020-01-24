@@ -2,19 +2,21 @@
 #include <cmath>
 
 namespace rt{
-    Cylinder::Cylinder(float radius, float yMin, float yMax, rt::CoordMapper *texMapper, rt::Material *material) {
+    Cylinder::Cylinder(Point origin, float radius, float yMin, float yMax, rt::CoordMapper *texMapper, rt::Material *material) {
+        this->origin = origin;
         this->radius = radius;
         this->yMin = yMin;
         this->yMax = yMax;
+        if(texMapper != nullptr) this->texMapper = texMapper;
         this->material = material;
-        if(texMapper!=nullptr) this->texMapper = texMapper;
     }
 
     Intersection Cylinder::intersect(const rt::Ray &ray, float previousBestDistance) const {
         // logic from pbrt book.
-        float a = ray.d.x * ray.d.x + ray.d.z * ray.d.z;
-        float b = 2.f * (ray.d.x * ray.o.x + ray.d.z * ray.o.z);
-        float c = (ray.o.x * ray.o.x) + (ray.o.z * ray.o.z) - radius * radius;
+        float a = (ray.d.x * ray.d.x) + (ray.d.z * ray.d.z);
+        float b = 2.f * (ray.d.x * ray.o.x + ray.d.z * ray.o.z - origin.x*ray.d.x - origin.z*ray.d.z);
+        float c = (ray.o.x * ray.o.x) + (ray.o.z * ray.o.z) - radius * radius +
+                (-2.f * origin.x*ray.o.x) + (-2.f * origin.z * ray.d.z) + (origin.x*origin.x + origin.z*origin.z);
 
         //solve qaudratic equation for t.
         float discriminant = b * b - 4.f * a * c;
@@ -26,16 +28,14 @@ namespace rt{
         float t1 = (-b + sqrt(discriminant)) / (2.f * a);
         float distance;
 
-        //TODO: switch from t0 to t1 later.
-        float pd = previousBestDistance;
-        if(t0 > pd  || t1 < 0.f){
+        if(t0 > previousBestDistance  || t1 < 0.f){
             return Intersection::failure();
         }
 
         distance = t0;
         if(distance <= 0.f){
             distance = t1;
-            if(distance > pd) 
+            if(distance > previousBestDistance)
                 return Intersection::failure();
         }
 
@@ -45,7 +45,7 @@ namespace rt{
         if (hitPoint.y < yMin || hitPoint.y > yMax) {
             if (distance == t1) return Intersection::failure();
             distance = t1;
-            if (t1 > pd) return Intersection::failure();
+            if (t1 > previousBestDistance) return Intersection::failure();
             // Compute cylinder hit point and $\phi$
             hitPoint = ray.getPoint(distance);
 

@@ -17,6 +17,7 @@ set(MY_ADDITIONAL_SOURCES
     # files for the project.
     rt/solids/cylinder.h
     rt/solids/cylinder.cpp
+    main/a_cylinder.cpp
     #testing.
         )
 
@@ -39,4 +40,5 @@ set(ASSIGNMENT_SOURCES
     rt/world.h
     ${MY_ADDITIONAL_SOURCES}
     main/a_solids.cpp
+
 )

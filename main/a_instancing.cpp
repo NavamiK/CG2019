@@ -12,48 +12,58 @@
 #include <rt/solids/sphere.h>
 
 #include <rt/groups/bvh.h>
+#include <rt/solids/cylinder.h>
+#include <rt/materials/lambertian.h>
+#include <rt/textures/constant.h>
+#include <rt/materials/phong.h>
+#include <rt/materials/mirror.h>
 
 using namespace rt;
 
 void addTree(Group* g, int trunkTessel, float trunkHeight, float trunkRadius, float crownHeight, float crownRadius, int crownTessel, int crownSteps) {
-    Vector ex(1.0f, 0.0f, 0.0f);
-    Vector ey(0.0f, 0.0f, 1.0f);
-    Vector ez(0.0f, 1.0f, 0.0f);
+//    Vector ex(1.0f, 0.0f, 0.0f);
+//    Vector ey(0.0f, 0.0f, 1.0f);
+//    Vector ez(0.0f, 1.0f, 0.0f);
+//
+//    //trunk
+//    float trunkStep = (2 * pi) / trunkTessel;
+//
+//    for (int i = 0; i < trunkTessel; ++i) {
+//        float angle = i * trunkStep;
+//        float angleNext = (i+1) * trunkStep;
+//
+//        Point start(trunkRadius * sin(angle), 0.0f, trunkRadius * cos(angle));
+//        Point end(trunkRadius * sin(angleNext), 0.0f, trunkRadius * cos(angleNext));
+//        g->add(new Quad(start, end-start, Vector(0.0f, trunkHeight, 0.0f), nullptr, nullptr));
+//    }
+//
+//    float crownStep = (2 * pi) / crownTessel;
 
-    //trunk
-    float trunkStep = (2 * pi) / trunkTessel;
-
-    for (int i = 0; i < trunkTessel; ++i) {
-        float angle = i * trunkStep;
-        float angleNext = (i+1) * trunkStep;
-        
-        Point start(trunkRadius * sin(angle), 0.0f, trunkRadius * cos(angle));
-        Point end(trunkRadius * sin(angleNext), 0.0f, trunkRadius * cos(angleNext));
-        g->add(new Quad(start, end-start, Vector(0.0f, trunkHeight, 0.0f), nullptr, nullptr));
-    }
-
-    float crownStep = (2 * pi) / crownTessel;
+    //here...
+    float radius = 2.f, yMin = 0, yMax = 4.f;
+    Point origin(0,0, 0);
+    g->add(new Cylinder(origin, radius, yMin, yMax, nullptr, nullptr));
 
     //crown
-    for (int i = 0; i < crownSteps; ++i) {
-        float height = trunkHeight + i * crownHeight / crownSteps;
-        
-        float x = float(crownSteps-i-1)/crownSteps;
-        float stepRadius = crownRadius * sin(x*pi);
-        if (stepRadius > 0.0f) {
-            float sphereRadius = 1.5f * pi * stepRadius / crownTessel;
-            for (int j = 0; j < crownTessel; ++j) {
-                float angle = j * crownStep;
-                g->add(new Sphere(
-                    Point(stepRadius * sin(angle), height, stepRadius * cos(angle)),
-                    sphereRadius,
-                    nullptr, nullptr)
-                );
-            }
-        }
-        g->add(new Sphere(Point(0.0f, trunkHeight, 0.0f), trunkRadius, nullptr, nullptr));
-        g->add(new Sphere(Point(0.0f, trunkHeight + crownHeight - crownStep*1.5f, 0.0f), trunkRadius, nullptr, nullptr));
-    }
+//    for (int i = 0; i < crownSteps; ++i) {
+//        float height = trunkHeight + i * crownHeight / crownSteps;
+//
+//        float x = float(crownSteps-i-1)/crownSteps;
+//        float stepRadius = crownRadius * sin(x*pi);
+//        if (stepRadius > 0.0f) {
+//            float sphereRadius = 1.5f * pi * stepRadius / crownTessel;
+//            for (int j = 0; j < crownTessel; ++j) {
+//                float angle = j * crownStep;
+//                g->add(new Sphere(
+//                    Point(stepRadius * sin(angle), height, stepRadius * cos(angle)),
+//                    sphereRadius,
+//                    nullptr, nullptr)
+//                );
+//            }
+//        }
+//        g->add(new Sphere(Point(0.0f, trunkHeight, 0.0f), trunkRadius, nullptr, nullptr));
+//        g->add(new Sphere(Point(0.0f, trunkHeight + crownHeight - crownStep*1.5f, 0.0f), trunkRadius, nullptr, nullptr));
+//    }
 }
 
 void a_instancing() {

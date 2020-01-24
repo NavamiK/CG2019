@@ -25,6 +25,9 @@
 #include <rt/materials/cookTorrance.h>
 
 #include <rt/integrators/recraytrace.h>
+#include <rt/solids/cylinder.h>
+#include <core/matrix.h>
+#include <rt/primmod/instance.h>
 
 using namespace rt;
 
@@ -158,8 +161,60 @@ void a7renderCornellbox(float scale, const char* filename, Material** materials)
     scene->add(new Quad(Point(000.f, 000.f, 000.f)*scale, Vector(000.f, 550.f, 000.f)*scale, Vector(000.f, 000.f, 560.f)*scale, nullptr, rightWallMaterial)); //right wall
     scene->add(new Quad(Point(550.f, 550.f, 000.f)*scale, Vector(000.f, -550.f, 000.f)*scale, Vector(000.f, 000.f, 560.f)*scale, nullptr, leftWallMaterial)); //left wall
 
-    scene->add(new Sphere(Point(150.0f, 100.0f, 150.0f)*scale, 99.0f*scale, nullptr, sphereMaterial));
+    //here...
+    Point cOrigin(150.0f * scale, 100.0f * scale, -150.0f * scale);
+    float radius = 3.f, ymin = 0.f, ymax = 6.f;
+    Cylinder *cylinder = new Cylinder(cOrigin, radius, ymin, ymax, nullptr, sphereMaterial);
+    scene->add(cylinder);
 
+   //scene->add(new Sphere(Point(150.0f, 100.0f, 150.0f)*scale, 99.0f*scale, nullptr, sphereMaterial));
+    //tall box
+    makeBox(scene, Point(265.f, 000.1f, 296.f)*scale, Vector(049.f, 000.f, 160.f)*scale, Vector(158.f, 000.f, -049.f)*scale, Vector(000.f, 330.f, 000.f)*scale, nullptr, grey);
+
+    //point light
+
+    //top light.
+    world.light.push_back(new PointLight(Point((278)*scale,529.99f*scale,(279.5f)*scale),RGBColor::rep(150000.0f*scale*scale)));
+
+    world.light.push_back(new PointLight(Point((278)*scale,229.99f*scale,(-359.5f)*scale),RGBColor::rep(50000.0f*scale*scale)));
+
+    world.light.push_back(new PointLight(Point(490*scale,159.99f*scale,279.5f*scale),RGBColor(40000.0f*scale*scale,0,0)));
+    world.light.push_back(new PointLight(Point(40*scale,159.99f*scale,249.5f*scale),RGBColor(5000.0f*scale*scale,30000.0f*scale*scale,5000.0f*scale*scale)));
+
+    RecursiveRayTracingIntegrator integrator(&world);
+
+    Renderer engine(&cam, &integrator);
+    engine.render(img);
+    img.writePNG(filename);
+}
+
+void testCylinderWithLight(float scale, const char* filename, Material** materials) {
+    Image img(400, 400);
+    World world;
+    SimpleGroup* scene = new SimpleGroup();
+    world.scene = scene;
+
+    PerspectiveCamera cam(Point(278*scale, 273*scale, -800*scale), Vector(0, 0, 1), Vector(0, 1, 0), 0.686f, 0.686f);
+
+    Material* grey = materials[0];
+    Material* leftWallMaterial = materials[1];
+    Material* rightWallMaterial = materials[2];
+
+    Material* sphereMaterial = materials[3];
+    Material* floorMaterial = materials[4];
+
+    //walls
+    scene->add(new Quad(Point(000.f, 000.f, 000.f)*scale, Vector(000.f, 000.f, 560.f)*scale, Vector(550.f, 000.f, 000.f)*scale, nullptr, floorMaterial)); //floor
+    scene->add(new Quad(Point(550.f, 550.f, 000.f)*scale, Vector(000.f, 000.f, 560.f)*scale, Vector(-550.f, 000.f, 000.f)*scale, nullptr, grey)); //ceiling
+    scene->add(new Quad(Point(000.f, 000.f, 560.f)*scale, Vector(000.f, 550.f, 000.f)*scale, Vector(550.f, 000.f, 000.f)*scale, nullptr, grey)); //back wall
+    scene->add(new Quad(Point(000.f, 000.f, 000.f)*scale, Vector(000.f, 550.f, 000.f)*scale, Vector(000.f, 000.f, 560.f)*scale, nullptr, rightWallMaterial)); //right wall
+    scene->add(new Quad(Point(550.f, 550.f, 000.f)*scale, Vector(000.f, -550.f, 000.f)*scale, Vector(000.f, 000.f, 560.f)*scale, nullptr, leftWallMaterial)); //left wall
+
+    scene->add(new Sphere(Point(150.0f, 100.0f, 150.0f)*scale, 99.0f*scale, nullptr, sphereMaterial));
+    float radius = 6.f, ymin = 0.f, ymax = 8.f;
+    Point cOrigin(150.0f * scale, 100.0f * scale, 150.0f * scale);
+    Cylinder *cylinder = new Cylinder(cOrigin, radius, ymin, ymax, nullptr, sphereMaterial);
+    scene->add(cylinder);
     //tall box
     makeBox(scene, Point(265.f, 000.1f, 296.f)*scale, Vector(049.f, 000.f, 160.f)*scale, Vector(158.f, 000.f, -049.f)*scale, Vector(000.f, 330.f, 000.f)*scale, nullptr, grey);
 
@@ -229,20 +284,21 @@ void a_materials() {
     initTextures();
     a7prepMaterials1(materials);
     a7renderCornellbox(0.001f, "a6-1a.png", materials);
-    a7prepMaterials2(materials);
-    a7renderCornellbox(0.001f, "a6-1b.png", materials);
-    a7prepMaterials3(materials);
-    a7renderCornellbox(0.001f, "a6-1c.png", materials);
-   // testMotionBlur(0.001f, "motionBlur.png", materials);
+//    a7prepMaterials2(materials);
+//    a7renderCornellbox(0.001f, "a6-1b.png", materials);
+//    a7prepMaterials3(materials);
+//    a7renderCornellbox(0.001f, "a6-1c.png", materials);
+//    testMotionBlur(0.001f, "motionBlur.png", materials);
     //////////////////////////
-    cookTorrance1(materials);
-    a7renderCornellbox(0.001f, "cook1.png", materials);
-
-    cookTorrance2(materials);
-    a7renderCornellbox(0.001f, "cook2.png", materials);
-
-    cookTorrance3(materials);
-    a7renderCornellbox(0.001f, "cook3.png", materials);
+//    cookTorrance1(materials);
+//    a7renderCornellbox(0.001f, "cook1.png", materials);
+//
+//    cookTorrance2(materials);
+//    a7renderCornellbox(0.001f, "cook2.png", materials);
+//
+//    cookTorrance3(materials);
+//    a7renderCornellbox(0.001f, "cook3.png", materials);
+    //testCylinderWithLight(0.001f, "cylinderLight.png", materials);
     //////////////////////////
     
     delete [] materials;
