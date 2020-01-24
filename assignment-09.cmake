@@ -10,4 +10,7 @@ set(ASSIGNMENT_SOURCES
     rt/volumes/vcone.cpp
     rt/primmod/vinstance.h
     rt/primmod/vinstance.cpp
+    rt/groups/vgroup.h
+    rt/groups/vsimplegroup.h
+    rt/groups/vsimplegroup.cpp
 )

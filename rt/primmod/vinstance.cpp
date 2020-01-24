@@ -108,16 +108,12 @@ std::tuple<bool, float, float> VInstance::intersect(const Ray& ray) const {
     float dirLength = invRayDir.length();
     Ray rayTrans(invRayOrig, invRayDir.normalize());
 
-   // Intersection intersectionTrans = this->archetype->intersect(rayTrans, previousBestDistance * dirLength);
+    auto[isIntersect, entryDistance, exitDistance] = this->archetype->intersect(rayTrans);
 
-    /*if(intersectionTrans){      
-        Vector normal = invTrans.transpose() * intersectionTrans.normal();
-        Intersection intersection(intersectionTrans.distance/dirLength, ray, intersectionTrans.solid, normal.normalize(), intersectionTrans.local()); 
-        return intersection; 
-    }
-    else*/
-        //return intersectionTrans;  
-    return std::make_tuple(false, 0, 0);
+    if(isIntersect)    
+        return std::make_tuple(true, entryDistance/dirLength, exitDistance/dirLength);
+    else
+        return std::make_tuple(false, 0, 0);
 }
 /*
 void VInstance::computeBounds() {
