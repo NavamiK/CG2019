@@ -38,8 +38,8 @@ int main(int argc, char* argv[])
     //a_smooth();
     //a_bumpmappers();
     //a_volume();
-    //a_fire();
+    a_fire();
     //a_cylinder();
-    a_online_object();
+    //a_online_object();
     return 0;
 }
