@@ -54,7 +54,7 @@ void a_cylinder() {
     float radius = 0.5, yMin = -3, yMax = 0.f;
     Point cOrigin(0, 0, 0);
     scene->add(new Cylinder(cOrigin, radius, yMin, yMax, nullptr, lambertian));
-    scene->add(new Cylinder(cOrigin + Point(1.f, 0, 0), radius, yMin, yMax, nullptr, mirror));
+    scene->add(new Cylinder(cOrigin + Point(1.f, 0, 0), radius, yMin, yMax, nullptr, lambertian));
     Point center(-.5f, 1.f, 5);
 //    scene->add(new Sphere(center, radius, nullptr, lambertian));
 //    world.light.push_back(new AreaLight(new Quad(center, Vector(1.f, 0, 0), Vector(0, 0, 1.f), nullptr, nullptr)));
@@ -71,7 +71,7 @@ void a_cylinder() {
     Material* lightsource = new LambertianMaterial(lightsrctex, blacktex);
 
     Point lightCenter(1, 0, -2);
-    Quad* light = new Quad(center + Point(-1, 0, 0), Vector(3,0,0), Vector(0,0,3), nullptr, lightsource);
+    Quad* light = new Quad(center, Vector(1,0,0), Vector(0,0,1), nullptr, lightsource);
     //Quad* light2 = new Quad(lightCenter, Vector(0,2,0), Vector(0,0,2), nullptr, lightsource);
 
     //AreaLight areaLight(light2);

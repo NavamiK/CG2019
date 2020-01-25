@@ -13,4 +13,5 @@ set(ASSIGNMENT_SOURCES
     rt/groups/vgroup.h
     rt/groups/vsimplegroup.h
     rt/groups/vsimplegroup.cpp
+    main/a_online_object.cpp
 )

@@ -14,6 +14,7 @@ void a_bumpmappers();
 void a_volume();
 void a_fire();
 void a_cylinder();
+void a_online_object();
 
 #include <stdexcept>
 #include <iostream>
@@ -37,7 +38,8 @@ int main(int argc, char* argv[])
     //a_smooth();
     //a_bumpmappers();
     //a_volume();
-    a_fire();
-    a_cylinder();
+    //a_fire();
+    //a_cylinder();
+    a_online_object();
     return 0;
 }

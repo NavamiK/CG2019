@@ -17,6 +17,6 @@ set(ASSIGNMENT_SOURCES
 
 file(COPY
     models/cow.obj
-    models/cow.mtl
+        models/2cow.mtl
     DESTINATION ${CMAKE_BINARY_DIR}/models
 )
