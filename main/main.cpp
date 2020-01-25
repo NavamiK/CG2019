@@ -13,6 +13,7 @@ void a_smooth();
 void a_bumpmappers();
 void a_volume();
 void a_fire();
+void a_cylinder();
 
 #include <stdexcept>
 #include <iostream>
@@ -24,7 +25,7 @@ int main(int argc, char* argv[])
 {
     //a_julia();
     //a_cameras();  
-    //a_solids();
+    a_solids();
     //a_indexing();
     //a_instancing();
     //a_lighting();
@@ -36,6 +37,7 @@ int main(int argc, char* argv[])
     //a_smooth();
     //a_bumpmappers();
     //a_volume();
-    a_fire();
+    //a_fire();
+    //a_cylinder();
     return 0;
 }
