@@ -5,7 +5,7 @@
 #include <rt/materials/material.h>
 #include <rt/coordmappers/coordmapper.h>
 #include <rt/materials/flatmaterial.h>
-
+#include <math.h>
 namespace rt {
 RayTraceFireIntegrator::RayTraceFireIntegrator(World* world, VGroup* vGroup) : Integrator(world) {
     this->vGroup = vGroup;
@@ -19,12 +19,22 @@ RGBColor RayTraceFireIntegrator::getRadiance(const Ray& ray) const {
         auto[isIntersect, entryDistance, exitDistance] = (*iter)->intersect(ray);
         if(isIntersect){
             //std::cout<<entryDistance << " "<<exitDistance<<std::endl;
-            //float volumePointAttenuation = fireStepAttenuation;//Computed in header file
+            //With attenuation
             
+            
+            float volumePointAttenuation = fireStepAttenuation;//Computed in header file
             for(float volumePointDistance = entryDistance; volumePointDistance < exitDistance; volumePointDistance += stepSize){            
                 //volumePointAttenuation = fireStepAttenuation * volumePointAttenuation;
                 totalRadiance = totalRadiance + volumePointRadiance ;// * volumePointAttenuation; 
             }
+            
+
+           //Without attenuation
+            /*
+            float numberOfSteps = (exitDistance - entryDistance)/stepSize;
+            if(!isnan(numberOfSteps))
+                totalRadiance = totalRadiance + volumePointRadiance * numberOfSteps; 
+            */
         }
      }
     if (totalRadiance.r == 0.f) 

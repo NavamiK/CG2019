@@ -52,41 +52,57 @@ VGroup* makeSparkleFlames(){
     float p1MinHeight = 1.0f;
     float p1MaxRotate = 2 * pi;
     float p1MinRotate = 0.f;
-    int p1MaxCount = 3;
+    int p1MaxCount = 5;
 
     float p2MaxHeight = 3.0f;
     float p2MinHeight = 1.0f;
     float p2MaxRotate = 2 * pi;
     float p2MinRotate = 0.f;
     int p2MaxCount = 20;
+
+    float q1MaxHeight = 1.0f;
+    float q1MinHeight = 0.2f;
+    float q1MaxRotate = 2 * pi;
+    float q1MinRotate = 0.f;
+    int q1MaxCount = 10;
     
     VGroup* vscene = new VSimpleGroup();
     
-    VCone *normalCone = new VCone(0.03f, 6.0f);
+    //VCone *normalCone = new VCone(0.03f, 6.0f);
     
-    VInstance* normalInstance = new VInstance(normalCone);
+    //VInstance* normalInstance = new VInstance(normalCone);
     //vscene->add(normalInstance);
     
     
     for (int i = 0; i < p1MaxCount; ++i) {
-        float height = lerp(p1MinHeight, p1MaxHeight, rt::random());
-        float angle = lerp(p1MinRotate, p1MaxRotate, rt::random()); 
+        float p1Height = lerp(p1MinHeight, p1MaxHeight, rt::random());
+        float p1Angle = lerp(p1MinRotate, p1MaxRotate, rt::random()); 
         
-        VCone *cone = new VCone(0.03f, height);
-        VInstance* instance = new VInstance(cone);
+        VCone *p1Cone = new VCone(0.03f, p1Height);
+        VInstance* p1Instance = new VInstance(p1Cone);
 
-        instance->rotate(Vector(0, 0, 1.0f), angle);
-        instance->translate(Vector(height * sin(angle), -1 * height * cos(angle), 0.0f));
+        p1Instance->rotate(Vector(0, 0, 1.0f), p1Angle);
+        p1Instance->translate(Vector(p1Height * sin(p1Angle), -1 * p1Height * cos(p1Angle), 0.0f));
+        vscene->add(p1Instance);
 
-        VCone *qcone = new VCone(0.03f, height);
-        VInstance* qinstance = new VInstance(qcone);
-        qinstance->rotate(Vector(0, 0, 1.0f), angle);
-        qinstance->translate(Vector(2 * height * sin(angle), -2 * height * cos(angle), 0.0f));
-        qinstance->rotate(Vector(0, 0, 1.0), angle);
+        for (int j = 0; j < q1MaxCount; ++j) {
+            
+            float q1Height = lerp(q1MinHeight, q1MaxHeight, rt::random());
+            float q1Angle = lerp(q1MinRotate, q1MaxRotate, rt::random()); 
 
-        vscene->add(instance);
-        //vscene->add(qinstance);
+            VCone *q1Cone = new VCone(0.02f, q1Height);
+            VInstance* q1Instance = new VInstance(q1Cone);
+            /* //Old code
+            q1Instance->rotate(Vector(0, 0, 1.0f), p1Angle);
+            q1Instance->translate(Vector(1 * p1Height * sin(p1Angle), -1 * p1Height * cos(p1Angle), 0.0f));
+            //q1Instance->rotate(Vector(1 * p1Height * sin(p1Angle), -1 * p1Height * cos(p1Angle), 1.0), q1Angle);
+            */
+            q1Instance->rotate(Vector(0, 0, 1.0f), q1Angle);
+            q1Instance->translate(Vector(1 * p1Height * sin(p1Angle), -1 * p1Height * cos(p1Angle), 0.0f));
+            vscene->add(q1Instance);
+        }
     }
+    
     
     for (int i = 0; i < p2MaxCount; ++i) {
         float height = lerp(p2MinHeight, p2MaxHeight, rt::random());
@@ -97,9 +113,10 @@ VGroup* makeSparkleFlames(){
         //if(rt::random() < 0.5)
             //instance->rotate(Vector(rt::random(), rt::random(), rt::random()), angle);
         //else
-            instance->rotate(Vector(-1 * rt::random(), -1 * rt::random(), -1 * rt::random()), angle);
+            instance->rotate(Vector(-10 * rt::random(), -10 * rt::random(), -10 * rt::random()), angle);
         vscene->add(instance);
     }
+    
     
 
     return vscene;
@@ -131,5 +148,5 @@ void renderFireworks(float scale, const char* filename, int numSamples=1) {
 
 
 void a_fire() {
-    renderFireworks(0.001f, "a9-1.png", 3);
+    renderFireworks(0.001f, "a9-1.png", 30);
 }
