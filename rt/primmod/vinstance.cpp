@@ -57,8 +57,8 @@ void VInstance::rotate(const Vector& nnaxis, float angle) {
 
     s = s.normalize();
 
-    assert(s != Vector::rep(0.f));
-    assert(dot(s, r) == 0); // must be orthogonal.
+    //assert(s != Vector::rep(0.f));
+    //assert(dot(s, r) == 0); // must be orthogonal.
 
     Vector t = cross(r, s);
     

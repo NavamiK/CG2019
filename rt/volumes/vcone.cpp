@@ -26,8 +26,10 @@ std::tuple<bool, float, float>  VCone::intersect(const Ray& ray) const {
     else {
         float d0 = ( -b + sqrt(discriminant)) / (2 * a);
         float d1 = ( -b - sqrt(discriminant)) / (2 * a);  
-        assert(d0>0)<< "Ray should not originate inside volumetric cone";
-        assert(d1>0)<< "Ray should not originate behind volumetric cone";       
+        //assert(d0>0)<< "Ray should not originate inside volumetric cone";
+        //assert(d1>0)<< "Ray should not originate behind volumetric cone";     
+        //if (d0 < 0 || d1 < 0)
+          //    return std::make_tuple(false, 0, 0); //no ray marching required
         if(d1 < d0)
             std::swap(d0, d1);
 

@@ -19,14 +19,16 @@ RGBColor RayTraceFireIntegrator::getRadiance(const Ray& ray) const {
         auto[isIntersect, entryDistance, exitDistance] = (*iter)->intersect(ray);
         if(isIntersect){
             //std::cout<<entryDistance << " "<<exitDistance<<std::endl;
-            float volumePointAttenuation = fireStepAttenuation;//Computed in header file
+            //float volumePointAttenuation = fireStepAttenuation;//Computed in header file
             
             for(float volumePointDistance = entryDistance; volumePointDistance < exitDistance; volumePointDistance += stepSize){            
-                volumePointAttenuation = fireStepAttenuation * volumePointAttenuation;
-                totalRadiance = totalRadiance + volumePointRadiance * volumePointAttenuation; 
+                //volumePointAttenuation = fireStepAttenuation * volumePointAttenuation;
+                totalRadiance = totalRadiance + volumePointRadiance ;// * volumePointAttenuation; 
             }
         }
      }
+    if (totalRadiance.r == 0.f) 
+        return RGBColor(0, 0.03f, 0.03f);
     return totalRadiance;    
 }
 }
