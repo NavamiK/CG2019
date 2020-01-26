@@ -14,10 +14,8 @@ void a_bumpmappers();
 void a_volume();
 void a_fire();
 void a_cylinder();
-<<<<<<< HEAD
 void a_online_object();
-=======
->>>>>>> navami
+
 
 #include <stdexcept>
 #include <iostream>
@@ -37,15 +35,13 @@ int main(int argc, char* argv[])
     //a_textures();
     //a_local();
     //a_mappers();
-   // a_distributed();
+    //a_distributed();
     //a_smooth();
     //a_bumpmappers();
     //a_volume();
     a_fire();
     //a_cylinder();
-<<<<<<< HEAD
     //a_online_object();
-=======
->>>>>>> navami
+
     return 0;
 }
