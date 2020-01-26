@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 
 set(ASSIGNMENT_SOURCES
     main/a_fire.cpp
+    main/a_cylinder.cpp
     rt/integrators/raytracefire.h
     rt/integrators/raytracefire.cpp
     rt/volumes/vsphere.h

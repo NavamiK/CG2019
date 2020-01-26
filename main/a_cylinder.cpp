@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> navami
 #include <core/assert.h>
 #include <core/scalar.h>
 #include <core/image.h>
@@ -40,21 +43,23 @@ void a_cylinder() {
 
     ///////////////////////////////textures..
     Texture *redtex, *greentex, *bluetex, *blacktex, *whitetex;
-    redtex = new ConstantTexture(RGBColor(.7f,0.f,0.f));
+    //redtex = new ConstantTexture(RGBColor(.7f,0.f,0.f));
     greentex = new ConstantTexture(RGBColor(0.f,.7f,0.f));
-    bluetex = new ConstantTexture(RGBColor(0.f,0.f,0.7f));
+    //bluetex = new ConstantTexture(RGBColor(0.f,0.f,0.7f));
     blacktex = new ConstantTexture(RGBColor::rep(0.0f));
     whitetex = new ConstantTexture(RGBColor::rep(1.0f));
 
     Material *phong, *mirror, *lambertian;
-    phong = new PhongMaterial(whitetex, 10.0f);
-    mirror = new MirrorMaterial(0.0f, 0.0f);
-    lambertian = new LambertianMaterial(blacktex, greentex);
+
+    //phong = new PhongMaterial(whitetex, 10.0f);
+    //mirror = new MirrorMaterial(0.0f, 0.0f);
+    //lambertian = new LambertianMaterial(blacktex, greentex);
+    lambertian = new LambertianMaterial(blacktex, whitetex);
     ////////////////////////////////textures...
-    float radius = 0.5, yMin = -3, yMax = 0.f;
+    float radius = 0.1, yMin = -3, yMax = 0.f;
     Point cOrigin(0, 0, 0);
     scene->add(new Cylinder(cOrigin, radius, yMin, yMax, nullptr, lambertian));
-    scene->add(new Cylinder(cOrigin + Point(1.f, 0, 0), radius, yMin, yMax, nullptr, lambertian));
+    //scene->add(new Cylinder(cOrigin + Point(1.f, 0, 0), radius, yMin, yMax, nullptr, lambertian));
     Point center(-.5f, 1.f, 5);
 //    scene->add(new Sphere(center, radius, nullptr, lambertian));
 //    world.light.push_back(new AreaLight(new Quad(center, Vector(1.f, 0, 0), Vector(0, 0, 1.f), nullptr, nullptr)));
@@ -65,29 +70,35 @@ void a_cylinder() {
 
     ///////////////////////////////////light source
     //add another light source.
-    RGBColor intensity = RGBColor::rep(150000.0f*scale*scale);;
-    world.light.push_back(new PointLight(Point(0, 0, 10), intensity));
+    //RGBColor intensity = RGBColor(15.0f, 10, 10);
+    RGBColor intensity = RGBColor(0.886f, 0.345f, 0.133f);
+    world.light.push_back(new PointLight(Point(2, 0, 1),4 * intensity));
+    //world.light.push_back(new PointLight(Point(-1, 0, 1), intensity));
+    
+    scale = 1;
+    //world.light.push_back(new PointLight(Point(288*scale,529.99f*scale,279.5f*scale),RGBColor::rep(40000.0f*scale*scale)));
+    //world.light.push_back(new PointLight(Point(490*scale,329.99f*scale,279.5f*scale),RGBColor(60000.0f*scale*scale,0,0)));
+    //world.light.push_back(new PointLight(Point(40*scale,329.99f*scale,279.5f*scale),RGBColor(0,60000.0f*scale*scale,0)));
+
     ConstantTexture* lightsrctex = new ConstantTexture(RGBColor::rep(35.0f));
     Material* lightsource = new LambertianMaterial(lightsrctex, blacktex);
 
-    Point lightCenter(1, 0, -2);
+    //Point lightCenter(1, 0, -2);
     Quad* light = new Quad(center, Vector(1,0,0), Vector(0,0,1), nullptr, lightsource);
     //Quad* light2 = new Quad(lightCenter, Vector(0,2,0), Vector(0,0,2), nullptr, lightsource);
 
     //AreaLight areaLight(light2);
     AreaLight als(light);
 
-    world.light.push_back(&als);
+    //world.light.push_back(&als);
     //world.light.push_back(&areaLight);
     scene->add(light);
     //scene->add(light2);
     /////////////////////////////////////////////////////////////////
 
-    RecursiveRayTracingIntegrator integratorc(&world);
+    //RecursiveRayTracingIntegrator integratorc(&world);
+    RayTracingIntegrator integratorc(&world);
     Renderer enginec(&cam, &integratorc);
     enginec.render(img);
     img.writePNG("a_cylinder_light.png");
 }
-
-
-
