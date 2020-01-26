@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> navami
 #include <core/assert.h>
 #include <core/scalar.h>
 #include <core/image.h>
