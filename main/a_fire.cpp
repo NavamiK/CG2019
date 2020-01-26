@@ -24,6 +24,7 @@
 #include <rt/groups/vsimplegroup.h>
 #include <core/interpolate.h>
 #include <core/random.h>
+#include <rt/solids/cylinder.h>
 
 using namespace rt;
 
@@ -52,19 +53,22 @@ VGroup* makeSparkleFlames(){
     float p1MinHeight = 1.0f;
     float p1MaxRotate = 2 * pi;
     float p1MinRotate = 0.f;
-    int p1MaxCount = 5;
+    //int p1MaxCount = 5;
+    int p1MaxCount = 1;
 
     float p2MaxHeight = 3.0f;
     float p2MinHeight = 1.0f;
     float p2MaxRotate = 2 * pi;
     float p2MinRotate = 0.f;
-    int p2MaxCount = 20;
+    //int p2MaxCount = 20;
+    int p2MaxCount = 3;
 
     float q1MaxHeight = 1.0f;
     float q1MinHeight = 0.2f;
     float q1MaxRotate = 2 * pi;
     float q1MinRotate = 0.f;
-    int q1MaxCount = 10;
+    //int q1MaxCount = 10;
+    int q1MaxCount = 2;
     
     VGroup* vscene = new VSimpleGroup();
     
@@ -116,27 +120,47 @@ VGroup* makeSparkleFlames(){
             instance->rotate(Vector(-10 * rt::random(), -10 * rt::random(), -10 * rt::random()), angle);
         vscene->add(instance);
     }
-    
-    
-
     return vscene;
+}
+ 
+World makeSparkleStick(){
+    
+    World world;
+    
+    Group* scene = new SimpleGroup();
+    Texture *blacktex, *whitetex;
+    blacktex = new ConstantTexture(RGBColor::rep(0.0f));
+    whitetex = new ConstantTexture(RGBColor::rep(1.0f));
+    Material *lambertian = new LambertianMaterial(blacktex, whitetex);
+
+    float radius = 0.1, yMin = -100, yMax = 0.f;
+    Point cOrigin(0, 0, 0);
+    scene->add(new Cylinder(cOrigin, radius, yMin, yMax, nullptr, lambertian));
+
+    world.scene = scene;
+
+    RGBColor intensity = RGBColor(0.886f, 0.345f, 0.133f);
+    world.light.push_back(new PointLight(Point(2, 0, 1), 6 * intensity));
+    return world;
 }
 
 void renderFireworks(float scale, const char* filename, int numSamples=1) {
 
     Image img(400, 400);
     //Image img(1920, 1080);
-    World world;
-    Group* scene = new SimpleGroup();
-    world.scene = scene;
+    //World world;
+   
+    World world = makeSparkleStick();
+    //world.scene = scene;
+
+    VGroup *vscene = makeSparkleFlames();
+    
+    RayTraceFireIntegrator integrator(&world, vscene);
 
     //PerspectiveCamera cam(Point(278*scale, 273*scale, -800*scale), Vector(0, 0, 1), Vector(0, 1, 0), 0.686f, 0.686f);
     PerspectiveCamera cam(Point(0, 0, 10), Vector(0, 0, -1), Vector(0, 1, 0), pi/3, pi/3);
     //DOFPerspectiveCamera dofcam(Point(0, 0, 10), Vector(0, 0, -1), Vector(0, 1, 0), pi/3, pi/3, 1.025f, 0.045f);
     
-    VGroup *vscene = makeSparkleFlames();
-    RayTraceFireIntegrator integrator(&world, vscene);
-
     Renderer engine(&cam, &integrator);
      if (numSamples>1)
         engine.setSamples(numSamples);
@@ -148,5 +172,5 @@ void renderFireworks(float scale, const char* filename, int numSamples=1) {
 
 
 void a_fire() {
-    renderFireworks(0.001f, "a9-1.png", 30);
+    renderFireworks(0.001f, "a9-1.png", 1);
 }
