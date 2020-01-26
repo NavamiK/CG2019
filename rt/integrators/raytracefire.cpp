@@ -34,15 +34,7 @@ RGBColor RayTraceFireIntegrator::getRadiance(const Ray& ray) const {
             */
         }
      }
-
-    
-    
-    
-    
-    
-    
-    //RGBColor totalRadiance = RGBColor::rep(0.0f);
-    
+   
     RGBColor emission, reflectance, intensity;
     Intersection intersection = world->scene->intersect(ray);
     Point texPoint;
@@ -66,10 +58,8 @@ RGBColor RayTraceFireIntegrator::getRadiance(const Ray& ray) const {
             }
         }   
     }
-
-   // if (totalRadiance.r == 0.f) 
-     //   return RGBColor(0, 0.05f, 0.05f);
-    
+    //if (totalRadiance.r == 0.f) 
+      //  return RGBColor(0, 0.05f, 0.05f);
     return totalRadiance;    
 }
 }
