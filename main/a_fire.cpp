@@ -128,7 +128,7 @@ VGroup* makeSparkleFlames(){
 
 void addStick(Group * scene, Material *material, Vector groupOrigin, float angle){
     
-    float radius = 0.1, yMin = -100, yMax = 0.5f;
+    float radius = 0.1, yMin = -100, yMax = 0.f;
     Point cOrigin(0, 0, 0);
     Cylinder *cylinderStick1 = new Cylinder(cOrigin, radius, yMin, yMax, nullptr, material);
     Instance *instanceStick1 = new Instance(cylinderStick1);
