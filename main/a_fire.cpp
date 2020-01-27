@@ -128,7 +128,7 @@ VGroup* makeSparkleFlames(){
 
 void addStick(Group * scene, Material *material, Vector groupOrigin, float angle){
     
-    float radius = 0.1, yMin = -100, yMax = 0.f;
+    float radius = 0.1, yMin = -100, yMax = 0;
     Point cOrigin(0, 0, 0);
     Cylinder *cylinderStick1 = new Cylinder(cOrigin, radius, yMin, yMax, nullptr, material);
     Instance *instanceStick1 = new Instance(cylinderStick1);
@@ -185,7 +185,7 @@ void renderFireworks(const char* filename, int numSamples=1) {
     RayTraceFireIntegrator integrator(&world, vscene);
 
     //PerspectiveCamera cam(Point(278*scale, 273*scale, -800*scale), Vector(0, 0, 1), Vector(0, 1, 0), 0.686f, 0.686f);
-    PerspectiveCamera cam(Point(0, 0, 10), Vector(0, 0, -1), Vector(0, 1, 0), pi/3, pi/3);
+    PerspectiveCamera cam(Point(0, 2, 10), Vector(0, 0, -1), Vector(0, 1, 0), pi/3, pi/3);
     //DOFPerspectiveCamera dofcam(Point(0, 0, 10), Vector(0, 0, -1), Vector(0, 1, 0), pi/3, pi/3, 1.025f, 0.045f);
     
     Renderer engine(&cam, &integrator);
