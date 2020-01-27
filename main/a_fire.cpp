@@ -11,6 +11,8 @@
 #include <rt/groups/simplegroup.h>
 #include <rt/materials/dummy.h>
 #include <rt/materials/lambertian.h>
+#include <rt/materials/flatmaterial.h>
+#include <rt/materials/phong.h>
 #include <rt/textures/constant.h>
 #include <rt/lights/pointlight.h>
 #include <rt/lights/spotlight.h>
@@ -34,7 +36,7 @@ using namespace rt;
 
 namespace {
 std::default_random_engine g;
-std::normal_distribution<> d(pi,1);
+std::normal_distribution<> d(pi,2);
 /*
 VGroup* makeTestSparkleFlames(){
 
@@ -71,7 +73,7 @@ void makeSparkleFlameGroup(VGroup* vscene, Vector groupOrigin, int p1MaxCount, i
     
     //float stepSize = 0.005f;
     float minStepSize = 0.002f;
-    float maxStepSize = 0.08f;
+    float maxStepSize = 0.05f;
     float stepSize;
     
     for (int i = 0; i < p1MaxCount; ++i) {
@@ -88,8 +90,10 @@ void makeSparkleFlameGroup(VGroup* vscene, Vector groupOrigin, int p1MaxCount, i
         p1Instance->translate(Vector(p1Height * sin(p1Angle), -1 * p1Height * cos(p1Angle), 0.0f));
         p1Instance->translate(groupOrigin);
         vscene->add(p1Instance);
+
         //Secondary flames
-        for (int j = 0; j < q1MaxCount; ++j) {        
+        int q1Count = rt::random(2, q1MaxCount);
+        for (int j = 0; j < q1Count; ++j) {        
             float q1Height = lerp(q1MinHeight, q1MaxHeight, rt::random());
             float q1Angle = lerp(q1MinRotate, q1MaxRotate, rt::random(-0.5f, 0.5f)); 
             stepSize = random(minStepSize, maxStepSize);
@@ -129,33 +133,53 @@ void makeSparkleFlameGroup(VGroup* vscene, Vector groupOrigin, int p1MaxCount, i
         instance->translate(groupOrigin);
         vscene->add(instance);
     }    
+    //Flying flames
+    
+    float transMin = -5, transMax = 5;
+    for (int i = 0; i < p3MaxCount; ++i) {
+        float height = rt::random(p2MinHeight, p2MaxHeight);
+        float angle = rt::random(p2MinRotate, p2MaxRotate); 
+        stepSize = random(minStepSize, maxStepSize);
+
+        VCone *cone = new VCone(0.03f, height, stepSize);
+        VInstance* instance = new VInstance(cone);
+        instance->rotate(Vector(0, 0, 1.0f), angle);
+        //instance->translate(Vector(height * sin(angle), -1 * height * cos(angle), 0.0f));
+        instance->translate(Vector(rt::random(transMin, transMax), rt::random(transMin, transMax), rt::random(transMin, transMax)));
+        //instance->translate(Vector(rt::random(p1MinHeight, p1MaxHeight), rt::random(p1MinHeight, p1MaxHeight), rt::random(p1MinHeight, p1MaxHeight)));
+        //instance->translate(groupOrigin);
+        vscene->add(instance);
+    }  
 }
 
 VGroup* makeSparkleFlames(){
-    Vector g1Center = Vector(0, 4, -2);
-    Vector g2Center = Vector(3, 1.5, 0);
-    Vector g3Center = Vector(-2, 2, 0);
+    Vector g1Center = Vector(-1, 4.5, -2);
+    Vector g2Center = Vector(3, 5, 0);
+    Vector g3Center = Vector(-3, 2, 0);
+    Vector g4Center = Vector(1, 0, 1);
     /*HRES*/
-    /*
-    int g1p1MaxCount = 4, g1q1MaxCount = 10, g1p2MaxCount = 20, g1p3MaxCount = 5;
-    int g2p1MaxCount = 3, g2q1MaxCount = 8, g2p2MaxCount = 15, g2p3MaxCount = 4;
-    int g3p1MaxCount = 6, g3q1MaxCount = 9, g3p2MaxCount = 18, g3p3MaxCount = 3;
-    */
+    
+    int g1p1MaxCount = 8, g1q1MaxCount = 8, g1p2MaxCount = 20, g1p3MaxCount = 5;
+    int g2p1MaxCount = 5, g2q1MaxCount = 10, g2p2MaxCount = 15, g2p3MaxCount = 4;
+    int g3p1MaxCount = 6, g3q1MaxCount = 9, g3p2MaxCount = 18, g3p3MaxCount = 5;
+    
     /*LRES*/
+    /*
     int g1p1MaxCount = 4, g1q1MaxCount = 5, g1p2MaxCount = 5, g1p3MaxCount = 3;
     int g2p1MaxCount = 3, g2q1MaxCount = 4, g2p2MaxCount = 6, g2p3MaxCount = 2;
     int g3p1MaxCount = 2, g3q1MaxCount = 6, g3p2MaxCount = 5, g3p3MaxCount = 3;
-
+    */
     VGroup* vscene = new VSimpleGroup();
     makeSparkleFlameGroup(vscene, g1Center, g1p1MaxCount, g1p2MaxCount, g1p3MaxCount, g1q1MaxCount);  
     makeSparkleFlameGroup(vscene, g2Center, g2p1MaxCount, g2p2MaxCount, g2p3MaxCount, g2q1MaxCount);
     makeSparkleFlameGroup(vscene, g3Center, g3p1MaxCount, g3p2MaxCount, g3p3MaxCount, g3q1MaxCount);    
+    makeSparkleFlameGroup(vscene, g4Center, g3p1MaxCount, g3p2MaxCount, g3p3MaxCount, g3q1MaxCount);    
     return vscene;
 }
 
-void addStick(Group * scene, Material *material, Vector groupOrigin, float angle){
+void addStick(Group * scene, Material *material, Vector groupOrigin, float angle, float yMin, float yMax){
     
-    float radius = 0.1, yMin = -6, yMax = 0.5f;
+    float radius = 0.1;//, yMin = -6, yMax = 0.5f;
     Point cOrigin(0, 0, 0);
     Cylinder *cylinderStick1 = new Cylinder(cOrigin, radius, yMin, yMax, nullptr, material);
     Instance *instanceStick1 = new Instance(cylinderStick1);
@@ -164,7 +188,7 @@ void addStick(Group * scene, Material *material, Vector groupOrigin, float angle
     instanceStick1->translate(groupOrigin);
     scene->add(instanceStick1);
 
-    Cylinder *cylinderStick2 = new Cylinder(cOrigin, 0.02, -8, -6, nullptr, material);
+    Cylinder *cylinderStick2 = new Cylinder(cOrigin, 0.02, yMin-2, yMin, nullptr, material);
     Instance *instanceStick2 = new Instance(cylinderStick2);
     instanceStick2->rotate(Vector(0, 0, 1), angle);
     instanceStick2->translate(groupOrigin);
@@ -173,22 +197,27 @@ void addStick(Group * scene, Material *material, Vector groupOrigin, float angle
  
 World makeSparkleSticks(){
     
-    Vector group1Center = Vector(0, 4, -2);
-    Vector group2Center = Vector(3, 1.5, 0);
-    Vector group3Center = Vector(-2, 2, 0);
+    Vector group1Center = Vector(-1, 4.5, -2);
+    Vector group2Center = Vector(3, 5, 0);
+    Vector group3Center = Vector(-3, 2, 0);
+    Vector group4Center = Vector(1, 0, 1);
     float angleStick1 = 0; 
     float angleStick2 = -pi/10; 
     float angleStick3 = pi/12; 
+    float angleStick4 = -pi/20;
 
     World world;
     
     Group* scene = new SimpleGroup();
-    Texture *blacktex, *whitetex, *tealtex;
+    Texture *blacktex, *whitetex, *tealtex, *bluetex;
     blacktex = new ConstantTexture(RGBColor::rep(0.0f));
     whitetex = new ConstantTexture(RGBColor::rep(1.0f));
-    tealtex = new ConstantTexture(RGBColor(0, 0.1f, 0.1f));
+    tealtex = new ConstantTexture(RGBColor(0, 0.04f, 0.04f));
+    bluetex = new ConstantTexture(RGBColor(0, 0.05f, 0.08f));
     Material *lambertianStick = new LambertianMaterial(blacktex, whitetex);
-    Material *backwall = new LambertianMaterial(tealtex, whitetex);
+    //Material *backwall = new LambertianMaterial(blacktex, whitetex);
+    Material *backwall = new FlatMaterial(tealtex);
+    //Material *backwall = new PhongMaterial(whitetex, 2.0);
 
     /*
     PerlinTexture* perlinTex = new PerlinTexture(RGBColor(0, 0.15f, 0.15f), RGBColor::rep(0.0f));
@@ -199,10 +228,10 @@ World makeSparkleSticks(){
     */
     //Material *backwall = new LambertianMaterial(perlinTex, whitetex);
 
-
-    addStick(scene, lambertianStick, group1Center, angleStick1);
-    addStick(scene, lambertianStick, group2Center, angleStick2);
-    addStick(scene, lambertianStick, group3Center, angleStick3);
+    addStick(scene, lambertianStick, group1Center, angleStick1, -6, 0.5f);
+    addStick(scene, lambertianStick, group2Center, angleStick2, -4, 0.7f);
+    addStick(scene, lambertianStick, group3Center, angleStick3, -5, 0.8f);
+    addStick(scene, lambertianStick, group4Center, angleStick4, -4, 0.2f);
     
     scene->add(new InfinitePlane(Point(0.0f,0.0f,-3.f), Vector(0.f, 0.1f, 1.0f), nullptr, backwall));
     world.scene = scene;
@@ -210,12 +239,13 @@ World makeSparkleSticks(){
     RGBColor intensity = RGBColor(0.886f, 0.345f, 0.133f);
     //world.light.push_back(new PointLight(Point(2, 4, 1), 15 * intensity));
     //world.light.push_back(new PointLight(Point(-2, 4, 1), 15 * intensity));
-    world.light.push_back(new PointLight(Point(0, 4, 1), 25 * intensity));
+    world.light.push_back(new PointLight(Point(0, 4, 1), 35 * intensity));
     return world;
 }
 
 void renderFireworks(const char* filename, int numSamples=1) {
 
+    //Image img(400, 400);
     Image img(400, 400);
     //Image img(1920, 1080);
    
@@ -225,7 +255,7 @@ void renderFireworks(const char* filename, int numSamples=1) {
     
     RayTraceFireIntegrator integrator(&world, vscene);
 
-    PerspectiveCamera cam(Point(0, 0, 10), Vector(0, 0, -1), Vector(0, 1, 0), pi/3, pi/3);
+    PerspectiveCamera cam(Point(0, 1.7, 10), Vector(0, 0, -1), Vector(0, 1, 0), pi/3, pi/3);
     //DOFPerspectiveCamera dofcam(Point(0, 0, 10), Vector(0, 0, -1), Vector(0, 1, 0), pi/3, pi/3, 1.025f, 0.045f);
     
     Renderer engine(&cam, &integrator);
@@ -240,7 +270,7 @@ void renderFireworks(const char* filename, int numSamples=1) {
 
 void a_fire() {
     /*HRES*/
-    renderFireworks("a9-1-hres.png", 10);
+    renderFireworks("a9-1-hres.png", 20);
     /*LRES*/
     //renderFireworks("a9-1-lres.png", 2);
 }
