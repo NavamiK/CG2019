@@ -22,6 +22,7 @@ RGBColor RayTraceFireIntegrator::getRadiance(const Ray& ray) const {
             //std::cout<<entryDistance << " "<<exitDistance<<std::endl;
             //With attenuation            
             //float volumePointAttenuation = fireStepAttenuation;//Computed in header file
+            float stepSize = (*iter)->content()->density;
             for(float volumePointDistance = entryDistance; volumePointDistance < exitDistance; volumePointDistance += stepSize){            
                 //volumePointAttenuation = fireStepAttenuation * volumePointAttenuation;
                 totalRadiance = totalRadiance + volumePointRadiance ;// * volumePointAttenuation; 
