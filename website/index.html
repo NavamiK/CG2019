@@ -72,8 +72,15 @@
 			<section id="cta" class="wrapper">
 				<div class="inner">
 					<h2>Making of the scene</h2>
-					<p>The most important element of a sparkler is it’s spark. We modeled a simple spark by volumetric rendering of a cone. Each cone is specified to have it’s own emission/flame color and density. We wouldn’t want the image looking too uniform, do we?  Out volume integrator finds the entry and exit point of the cone and computes the radiance by ray marching. We form a group of sparks.. . bla blah				</p>
+					<p>
+							The most important element of a sparkler is it’s spark. We modeled a simple spark by volumetric rendering of a cone. Each cone is specified to have it’s own emission/flame color and density. We wouldn’t want the image looking too uniform and dull now, do we?  Our volume integrator finds the entry and exit point of the cone and computes the radiance by ray marching. We form a group of sparks by adding more instances through matrix based transformations. A carefully crafted the scene is built while adding randomizations factors for flame/spark size, color, density, and orientation. 
+							As a holder for fire sparks, we add a lambertian material cylinder as stick. It reflects the light emitted by the fiery flames. The minor details such as adding an inversely oriented sparks at places, or a spark flying in the air adds an element of liveliness to the scene. 
+							
+					</p>
 				</div>
+			</section>
+			<section class="wrapper">
+				<div class="inner">
 				<div class="highlights">
 						<section>
 							<div class="content">
@@ -102,7 +109,8 @@
 								<p>Explain here...</p>
 							</div>
 						</section>
-					</div>
+					</div>	
+				</div>
 			</section>
 
 		<!-- Testimonials -->
