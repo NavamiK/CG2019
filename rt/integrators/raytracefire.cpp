@@ -25,7 +25,8 @@ RGBColor RayTraceFireIntegrator::getRadiance(const Ray& ray) const {
             float stepSize = (*iter)->content()->density;
             for(float volumePointDistance = entryDistance; volumePointDistance < exitDistance; volumePointDistance += stepSize){            
                 //volumePointAttenuation = fireStepAttenuation * volumePointAttenuation;
-                totalRadiance = totalRadiance + volumePointRadiance ;// * volumePointAttenuation; 
+                //totalRadiance = totalRadiance + volumePointRadiance ;// * volumePointAttenuation; 
+                totalRadiance = totalRadiance + (*iter)->content()->color ; //Varied color
             }
            //Without attenuation
             /*

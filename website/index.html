@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Fireworks</title>
+		<title>Fireworks!</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<meta name="description" content="" />
@@ -19,14 +19,14 @@
 
 		<!-- Header -->
 			<header id="header">
-				<a class="logo" href="index.html">Fireworks</a>
+				<a class="logo" href="index.html">FIREWORKS!!</a>
 			</header>
 
 		<!-- Banner -->
 			<section id="banner">
 				<div class="inner">
-					<h1>Name of our project</h1>
-					<p>A one line introduct of the renderer</p>
+					<h1>FIREWORKS</h1>
+					<p>Well, who doesn’t love watching fireworks? Be it New Year’s Eve, Diwali or the Fourth of July - firework displays are absolutely magical for the beholder. We here explore how such a wonderful thing is built!  Not the pyrotechnics behind it, but yes graphically :P </p>
 				</div>
 			
 
@@ -37,15 +37,46 @@
 				<div class="inner">
 					<header class="special">
 						<h2>background</h2>
-						<p>Short story about the renderer</p>
-					</header>
-					<header class="special">
-						<h2>Resolutions</h2>
-						<a href="images/pic01.jpg" class="btn btn-primary btn-xl js-scroll-trigger">Low Resolution</a>
 
-						<a href="images/cta01.jpg" class="btn btn-primary btn-xl js-scroll-trigger">High Resolution</a>
+						<p>We wanted volumetric emission involving fire in our scene. This led to a number of ideas -  Solar system with glowing Sun, Lightning, Northern lights etc.. But when we asked ourselves - What is it that has fire that we always loved to watch? The answer was simple - fireworks. While growing up, we would play with sparklers - a handheld firework that burns slowly while emitting sparks, flames and other effects. Sparkler is quite intriguing among all fireworks, thanks to their secondary sparks (highlighted in feature 1)</p>
+						<p>Some pictures of sparklers that inspired us in this direction are as below, </p>
+						
 					</header>
 					<div class="highlights">
+						<section>
+							<div class="image">
+								<img src="images/sample1.jpg" alt="" height="440" width="292"/>
+							</div>					
+						</section>
+						<section>
+							<div class="image">
+								<img src="images/sample3.jpg" alt=""  height="200" width="300" />
+							</div>
+						</section>
+						<section>
+							<div class="image">
+								<img src="images/sample2.jpg" alt=""  height="440" width="292" />
+							</div>
+						</section>
+					</div>
+					<header class="special">
+						<h2>Resolutions</h2>
+						<a href="images/lres.png" class="btn btn-primary btn-xl js-scroll-trigger">Low Resolution</a>
+
+						<a href="images/hres.png" class="btn btn-primary btn-xl js-scroll-trigger">High Resolution</a>
+					</header>
+					
+				</div>
+			</section>
+
+		<!-- CTA -->
+			<section id="cta" class="wrapper">
+				<div class="inner">
+					<h2>Making of the scene</h2>
+					<p>The most important element of a sparkler is it’s spark. We modeled a simple spark by volumetric rendering of a cone. Each cone is specified to have it’s own emission/flame color and density. We wouldn’t want the image looking too uniform, do we?  Out volume integrator finds the entry and exit point of the cone and computes the radiance by ray marching. We form a group of sparks.. . bla blah				</p>
+				</div>
+				<div class="highlights">
+
 						<section>
 							<div class="content">
 								<header>
@@ -74,15 +105,7 @@
 							</div>
 						</section>
 					</div>
-				</div>
-			</section>
 
-		<!-- CTA -->
-			<section id="cta" class="wrapper">
-				<div class="inner">
-					<h2>Say something more about image</h2>
-					<p>replace image. and explain as above.</p>
-				</div>
 			</section>
 
 		<!-- Testimonials -->
@@ -126,10 +149,17 @@
 				<div class="inner">
 					<div class="content">
 						<section>
-							<h3>acknowledgement</h3>
-							<p>Who do we want to tank?</p>
+							<h4>About us</h4>
+							<p>We are group E, <a href="mailto:s8nakair@stud.uni-saarland.de?">Navami Kairanda</a> and <a href="mailto:s8ebjall@stud.uni-saarland.de?">Ebrima Jallow </a>
+							pursuing Masters in Visual Computing and Computer Science respectively at Saarland University</p>
 						</section>
+
 						<section>
+							<h4>acknowledgement</h4>
+							<p>Who do we want to thank?</p>
+						</section>
+						
+						<!-- <section>
 							<h4>Materials used?</h4>
 							<ul class="alt">
 								<li><a href="#">material 1</a></li>
@@ -146,9 +176,13 @@
 								<li><a href="#"><i class="icon fa-github">&nbsp;</i>Github</a></li>
 							</ul>
 						</section>
+					-->
 					</div>
-					<div class="copyright">
+					<!--<div class="copyright">
 						&copy; Untitled. Photos <a href="https://unsplash.co">Unsplash</a>, Video <a href="https://coverr.co">Coverr</a>.
+					</div> -->
+					<div class="copyright">
+							Submition for CG 2019-20 Rendering Competition at Saarland University
 					</div>
 				</div>
 			</footer>
@@ -165,4 +199,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 	</body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> navami

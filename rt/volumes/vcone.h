@@ -11,10 +11,11 @@ namespace rt {
 class VCone {
 public:
     VCone() {}
-    VCone(float radius, float height, float density);
+    VCone(float radius, float height, float density, RGBColor color);
 
     std::tuple<bool, float, float> intersect(const Ray& ray) const;
     float density;
+    RGBColor color;
     
     //virtual Sample sample() const;
     //virtual float getArea() const;
