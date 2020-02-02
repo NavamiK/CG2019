@@ -26,10 +26,12 @@
 			<section id="banner">
 				<div class="inner">
 					<h1>FIREWORKS</h1>
-					<p>Well, who doesn’t love watching fireworks? Be it New Year’s Eve, Diwali or the Fourth of July - firework displays are absolutely magical for the beholder. We here explore how such a wonderful thing is built!  Not the pyrotechnics behind it, but yes graphically :P </p>
+					<p>Well, who doesn’t love watching fireworks? Be it New Year’s Eve, Diwali or the Fourth of July - firework displays are absolutely magical for the beholder. We explore here how such a wonderful thing is built! Not the pyrotechnics behind it, but yes graphics :P </p>
+					
+					<a href="images/hres.png" class="btn btn-primary btn-xl js-scroll-trigger">Full Image</a>
+				
+					<a href="images/lres.png" class="btn btn-primary btn-xl js-scroll-trigger">Thumbnail</a>
 				</div>
-			
-
 			</section>
 
 		<!-- Highlights -->
@@ -37,8 +39,8 @@
 				<div class="inner">
 					<header class="special">
 						<h2>background</h2>
-						<p>We wanted volumetric emission involving fire in our scene. This led to a number of ideas -  Solar system with glowing Sun, Lightning, Northern lights etc.. But when we asked ourselves - What is it that has fire that we always loved to watch? The answer was simple - fireworks. While growing up, we would play with sparklers - a handheld firework that burns slowly while emitting sparks, flames and other effects. Sparkler is quite intriguing among all fireworks, thanks to their secondary sparks (highlighted in feature 1)</p>
-						<p>Some pictures of sparklers that inspired us in this direction are as below, </p>
+						<p>We wanted volumetric emission involving fire in our scene. This led to a number of ideas -  Solar system with glowing Sun, Lightning, Northern lights etc.. But when we asked ourselves - What is it that has fire and looks pretty great at the same time? The answer was simple - fireworks. While growing up, we would play with sparklers - a handheld firework that burns slowly while emitting sparks, flames. Sparkler is quite intriguing among all fireworks, thanks to their secondary sparks (highlighted in feature 2)</p>
+						<p>Some pictures of sparklers that motivated us in this direction are as below, </p>
 						
 					</header>
 					<div class="highlights">
@@ -58,12 +60,7 @@
 							</div>
 						</section>
 					</div>
-					<header class="special">
-						<h2>Resolutions</h2>
-						<a href="images/lres.png" class="btn btn-primary btn-xl js-scroll-trigger">Low Resolution</a>
-
-						<a href="images/hres.png" class="btn btn-primary btn-xl js-scroll-trigger">High Resolution</a>
-					</header>
+					
 					
 				</div>
 			</section>
@@ -71,55 +68,96 @@
 		<!-- CTA -->
 			<section id="cta" class="wrapper">
 				<div class="inner">
-					<h2>Making of the scene</h2>
+					<h2>Behind the scenes</h2>
 					<p>
-							The most important element of a sparkler is it’s spark. We modeled a simple spark by volumetric rendering of a cone. Each cone is specified to have it’s own emission/flame color and density. We wouldn’t want the image looking too uniform and dull now, do we?  Our volume integrator finds the entry and exit point of the cone and computes the radiance by ray marching. We form a group of sparks by adding more instances through matrix based transformations. A carefully crafted the scene is built while adding randomizations factors for flame/spark size, color, density, and orientation. 
-							As a holder for fire sparks, we add a lambertian material cylinder as stick. It reflects the light emitted by the fiery flames. The minor details such as adding an inversely oriented sparks at places, or a spark flying in the air adds an element of liveliness to the scene. 
-							
+							The most important element of a sparkler is it’s spark. We modeled a simple spark by volumetric rendering of a cone. Our volume integrator finds the entry and exit point of the cone and computes the radiance by ray marching. We form a group of sparks by adding more instances through matrix based transformations. We wouldn’t want the image looking too uniform and dull now, do we? So each cone is specified to have it’s own emission/flame color and density. 
+						</p> 
+						<p> 
+							A carefully crafted the scene is built while adding randomizations factors for flame/spark size, color, density, and orientation. As a holder for fire sparks, we add a lambertian material cylinder as stick. It reflects the light emitted by the fiery flames. Some minor details such as adding inversely oriented sparks at places, or sparks flying in the air add an element of liveliness to the scene. Some highlights of the scene are,
+									
 					</p>
 				</div>
 			</section>
 			<section class="wrapper">
 				<div class="inner">
 				<div class="highlights">
-						<section>
+					<section>
 							<div class="content">
 								<header>
-									<a href="#" class="icon fa-line-chart"><span class="label">Icon</span></a>
-									<h3>Feature 1</h3>
+									<div class="image">
+											<img src="images/highlight4.png" alt="" height="240" width="240"/>
+									</div>
+									<h4>Spark as an emmissive cone</h4>
 								</header>
-								<p>Explain here...</p>
+								<p>Demonstration of simple spark by volumetric rendering of a cone. Note the variation of brightness at base, edges and tip due to ray marching</p>
 							</div>
 						</section>
-						<section>
-							<div class="content">
-								<header>
-									<a href="#" class="icon fa-paper-plane-o"><span class="label">Icon</span></a>
-									<h3>Feature 2</h3>
-								</header>
-								<p>Explain here</p>
-							</div>
-						</section>
-						<section>
-							<div class="content">
-								<header>
-									<a href="#" class="icon fa-qrcode"><span class="label">Icon</span></a>
-									<h3>Feature 3</h3>
-								</header>
-								<p>Explain here...</p>
-							</div>
-						</section>
+					<section>
+						<div class="content">
+							<header>
+								<div class="image">
+										<img src="images/highlight1.png" alt="" height="240" width="240"/>
+								</div>
+								<h4>Secondary Sparks</h4>
+							</header>
+							<p>Group of sparks that originate at the end points of first level sparks are unique to this kind of fireworks and crafted using affine transformations
+							</p>
+						</div>
+					</section>
+					<section>
+						<div class="content">
+							<header>
+								<div class="image">
+										<img src="images/highlight2.png" alt="" height="240" width="240"/>
+								</div>
+								<h4>Illumination of sticks</h4>
+							</header>
+							<p>Sparkler sticks are well lit by the flames that are produced by them</p>
+						</div>
+					</section>
+					<section>
+						<div class="content">
+							<header>
+								<div class="image">
+										<img src="images/highlight3.png" alt="" height="240" width="240"/>
+								</div>
+								<h4>Step size variation</h4>
+							</header>
+							<p>Based on the density specified for the spark, the number of steps in ray marching is varied, thus producing varied brightness of flames
+							</p>
+						</div>
+					</section>
+					<section>
+						<div class="content">
+							<header>
+								<div class="image">
+										<img src="images/highlight5.png" alt="" height="240" width="240"/>
+								</div>
+								<h4>Instancing of Sparks</h4>
+							</header>
+							<p>We reduce memory footprint by geometric transformations of few flames for efficient rendering
+								</p>
+						</div>
+					</section>
+					<section>
+						<div class="content">
+							<header>
+								<div class="image">
+										<img src="images/highlight6.png" alt="" height="240" width="240"/>
+								</div>
+								<h4>Controlled randomization</h4>
+							</header>
+							<p>We use normal distributions for rotation angles so that primary flames (which have secondary sparks) point upwards. We use uniform random distribution for other randomizations - spark orientation, length, density etc.. </p>
+						</div>
+					</section>
 					</div>	
 				</div>
 			</section>
 
 		<!-- Testimonials -->
-			<section class="wrapper">
+		<!--
+		<section class="wrapper">
 				<div class="inner">
-					<header class="special">
-						<h2>Performanance</h2>
-						<p>Run time of the program.</p>
-					</header>
 					<div class="testimonials">
 						<section>
 							<div class="content">
@@ -148,21 +186,22 @@
 					</div>
 				</div>
 			</section>
-
+		-->
 		<!-- Footer -->
 			<footer id="footer">
 				<div class="inner">
 					<div class="content">
+							<section>
+									<h4>acknowledgement</h4>
+									<p>We would like to thank pxhere.com for some inspiring pictures of sparklers and unsplash.com for the website template, we did not use any external source for model/texture. The entire scene was modelled by hand</p>
+							</section>
 						<section>
 							<h4>About us</h4>
 							<p>We are group E, <a href="mailto:s8nakair@stud.uni-saarland.de?">Navami Kairanda</a> and <a href="mailto:s8ebjall@stud.uni-saarland.de?">Ebrima Jallow </a>
-							pursuing Masters in Visual Computing and Computer Science respectively at Saarland University</p>
+							pursuing Masters at Saarland University</p>
 						</section>
 
-						<section>
-							<h4>acknowledgement</h4>
-							<p>Who do we want to thank?</p>
-						</section>
+						
 						
 						<!-- <section>
 							<h4>Materials used?</h4>
