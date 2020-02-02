@@ -2,13 +2,14 @@
 #include <math.h>
 namespace rt {
 
-VCone::VCone(float radius, float height, float density)
+VCone::VCone(float radius, float height, float density, RGBColor color)
 {
     /* TODO */
     this->radius = radius;
     this->height = height;
     this->k = radius / height;
     this->density = density;
+    this->color = color;
     k = k * k;
 }
 

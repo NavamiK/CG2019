@@ -37,6 +37,27 @@ using namespace rt;
 namespace {
 std::default_random_engine g;
 std::normal_distribution<> d(pi,2);
+Vector g1Center = Vector(-1.6, 5.4, -2);
+//Vector g2Center = Vector(3, 5, 0);
+Vector g2Center = Vector(2.2, 4.6, 0);
+Vector g3Center = Vector(-3.4, 2, 0);
+Vector g4Center = Vector(3, 0, 1);
+
+RGBColor g1Color = RGBColor(0.886f, 0.345f, 0.133f); //Original flame color
+/*
+RGBColor g2Color = RGBColor(0.502, 0.224, 0.416); // Plum
+RGBColor g3Color = RGBColor(0.886, 0.533f, 0.133f); //Red
+RGBColor g4Color = RGBColor(0.886, 0.22f, 0.133f); // Burgundy
+*/
+//Monochrome
+RGBColor g2Color = RGBColor(0.886, 0.282f, 0.133f); 
+//RGBColor g2Color = RGBColor(0.898, 0.412, 0.224); 
+RGBColor g3Color = RGBColor(0.886, 0.408, 0.133f); 
+//RGBColor g4Color = RGBColor(0.886, 0.282f, 0.133f); 
+RGBColor g4Color = RGBColor(0.886f, 0.345f, 0.133f);//original
+
+
+
 /*
 VGroup* makeTestSparkleFlames(){
 
@@ -55,8 +76,8 @@ VGroup* makeTestSparkleFlames(){
 }
 */
 
-void makeSparkleFlameGroup(VGroup* vscene, Vector groupOrigin, int p1MaxCount, int p2MaxCount, int p3MaxCount, int q1MaxCount){
-    float p1MaxHeight = 4.0f;
+void makeSparkleFlameGroup(VGroup* vscene, Vector groupOrigin, int p1MaxCount, int p2MaxCount, int p3MaxCount, int q1MaxCount, RGBColor gColor){
+    float p1MaxHeight = 3.2f;
     float p1MinHeight = 1.0f;
     float p1MaxRotate = pi/2;
     float p1MinRotate = -pi/2;
@@ -73,17 +94,17 @@ void makeSparkleFlameGroup(VGroup* vscene, Vector groupOrigin, int p1MaxCount, i
     
     //float stepSize = 0.005f;
     float minStepSize = 0.002f;
-    float maxStepSize = 0.05f;
+    float maxStepSize = 0.035f;
     float stepSize;
     
     for (int i = 0; i < p1MaxCount; ++i) {
-        float p1Height = lerp(p1MinHeight, p1MaxHeight, rt::random());
+        float p1Height = rt::random(p1MinHeight, p1MaxHeight);
         //float p1Angle = lerp(p1MinRotate, p1MaxRotate, rt::random()); 
         //float p1Angle = rt::random(p1MinRotate, p1MaxRotate);
         float p1Angle = d(g);
-        stepSize = random(minStepSize, maxStepSize);
+        stepSize = rt::random(minStepSize, maxStepSize);
 
-        VCone *p1Cone = new VCone(0.03f, p1Height, stepSize);
+        VCone *p1Cone = new VCone(0.03f, p1Height, stepSize, gColor);
         VInstance* p1Instance = new VInstance(p1Cone);
 
         p1Instance->rotate(Vector(0, 0, 1.0f), p1Angle);
@@ -92,13 +113,14 @@ void makeSparkleFlameGroup(VGroup* vscene, Vector groupOrigin, int p1MaxCount, i
         vscene->add(p1Instance);
 
         //Secondary flames
-        int q1Count = rt::random(2, q1MaxCount);
+        int q1Count = rt::random(4, q1MaxCount);
         for (int j = 0; j < q1Count; ++j) {        
-            float q1Height = lerp(q1MinHeight, q1MaxHeight, rt::random());
-            float q1Angle = lerp(q1MinRotate, q1MaxRotate, rt::random(-0.5f, 0.5f)); 
+            float q1Height = rt::random(q1MinHeight, q1MaxHeight);
+            float q1Angle = d(g); 
+            //float q1Angle = rt::random(q1MinRotate, q1MaxRotate); 
             stepSize = random(minStepSize, maxStepSize);
 
-            VCone *q1Cone = new VCone(0.02f, q1Height, stepSize);
+            VCone *q1Cone = new VCone(0.02f, q1Height, stepSize, gColor);
             VInstance* q1Instance = new VInstance(q1Cone);
             //q1Instance->translate(Vector(0, 5, 0));
             q1Instance->rotate(Vector(0, 0, 1.0f), q1Angle);
@@ -110,11 +132,12 @@ void makeSparkleFlameGroup(VGroup* vscene, Vector groupOrigin, int p1MaxCount, i
     
     //Primary flames
     for (int i = 0; i < p2MaxCount; ++i) {
-        float height = lerp(p2MinHeight, p2MaxHeight, rt::random());
-        float angle = lerp(p2MinRotate, p2MaxRotate, rt::random()); 
-        stepSize = random(minStepSize, maxStepSize);
+        float height = rt::random(p2MinHeight, p2MaxHeight);
+        float angle = rt::random(p2MinRotate, p2MaxRotate); 
+        //float angle = d(g); 
+        stepSize = rt::random(minStepSize, maxStepSize);
         
-        VCone *cone = new VCone(0.03f, height, stepSize);
+        VCone *cone = new VCone(0.03f, height, stepSize, gColor);
         VInstance* instance = new VInstance(cone);
         instance->rotate(Vector(0, 0, 1.0f), angle);
         instance->translate(groupOrigin);
@@ -124,9 +147,10 @@ void makeSparkleFlameGroup(VGroup* vscene, Vector groupOrigin, int p1MaxCount, i
     for (int i = 0; i < p3MaxCount; ++i) {
         float height = rt::random(p2MinHeight, p2MaxHeight);
         float angle = rt::random(p2MinRotate, p2MaxRotate); 
-        stepSize = random(minStepSize, maxStepSize);
+        //float angle = d(g); 
+        stepSize = rt::random(minStepSize, maxStepSize);
 
-        VCone *cone = new VCone(0.03f, height, stepSize);
+        VCone *cone = new VCone(0.03f, height, stepSize, gColor);
         VInstance* instance = new VInstance(cone);
         instance->rotate(Vector(0, 0, 1.0f), angle);
         instance->translate(Vector(height * sin(angle), -1 * height * cos(angle), 0.0f));
@@ -138,30 +162,27 @@ void makeSparkleFlameGroup(VGroup* vscene, Vector groupOrigin, int p1MaxCount, i
     float transMin = -5, transMax = 5;
     for (int i = 0; i < p3MaxCount; ++i) {
         float height = rt::random(p2MinHeight, p2MaxHeight);
-        float angle = rt::random(p2MinRotate, p2MaxRotate); 
-        stepSize = random(minStepSize, maxStepSize);
+        //float angle = rt::random(p2MinRotate, p2MaxRotate); 
+        float angle = d(g); 
+        stepSize = rt::random(minStepSize, maxStepSize);
 
-        VCone *cone = new VCone(0.03f, height, stepSize);
+        VCone *cone = new VCone(0.03f, height, stepSize, gColor);
         VInstance* instance = new VInstance(cone);
         instance->rotate(Vector(0, 0, 1.0f), angle);
-        //instance->translate(Vector(height * sin(angle), -1 * height * cos(angle), 0.0f));
         instance->translate(Vector(rt::random(transMin, transMax), rt::random(transMin, transMax), rt::random(transMin, transMax)));
-        //instance->translate(Vector(rt::random(p1MinHeight, p1MaxHeight), rt::random(p1MinHeight, p1MaxHeight), rt::random(p1MinHeight, p1MaxHeight)));
-        //instance->translate(groupOrigin);
         vscene->add(instance);
     }  
 }
 
 VGroup* makeSparkleFlames(){
-    Vector g1Center = Vector(-1, 4.5, -2);
-    Vector g2Center = Vector(3, 5, 0);
-    Vector g3Center = Vector(-3, 2, 0);
-    Vector g4Center = Vector(1, 0, 1);
+
+    
     /*HRES*/
     
-    int g1p1MaxCount = 8, g1q1MaxCount = 8, g1p2MaxCount = 20, g1p3MaxCount = 5;
-    int g2p1MaxCount = 5, g2q1MaxCount = 10, g2p2MaxCount = 15, g2p3MaxCount = 4;
-    int g3p1MaxCount = 6, g3q1MaxCount = 9, g3p2MaxCount = 18, g3p3MaxCount = 5;
+    int g1p1MaxCount = 8, g1q1MaxCount = 8, g1p2MaxCount = 20, g1p3MaxCount = 3;
+    int g2p1MaxCount = 7, g2q1MaxCount = 10, g2p2MaxCount = 15, g2p3MaxCount = 2;
+    int g3p1MaxCount = 6, g3q1MaxCount = 9, g3p2MaxCount = 18, g3p3MaxCount = 2;
+    int g4p1MaxCount = 6, g4q1MaxCount = 8, g4p2MaxCount = 20, g4p3MaxCount = 2;
     
     /*LRES*/
     /*
@@ -170,10 +191,10 @@ VGroup* makeSparkleFlames(){
     int g3p1MaxCount = 2, g3q1MaxCount = 6, g3p2MaxCount = 5, g3p3MaxCount = 3;
     */
     VGroup* vscene = new VSimpleGroup();
-    makeSparkleFlameGroup(vscene, g1Center, g1p1MaxCount, g1p2MaxCount, g1p3MaxCount, g1q1MaxCount);  
-    makeSparkleFlameGroup(vscene, g2Center, g2p1MaxCount, g2p2MaxCount, g2p3MaxCount, g2q1MaxCount);
-    makeSparkleFlameGroup(vscene, g3Center, g3p1MaxCount, g3p2MaxCount, g3p3MaxCount, g3q1MaxCount);    
-    makeSparkleFlameGroup(vscene, g4Center, g3p1MaxCount, g3p2MaxCount, g3p3MaxCount, g3q1MaxCount);    
+    makeSparkleFlameGroup(vscene, g1Center, g1p1MaxCount, g1p2MaxCount, g1p3MaxCount, g1q1MaxCount, g1Color);  
+    makeSparkleFlameGroup(vscene, g2Center, g2p1MaxCount, g2p2MaxCount, g2p3MaxCount, g2q1MaxCount, g2Color);
+    makeSparkleFlameGroup(vscene, g3Center, g3p1MaxCount, g3p2MaxCount, g3p3MaxCount, g3q1MaxCount, g3Color);    
+    makeSparkleFlameGroup(vscene, g4Center, g4p1MaxCount, g4p2MaxCount, g4p3MaxCount, g4q1MaxCount, g4Color);    
     return vscene;
 }
 
@@ -197,14 +218,16 @@ void addStick(Group * scene, Material *material, Vector groupOrigin, float angle
  
 World makeSparkleSticks(){
     
+    /*
     Vector group1Center = Vector(-1, 4.5, -2);
     Vector group2Center = Vector(3, 5, 0);
     Vector group3Center = Vector(-3, 2, 0);
     Vector group4Center = Vector(1, 0, 1);
-    float angleStick1 = 0; 
-    float angleStick2 = -pi/10; 
-    float angleStick3 = pi/12; 
-    float angleStick4 = -pi/20;
+    */
+    float angleStick1 = pi/40; 
+    float angleStick2 = -pi/18; 
+    float angleStick3 = pi/10; 
+    float angleStick4 = -pi/8;
 
     World world;
     
@@ -217,38 +240,30 @@ World makeSparkleSticks(){
     Material *lambertianStick = new LambertianMaterial(blacktex, whitetex);
     //Material *backwall = new LambertianMaterial(blacktex, whitetex);
     Material *backwall = new FlatMaterial(tealtex);
-    //Material *backwall = new PhongMaterial(whitetex, 2.0);
-
-    /*
-    PerlinTexture* perlinTex = new PerlinTexture(RGBColor(0, 0.15f, 0.15f), RGBColor::rep(0.0f));
-    perlinTex->addOctave(0.5f, 5.0f);
-    perlinTex->addOctave(0.25f, 10.0f);
-    perlinTex->addOctave(0.125f, 20.0f);
-    perlinTex->addOctave(0.125f, 40.0f);
-    */
-    //Material *backwall = new LambertianMaterial(perlinTex, whitetex);
-
-    addStick(scene, lambertianStick, group1Center, angleStick1, -6, 0.5f);
-    addStick(scene, lambertianStick, group2Center, angleStick2, -4, 0.7f);
-    addStick(scene, lambertianStick, group3Center, angleStick3, -5, 0.8f);
-    addStick(scene, lambertianStick, group4Center, angleStick4, -4, 0.2f);
+   
+    addStick(scene, lambertianStick, g1Center, angleStick1, -6, 0.5f);
+    addStick(scene, lambertianStick, g2Center, angleStick2, -4, 0.7f);
+    addStick(scene, lambertianStick, g3Center, angleStick3, -5, 0.8f);
+    addStick(scene, lambertianStick, g4Center, angleStick4, -4, 0.3f);
     
     scene->add(new InfinitePlane(Point(0.0f,0.0f,-3.f), Vector(0.f, 0.1f, 1.0f), nullptr, backwall));
     world.scene = scene;
 
-    RGBColor intensity = RGBColor(0.886f, 0.345f, 0.133f);
-    //world.light.push_back(new PointLight(Point(2, 4, 1), 15 * intensity));
-    //world.light.push_back(new PointLight(Point(-2, 4, 1), 15 * intensity));
-    world.light.push_back(new PointLight(Point(0, 4, 1), 35 * intensity));
+    RGBColor intensity = 10 * RGBColor(0.886f, 0.345f, 0.133f);
+    //world.light.push_back(new PointLight(Point(0, 4, 1), 35 * intensity));
+    world.light.push_back(new PointLight(Point(g1Center.x + 0.5, g1Center.y, g1Center.z + 1.6), 10 * g1Color));
+    world.light.push_back(new PointLight(Point(g2Center.x - 1, g2Center.y, g2Center.z + 1.6), 10 * g2Color));
+    world.light.push_back(new PointLight(Point(g3Center.x + 1, g3Center.y, g3Center.z + 1.6), 10 * g3Color));
+    world.light.push_back(new PointLight(Point(g4Center.x - 1, g4Center.y, g4Center.z + 1.6), 10 * g4Color));
     return world;
 }
 
 void renderFireworks(const char* filename, int numSamples=1) {
 
     //Image img(400, 400);
-    Image img(400, 400);
-    //Image img(1920, 1080);
-   
+    Image img(480, 480);
+    //Image img(1920, 1920);
+    
     World world = makeSparkleSticks();
 
     VGroup *vscene = makeSparkleFlames();
@@ -256,6 +271,7 @@ void renderFireworks(const char* filename, int numSamples=1) {
     RayTraceFireIntegrator integrator(&world, vscene);
 
     PerspectiveCamera cam(Point(0, 1.7, 10), Vector(0, 0, -1), Vector(0, 1, 0), pi/3, pi/3);
+    //PerspectiveCamera cam(Point(-1, 1.7, 12), Vector(0, 0, -1), Vector(0, 1, 0), pi/3, pi/3);
     //DOFPerspectiveCamera dofcam(Point(0, 0, 10), Vector(0, 0, -1), Vector(0, 1, 0), pi/3, pi/3, 1.025f, 0.045f);
     
     Renderer engine(&cam, &integrator);
@@ -270,7 +286,8 @@ void renderFireworks(const char* filename, int numSamples=1) {
 
 void a_fire() {
     /*HRES*/
-    renderFireworks("a9-1-hres.png", 20);
+    //renderFireworks("a9-1-hres.png", 20);
     /*LRES*/
-    //renderFireworks("a9-1-lres.png", 2);
+    //renderFireworks("a9-1-hres-1920-20.png", 20);
+    renderFireworks("a9-1-hres-480-20.png", 20);
 }
