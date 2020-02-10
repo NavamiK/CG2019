@@ -5,5 +5,7 @@ As part of the practical exercises for [Computer Graphics Winter 2019-20!](https
 ![GitHub Logo](/assignment6-images/a6-1a.png)
 *Ray solid intersection for AABox, InfinitePlane, Sphere, Disk, Triangle, Quad*
 
-![GitHub Logo](/assignment6-images/a6-1a.png)
-*Ray solid intersection for AABox, InfinitePlane, Sphere, Disk, Triangle, Quad*
+<figure>
+  <img src="/assignment6-images/a6-1a.png" />
+  <figcaption>Ray solid intersection for AABox, InfinitePlane, Sphere, Disk, Triangle, Quad</figcaption>
+</figure>
