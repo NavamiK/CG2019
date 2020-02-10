@@ -4,3 +4,5 @@
 
 Ray - solid intersection ![alt text] (assignment6-images/a6-1a.png?raw=true "Title")
 ![alt text] (a2-2.png)
+
+It's very easy to make some words **bold** and other words *italic* with Markdown. You can even [link to Google!](http://google.com)
