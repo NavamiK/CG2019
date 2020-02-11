@@ -8,13 +8,13 @@ As part of the practical exercises for [Computer Graphics Winter 2019-20!](https
   <div class="column">
     <figure >
       <img src="/assignment6-images/a6-1a.png"/>
-      <figcaption>Ray solid intersection for AABox, InfinitePlane, Sphere, Disk, Triangle, Quad</figcaption>
+      <!--<figcaption>Ray solid intersection for AABox, InfinitePlane, Sphere, Disk, Triangle, Quad</figcaption>-->
     </figure>
   </div>
   <div class="column">
     <figure >
       <img src="/assignment6-images/a6-1a.png"/>
-      <figcaption>Ray solid intersection for AABox, InfinitePlane, Sphere, Disk, Triangle, Quad</figcaption>
+      <!--<figcaption>Ray solid intersection for AABox, InfinitePlane, Sphere, Disk, Triangle, Quad</figcaption>-->
     </figure>
   </div>
 </div>
