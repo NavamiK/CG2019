@@ -3,11 +3,11 @@
 As part of the practical exercises for [Computer Graphics Winter 2019-20](https://graphics.cg.uni-saarland.de/courses/cg1-2019/), I incrementally built my own ray tracing system, which then was used to generate a high-quality rendering for the end-of-term rendering competition.
 
 This beatiful(!) image of fireworks was created using the system for submission to rendering competition. Refer [here](https://graphics.cg.uni-saarland.de/courses/cg1-2019/RC/group2E_web/) for it's full webpage
+<br />
 <img src="/website/images/lres.png" alt="" />
 
- 
-Refer [here](https://graphics.cg.uni-saarland.de/courses/cg1-2019/RC/group2E_web/) for the web page of
-Some reference images that highlight the features and capabilities of the rendering engine
+<hr />
+ Some reference images that highlight the features and capabilities of the rendering engine
 
 <table width="500" cellpadding="5">
    <tr>
