@@ -2,12 +2,12 @@
 
 As part of the practical exercises for [Computer Graphics Winter 2019-20](https://graphics.cg.uni-saarland.de/courses/cg1-2019/), I incrementally built my own ray tracing system, which then was used to generate a high-quality rendering for the end-of-term rendering competition.
 
-This beatiful(!) image of fireworks was created using the system for submission to rendering competition. Refer [here](https://graphics.cg.uni-saarland.de/courses/cg1-2019/RC/group2E_web/) for it's full webpage
+This beatiful(!) image of fireworks was created using the above source code for submission to rendering competition. Refer [here](https://graphics.cg.uni-saarland.de/courses/cg1-2019/RC/group2E_web/) for it's full webpage
 <br />
 <img src="/website/images/lres.png" alt="" />
 
 <hr />
- Some reference images that highlight the features and capabilities of the rendering engine
+ Some reference images that highlight the features and capabilities of the rendering engine. The resource assignment-sheets/SheetXX.pdf contains full description of the source code.
 
 <table width="500" cellpadding="5">
    <tr>
@@ -147,7 +147,7 @@ This beatiful(!) image of fireworks was created using the system for submission 
       Supersampling - 1000 samples per pixel 
     </td>
     <td align="center" valign="center">
-      <img src="/images/assignment7-images/a7-4_transx_blur.png" alt="" />
+      <img src="/images/assignment7-images/a7-4_trans_x_blur.png" alt="" />
       <br />
       Motion blur due to horizontal movement
     </td>
