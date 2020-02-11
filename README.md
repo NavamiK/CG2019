@@ -7,22 +7,22 @@ Some reference images that highlight the features and capabilities of the render
 <table width="500" cellpadding="5">
    <tr>
     <td align="center" valign="center">
-      <img src="/images/assignment*-images/a1.png" alt="" />
+      <img src="/images/assignment*-images/a1.png" alt="" width="25%"/>
       <br />
       An image with julia set pattern generated in the code
     </td>
     <td align="center" valign="center">
-      <img src="/images/assignment*-images/a1-2.png" alt="" />
+      <img src="/images/assignment*-images/a1-2.png" alt="" width="25%"/>
       <br />
       Image produced by a perspective camera
     </td>
     <td align="center" valign="center">
-      <img src="/images/assignment*-images/a1-3.png" alt="" />
+      <img src="/images/assignment*-images/a1-3.png" alt="" width="25%"/>
       <br />
       Image produced by another perspective camera
     </td>
     <td align="center" valign="center">
-      <img src="/images/assignment*-images/a1-4.png" alt="" />
+      <img src="/images/assignment*-images/a1-4.png" alt="" width="25%"/>
       <br />
       Image produced by an orthographic camera
     </td>
