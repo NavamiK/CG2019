@@ -14,7 +14,7 @@ Some reference images that highlight the features and capabilities of the render
     <td align="center" valign="center">
       <img src="/images/assignment*-images/a1-2.png" alt="" />
       <br />
-      Image produced by a perspective camera
+      Previous image rendering with a perspective camera
     </td>
   </tr>
 
@@ -22,12 +22,12 @@ Some reference images that highlight the features and capabilities of the render
     <td align="center" valign="center">
       <img src="/images/assignment*-images/a1-3.png" alt=""/>
       <br />
-      Image produced by another perspective camera
+     Previous image rendering with another perspective camera
     </td>
     <td align="center" valign="center">
       <img src="/images/assignment*-images/a1-4.png" alt=""/>
       <br />
-      Image produced by an orthographic camera
+      Previous image rendering with an orthographic camera
     </td>
   </tr>
   
@@ -40,7 +40,7 @@ Some reference images that highlight the features and capabilities of the render
     <td align="center" valign="center">
       <img src="/images/assignment*-images/a3-1.png" alt="" />
       <br />
-      This obj of cow contains 34000 traingles and using Bounding Volume Hierarchy acceleration structure ( + Surface Area Heuristic)
+      This obj of cow contains 34000 triangles and rendered using Bounding Volume Hierarchy acceleration structure ( + Surface Area Heuristic)
     </td>
   </tr>
 
@@ -53,7 +53,7 @@ Some reference images that highlight the features and capabilities of the render
     <td align="center" valign="center">
       <img src="/images/assignment*-images/a5-1.png" alt="" />
       <br />
-      Image using the colored point light sources
+      Colored point light sources
     </td>
   </tr>
 
@@ -61,7 +61,7 @@ Some reference images that highlight the features and capabilities of the render
     <td align="center" valign="center">
       <img src="/images/assignment*-images/a5-3.png" alt="" />
       <br />
-      Image using the colored spot lights (red and green) and a directional light (blue)
+      Colored spot lights (red and green) and a directional light (blue)
     </td>
     <td align="center" valign="center">
       <img src="/images/assignment6-images/a6-1a.png" alt="" />
@@ -74,12 +74,99 @@ Some reference images that highlight the features and capabilities of the render
     <td align="center" valign="center">
       <img src="/images/assignment6-images/a6-1b.png" alt="" />
       <br />
-      Phong material for sphere and mirror material for floor
+      Sphere as Phong material and floor as mirror material 
     </td>
     <td align="center" valign="center">
       <img src="/images/assignment6-images/a6-1c.png" alt="" />
       <br />
-      Sphere as a combined materials
+      Sphere as a combined material
     </td>
   </tr>
+
+  <tr>
+    <td align="center" valign="center">
+      <img src="/images/assignment6-images/a6-2a.png" alt="" />
+      <br />
+      Checkerboard and perlin noise texture
+    </td>
+    <td align="center" valign="center">
+      <img src="/images/assignment6-images/a6-2b.png" alt="" />
+      <br />
+      Mirror and clamp border handling of image texture
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center" valign="center">
+      <img src="/images/assignment6-images/a6-2c.png" alt="" />
+      <br />
+      Nearest neighbour and bilinear interpolation for image texture
+    </td>
+    <td align="center" valign="center">
+      <img src="/images/assignment6-images/a6-4c.png" alt="" />
+      <br />
+      Coordinate mappers - triangle mapping on the walls and planar mapping on the spheres
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center" valign="center">
+      <img src="/images/assignment6-images/a6-4d.png" alt="" />
+      <br />
+      Coordinate mappers -cylindrical mapping on the spheres
+    </td>
+    <td align="center" valign="center">
+      <img src="/images/assignment7-images/a7-1.png" alt="" />
+      <br />
+      Area light source
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center" valign="center">
+      <img src="/images/assignment7-images/a7-2.png" alt="" />
+      <br />
+      Sphere as glass material and floor as fuzzy mirror material
+    </td>
+    <td align="center" valign="center">
+      <img src="/images/assignment7-images/a7-3a.png" alt="" />
+      <br />
+      Depth of field
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center" valign="center">
+      <img src="/images/assignment7-images/a7-3b.png" alt="" />
+      <br />
+      Supersampling - 1000 samples per pixel 
+    </td>
+    <td align="center" valign="center">
+      <img src="/images/assignment7-images/a7-4_transx_blur.png" alt="" />
+      <br />
+      Motion blur due to horizontal movement
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center" valign="center">
+      <img src="/images/assignment8-images/a8-1a.png" alt="" />
+      <br />
+      Bump mapping close up scene using nearest-neighbour image texture
+    </td>
+    <td align="center" valign="center">
+      <img src="/images/assignment8-images/a8-1b.png" alt="" />
+      <br />
+      Bump mapping close up scene using bilinear interpolated image texture
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center" valign="center">
+      <img src="/images/assignment8-images/a8-2.png" alt="" />
+      <br />
+      Bump mapping full scene using bilinear interpolated image texture
+    </td>
+  </tr>
+
 </table>
