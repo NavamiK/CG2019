@@ -172,6 +172,11 @@ This beatiful(!) image of fireworks was created using the above source code for 
       <br />
       Bump mapping full scene using bilinear interpolated image texture
     </td>
+    <td align="center" valign="center">
+      <img src="/images/assignment8-images/a8-4.png" alt="" />
+      <br />
+      Pervasive fog with volume renderer
+    </td>
   </tr>
 
 </table>
