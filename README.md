@@ -2,19 +2,21 @@
 
 As part of the practical exercises for [Computer Graphics Winter 2019-20](https://graphics.cg.uni-saarland.de/courses/cg1-2019/), I incrementally built my own ray tracing system, which then was used to generate a high-quality rendering for the end-of-term rendering competition.
 
+Refer here(https://graphics.cg.uni-saarland.de/courses/cg1-2019/RC/group2E_web/) for the web page of image submission for rendering competition at Saarland University 
+
 Some reference images that highlight the features and capabilities of the rendering engine
 
 <table width="500" cellpadding="5">
    <tr>
-    <td align="center" valign="center">
+    <td align="center" valign="center" width="50%">
       <img src="/images/assignment*-images/a1.png" alt="" />
       <br />
       An image with julia set pattern generated in the code
     </td>
-    <td align="center" valign="center">
+    <td align="center" valign="center" width="50%">
       <img src="/images/assignment*-images/a1-2.png" alt="" />
       <br />
-      Previous image rendering with a perspective camera
+      Previous image rendered with a perspective camera
     </td>
   </tr>
 
@@ -22,12 +24,12 @@ Some reference images that highlight the features and capabilities of the render
     <td align="center" valign="center">
       <img src="/images/assignment*-images/a1-3.png" alt=""/>
       <br />
-     Previous image rendering with another perspective camera
+     Previous image rendered with another perspective camera
     </td>
     <td align="center" valign="center">
       <img src="/images/assignment*-images/a1-4.png" alt=""/>
       <br />
-      Previous image rendering with an orthographic camera
+      Previous image rendered with an orthographic camera
     </td>
   </tr>
   
@@ -105,7 +107,7 @@ Some reference images that highlight the features and capabilities of the render
     <td align="center" valign="center">
       <img src="/images/assignment6-images/a6-4c.png" alt="" />
       <br />
-      Coordinate mappers - triangle mapping on the walls and planar mapping on the spheres
+      Texture mappers - triangle mapping on the walls and planar mapping on the spheres
     </td>
   </tr>
 
@@ -113,7 +115,7 @@ Some reference images that highlight the features and capabilities of the render
     <td align="center" valign="center">
       <img src="/images/assignment6-images/a6-4d.png" alt="" />
       <br />
-      Coordinate mappers -cylindrical mapping on the spheres
+      Texture mappers -cylindrical mapping on the spheres
     </td>
     <td align="center" valign="center">
       <img src="/images/assignment7-images/a7-1.png" alt="" />
