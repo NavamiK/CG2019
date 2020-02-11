@@ -7,22 +7,25 @@ Some reference images that highlight the features and capabilities of the render
 <table width="500" cellpadding="5">
    <tr>
     <td align="center" valign="center">
-      <img src="/images/assignment*-images/a1.png" alt="" width="25%"/>
+      <img src="/images/assignment*-images/a1.png" alt="" />
       <br />
       An image with julia set pattern generated in the code
     </td>
     <td align="center" valign="center">
-      <img src="/images/assignment*-images/a1-2.png" alt="" width="25%"/>
+      <img src="/images/assignment*-images/a1-2.png" alt="" />
       <br />
       Image produced by a perspective camera
     </td>
+  </tr>
+
+  <tr>
     <td align="center" valign="center">
-      <img src="/images/assignment*-images/a1-3.png" alt="" width="25%"/>
+      <img src="/images/assignment*-images/a1-3.png" alt=""/>
       <br />
       Image produced by another perspective camera
     </td>
     <td align="center" valign="center">
-      <img src="/images/assignment*-images/a1-4.png" alt="" width="25%"/>
+      <img src="/images/assignment*-images/a1-4.png" alt=""/>
       <br />
       Image produced by an orthographic camera
     </td>
@@ -37,7 +40,7 @@ Some reference images that highlight the features and capabilities of the render
     <td align="center" valign="center">
       <img src="/images/assignment*-images/a3-1.png" alt="" />
       <br />
-      This obj of cow contains 34000 traingles and rendered in few seconds using Bounding Volume Hierarchy acceleration structure (with Surface Area Heuristic)
+      This obj of cow contains 34000 traingles and using Bounding Volume Hierarchy acceleration structure ( + Surface Area Heuristic)
     </td>
   </tr>
 
@@ -48,22 +51,35 @@ Some reference images that highlight the features and capabilities of the render
       A simple tree model instanced multiple times with different geometric transformations. 
     </td>
     <td align="center" valign="center">
-      <img src="/images/assignment6-images/a6-1a.png" alt="" />
+      <img src="/images/assignment*-images/a5-1.png" alt="" />
       <br />
-      Ray solid intersection for AABox, InfinitePlane, Sphere, Disk, Triangle, Quad
+      Image using the colored point light sources
     </td>
   </tr>
 
   <tr>
     <td align="center" valign="center">
-      <img src="/images/assignment6-images/a6-1a.png" alt="" />
+      <img src="/images/assignment*-images/a5-3.png" alt="" />
       <br />
-      Ray solid intersection for AABox, InfinitePlane, Sphere, Disk, Triangle, Quad
+      Image using the colored spot lights (red and green) and a directional light (blue)
     </td>
     <td align="center" valign="center">
       <img src="/images/assignment6-images/a6-1a.png" alt="" />
       <br />
-      Ray solid intersection for AABox, InfinitePlane, Sphere, Disk, Triangle, Quad
+      Using Lambertian materials for all walls, sphere and box
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center" valign="center">
+      <img src="/images/assignment6-images/a6-1b.png" alt="" />
+      <br />
+      Phong material for sphere and mirror material for floor
+    </td>
+    <td align="center" valign="center">
+      <img src="/images/assignment6-images/a6-1c.png" alt="" />
+      <br />
+      Sphere as a combined materials
     </td>
   </tr>
 </table>
