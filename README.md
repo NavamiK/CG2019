@@ -7,7 +7,7 @@ This beatiful(!) image of fireworks was created using the above source code for 
 <img src="/website/images/lres.png" alt="" />
 
 <hr />
- Some reference images that highlight the features and capabilities of the rendering engine. The resource [assignment-sheets/SheetXX.pdf] contain full description of the source code.
+ Some reference images that highlight the features and capabilities of the rendering engine. The resource [assignment-sheets/SheetXX.pdf](/assignment-sheets/Sheet01.pdf) contain full description of the source code.
 
 <table width="500" cellpadding="5">
    <tr>
